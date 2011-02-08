@@ -1,0 +1,120 @@
+body {margin:0;}
+
+.cb {clear:both;}
+
+table {width: 100%;}
+tr {display:block;}
+td.td-label {min-width: 210px;}
+td.td-input {width: 100%;}
+
+
+
+.lineitem {border: 1px solid;}
+.lineitem {margin: 5px 10px 8px 20px; position: relative}
+.ui-icon {cursor:pointer; left:1em; margin-top:-8px; position:absolute;top:0.5em;}
+.config {margin-left: 1em; position: relative;}
+.config .ui-icon { left:-1em; }
+.line-title{margin: 2px 0 2px 2.5em;}
+input[type="text"], textarea {border:1px solid; padding-left:5px; width:86%;}
+form textarea {height:2.5em; resize:none; vertical-align:middle;}
+.component-header{float:left; margin-bottom:0;}
+form{padding-left:1.5em;}
+.add-question{float:right; margin-top:0; position:static}
+.ui-icon-trash{float:right; margin-top:0; position:static}
+.handle, .ui-icon-grip-dotted-vertical{cursor:move; left:0px;}
+.content-label {margin-left:1em; margin-top:1em; }
+.header{margin-left:2em; font-weight:bold; overflow:hidden;}
+.placeholder, .placeholder-drag {border: 1px solid #CC0000; margin: 5px 10px 5px 20px; position: relative; -moz-border-radius: 6px; -webkit-border-radius: 6px; }
+.placeholder-drag {height:1.5em;}
+.tab-hover {background: #E3A1A1; }
+.ui-draggable-dragging {height: 2em !important; overflow:hidden !important; z-index:9000 !important;}
+.ui-draggable-dragging .button-menu {display:none;}
+.ui-tabs .ui-tabs-nav {position:fixed; width:630px; min-width: 490px; z-index:1;}
+.ui-tabs .ui-tabs-panel {margin-top: 2.5em;}
+
+.close-tab {position:relative; padding:0 !important; left:-15px; top:-2px;}
+.close-icon, .changes-made {display:none; left:0;}
+.ui-tabs-selected .close-icon {display:block;}
+.content-group { margin-bottom:1em; margin-left:1em; position:relative;}
+.content-group .collapse { left:0; }
+.content { margin:0 0.5em 1em; min-height:3em; }
+.changes-made {cursor: default;}
+.quick-add-icon {float:right; margin-top:0; position:static}
+.quick-add-subquestion, .quick-add-gridanswer {display:inline-block; margin-top:0; position:static}
+.quick-add-buttons {display: none; background-color:#EEEEEE; left:97%; padding:0; position:absolute; top:-1px;}
+.quick-add-buttons button {margin: 0 0 2px !important; width:120px;}
+.empty-message {bottom:-1.4em; font-style:italic; height:1em; margin-left:1em; margin-right:1em; position:relative; }
+.howto {font-style:italic; margin: 0.5em; margin-left:1em;}
+.howto .ui-icon {left:-1em; position:relative; top:1em;}
+.stay-hidden {display:none !important;}
+
+#tabsTopper {background-color:#FFFFFF; border-left:1px solid #A6C9E2; border-right:1px solid #A6C9E2; border-top:1px solid #A6C9E2; height:4px; margin-left:235px; position:fixed; width:647px; min-width: 507px; z-index:2;}
+#tabsTopperHelper {background-color:#FFFFFF; height:11px; margin-left:235px; position:fixed; top:39px; width:650px; min-width: 510px; z-index:1;}
+
+#buttons {background-color:#E5E1DF; padding:5px 0; position:fixed; top:0; width:100%; z-index:1; height: 29px;}
+#buttons .first {margin-left:232px;}
+
+#survey {position:relative;}
+
+#tabs {width: 640px; margin-left: 235px; margin-top: 45px; min-width:500px;}
+
+#components {background-color: #FFFFFF; position:fixed; width:220px; margin-left:5px; min-height:100px; top:3em; z-index:1;}
+#components .info-icon {margin-top: 10px; position:relative; float: left; left:inherit; top:auto}
+#components .lineitem {border: none;}
+#components .handle {max-width:188px; overflow:hidden;}
+#components .line .handle {-moz-border-radius-bottomright:0; border-bottom-right-radius:0; -moz-border-radius-topright:0; border-top-right-radius:0; margin-right:-4px; max-width:157px; padding-right:4px;}
+#components .button-menu {-moz-border-radius-bottomleft:0; border-bottom-left-radius:0; -moz-border-radius-topleft:0; border-top-left-radius:0; margin-left:0; padding-left:0; padding-right:0;}
+#components .button-menu span {color:transparent; padding-right:10px;}
+.button-menu-content {display:none; padding-top:28px; position:absolute; top:0; z-index:1;}
+.button-menu-content ul {list-style-image:none; list-style-position:outside; list-style-type:none; padding-left:4px; padding-right:4px;}
+.button-menu a {color:#FFFFFF; text-decoration:none; display:block; padding:2px 4px; width:100%;}
+#components .ui-icon-triangle-1-s {display:none;}
+#components .ui-icon-triangle-1-e {display:none;}
+#components .ui-icon-trash {display:none;}
+#components .ui-icon-grip-dotted-vertical {display:none;}
+#components .header {display:none;}
+#components .lineitem .ui-icon-circle-plus {display:none;}
+#components .empty-message {display: none;}
+#components .content-group {display:none;}
+#components .content {display:none;}
+#components form {display:none;}
+#components .content-label {display: none;}
+#line-list, #question-list, #answer-list, #logic-list {float:left;  min-height:2em; width: 220px}
+
+#showHowto, #hideHowto {display:none;}
+
+#add-line-div {margin-top:5px;}
+#add-line {float:left; margin:0; position:relative; top:2px;}
+#add-line-description {margin-left:20px;}
+
+#tabs button {margin: 1em 1em;}
+#tabs .hide-in-tabs {display: none;}
+
+#export {padding:0;}
+#export textarea {border:none; height:480px; margin:2px; padding:0; width:99%;}
+
+.ui-sortable-helper {background-color:#FFFFFF;}
+.ui-sortable-helper.ui-draggable-dragging {background-color:transparent;}
+.content {border:1px dotted #000000;}
+.content.hideBorder {border:1px solid #FFFFFF;}
+.content.highlighted {border:2px dotted #CC0000 !important;}
+
+.simple-plus {cursor:default; display:inline-block; position:static;}
+.marker {vertical-align:super; cursor:default;}
+
+.sub-questions .quick-add {display:none !important;}
+.sub-questions .content-group {display:none !important;}
+.sub-questions .empty-message {display:none !important;}
+.sub-questions .answers {display:none !important;}
+.sub-questions .header {display:none !important;}
+.sub-questions .displayType {display:none !important;}
+
+.grid-answers .predicate {display:none !important;}
+
+/* fancey effects */
+.lineitem {
+    -moz-box-shadow: 0 2px 2px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 2px 2px rgba(0,0,0,0.5);
+}
+
+#components .lineitem {-moz-box-shadow: none; -webkit-box-shadow: none;}

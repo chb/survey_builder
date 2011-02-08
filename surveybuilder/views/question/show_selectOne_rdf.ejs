@@ -1,0 +1,30 @@
+<SelectOneQuestion<% if (lineitem.about){ %> rdf:about="<%= lineitem.about %>" <% } %>>
+    <% if (lineitem.questionText) { %>
+        <questionText><%= lineitem.questionText %></questionText>
+    <% } %>
+    <% if (lineitem.answerProperty) { %>
+        <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
+    <% } %>
+    <% if (lineitem.defaultAnswerForEstimation) { %>
+        <defaultAnswerForEstimation rdf:resource="<%= lineitem.defaultAnswerForEstimation %>" />
+    <% } %>
+    <% if (lineitem.displayType) { %>
+        <displayType><%= lineitem.displayType %></displayType>
+    <% } %>
+    
+	<% if (lineitem.answersId) { %>
+		<questionAnswers rdf:resource="<%= lineitem.answersId %>" />
+	<% } else { %>
+		<questionAnswers>
+			<AnswerSequence>
+			    <% if (lineitem.child) {%>
+			        <% var childLineitem = Lineitem.findOne({id:lineitem.child}) %>
+			        <%= view('views/lineitem/show_rdf', {lineitem:childLineitem}) %>
+			    <% } %>
+			</AnswerSequence>
+	    </questionAnswers>
+    <% } %>
+    
+</SelectOneQuestion>
+
+

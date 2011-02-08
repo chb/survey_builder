@@ -1,0 +1,42 @@
+<div <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class ="lineitem parent <%= lineitem.type %> <%= lineitem.subType %> ui-corner-all">
+    <span class="handle sexybutton sexysimple sexysilver hide-in-tabs"><%= lineitem.displayName %></span>
+    <span class="ui-icon ui-icon-triangle-1-s"></span>
+    <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
+    <span class="ui-icon ui-icon-trash"></span>
+    <div class="quick-add">
+        <span class="ui-icon ui-icon-circle-plus quick-add-icon"></span>
+        <div class="quick-add-buttons ui-corner-all">
+            <button class="sexybutton sexymedium sexysimple sexysilver" data-type="answer" data-subType="label">Fixed Choice</button>
+            <button class="sexybutton sexymedium sexysimple sexysilver" data-type="answer" data-subType="text">Free Text</button>
+        </div>
+    </div>
+    <div class="header hideable"><%= lineitem.displayName %></div>
+    <form class="lineitem-form" onsubmit="return false;">
+        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
+        <input type="hidden" name="type" value="<%= lineitem.type %>" />
+        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
+        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
+        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
+        <table>
+            <tr>
+                <td class="td-label" title="The text to display for this question">Question Text:<span class="marker" title="required">*</span></td>
+                <td class="td-input"><textarea name="questionText" class="ui-corner-all"><%= lineitem.questionText %></textarea></td>
+            </tr>
+            <tr class="hideable">
+                <td class="td-label" title="The RDF predicate for all Answers under this Question. If not specified at the Question level, it MUST be specified at the Answer level.">RDF Answer Property:<td>
+                <td class="td-input"><input type="text" name="answerProperty" value="<%= lineitem.answerProperty %>" class="ui-corner-all"/></td>
+            </tr>
+        </table>
+    </form>
+    <div class="content-group hideable">
+		<span class="ui-icon ui-icon-triangle-1-s collapse"></span>
+		<div class="content-label">answers:</div>
+		<div class="empty-message hideable <% if (lineitem.child) { %>stay-hidden<% } %>">To add Answers to your question, drag and drop them here </div>
+		<div class="answers content hideable ui-corner-all <% if (lineitem.child) { %>hideBorder<% } %>">
+		    <% if (lineitem.child) {%>
+		        <% var childLineitem = Lineitem.findOne({id:lineitem.child}) %>
+		        <%= view('views/lineitem/show', {lineitem:childLineitem}) %>
+		    <% } %>
+		</div>
+    </div>
+</div>

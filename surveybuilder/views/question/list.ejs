@@ -1,0 +1,3 @@
+<%for(var i = 0; i < questions.length; i++){%>
+    <%= view('views/question/show_' + questions[i].subType, {lineitem:questions[i]}) %>
+<%}%>

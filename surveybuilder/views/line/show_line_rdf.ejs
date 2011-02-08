@@ -1,0 +1,14 @@
+<Line rdf:about="<%= line.id %>">
+    <% if (line.title) { %>
+        <dc:title><%= line.title %></dc:title>
+    <% } %>
+
+    <% if (line.questionsPerPage) { %>
+        <questionsPerPage><%= line.questionsPerPage %></questionsPerPage>
+    <% } %>
+
+    <% if (line.firstLineitem) { %>
+        <%= view('views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:line.firstLineitem})}) %>
+    <% } %>
+
+</Line>

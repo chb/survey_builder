@@ -1,0 +1,13 @@
+<div class="lineitem branch line ui-corner-all" data-line="<%= line.id %>">
+    <span class="handle sexybutton sexysimple sexysilver hide-in-tabs" href="#" title="<%= line.title %>"><%= line.title %></span>
+    <span class="sexybutton sexysimple sexysilver hide-in-tabs button-menu"><span class="arrow-down after">-</span><div class="button-menu-content ui-corner-tr ui-corner-bottom"><a href="#" class="edit-line sexybutton sexysimple" data-line="<%= line.id %>">edit</a><br/><a href="#" class="delete-line sexybutton sexysimple" data-line="<%= line.id %>">delete</a></div></span>
+    <span class="ui-icon handle ui-icon-grip-dotted-vertical"></span>
+    <span class="ui-icon ui-icon-trash"></span>
+    <div class="header">Branch to: <%= line.title %></div>
+    <form>
+        <input type="hidden" name="type" value="branch" />
+        <input type="hidden" name="subType" value="branch" />
+        <input type="hidden" name="about" value="<%= line.id %>" />
+        <input type="hidden" name="displayName" value="<%= line.title %>" />
+    </form>
+</div>

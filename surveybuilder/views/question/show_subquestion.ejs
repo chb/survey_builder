@@ -1,0 +1,11 @@
+<table>
+    <tr>
+        <td class="td-label" title="The text to display for this question">Question Text:<span class="marker" title="required">*</span></td>
+        <td class="td-input"><textarea name="subquestions[questionText" class="ui-corner-all"><%= lineitem.questionText %></textarea></td>
+    </tr>
+    <tr class="hideable">
+        <td class="td-label" title="The RDF predicate for all Answers under this Question. If not specified at the Question level, it MUST be specified at the Answer level.">RDF Answer Property:</td>
+        <td class="td-input"><input type="text" name="subquestions[<%= subQuestionNumber %>]" value="<%= lineitem.subquestions[<%= subQuestionNumber %>] %>" class="ui-corner-all"/></td>
+    </tr>
+</table>
+    

@@ -1,0 +1,14 @@
+<TextAnswer>
+    <% if (lineitem.answerProperty) { %>
+        <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
+    <% } %>
+    <% if (lineitem.dataType) { %>
+        <dataType rdf:resource="<%= lineitem.dataType %>" />
+    <% } %>
+    <% if (lineitem.answerLabel) { %>
+        <answerLabel><%= lineitem.answerLabel %></answerLabel>
+    <% } %>
+    <% if (lineitem.answerNote) { %>
+        <answerNote><%= lineitem.answerNote %></answerNote>
+    <% } %>
+</TextAnswer>

@@ -1,0 +1,39 @@
+<div <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem <%= lineitem.type %> <%= lineitem.subType %> ui-corner-all">
+    <span class="handle sexybutton sexysimple sexysilver hide-in-tabs"><%= lineitem.displayName %></span>
+    <span class="ui-icon ui-icon-triangle-1-s"></span>
+    <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
+    <span class="ui-icon ui-icon-trash"></span>
+    <div class="header hideable"><%= lineitem.displayName %></div>
+    <form class="lineitem-form" onsubmit="return false;">
+        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
+        <input type="hidden" name="type" value="<%= lineitem.type %>" />
+        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
+        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
+        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
+        <table>
+            <tr>
+                <td class="td-label" title="Optional text that is shown to the left of the answer input box">Answer Label:</td>
+                <td class="td-input"><input type="text" name="answerLabel" value="<%= lineitem.answerLabel %>" class="ui-corner-all"/></td>
+            </tr>
+            <tr>
+                <td class="td-label" title="Optional text that is shown to the right of the answer input box">Answer Note:</td>
+                <td class="td-input"><input type="text" name="answerNote" value="<%= lineitem.answerNote %>" class="ui-corner-all"/></td>
+            </tr>
+            <tr class="hideable">
+                <td class="td-label" title="The RDF predicate for this Answer. If empty, the Answer Property value from the containing Question will be used.  If the Answer Property from the containing Question is empty, this MUST be populated.">RDF Answer Property:</td>
+                <td class="td-input"><input type="text" name="answerProperty" value="<%= lineitem.answerProperty %>" class="ui-corner-all"/></td>
+            </tr>
+            <tr class="hideable">
+                <td class="td-label" title="Optional data type for this answer.  If present, will be used for validation of user input.">Data Type:</td>
+                <td class="td-input">
+                    <select name="dataType">
+                        <option value="" <% if (lineitem.dataType === '') { %> selected="selected" <% } %>>none</option>
+                        <option value="xsd:date" <% if (lineitem.dataType && lineitem.dataType === 'xsd:date') { %> selected="selected" <% } %>>date</option>
+                        <option value="xsd:decimal" <% if (lineitem.dataType && lineitem.dataType === 'xsd:decimal') { %> selected="selected" <% } %>>decimal</option>
+                        <option value="xsd:integer" <% if (lineitem.dataType && lineitem.dataType === 'xsd:integer') { %> selected="selected" <% } %>>integer</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

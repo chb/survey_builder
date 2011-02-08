@@ -1,0 +1,82 @@
+<div class="howto <% if (HIDEHOWTO) { %> stay-hidden <% } %>">
+    <span class="ui-icon ui-icon-triangle-1-s"></span>Quick Start Guide:
+    <ul class="hideable">
+        <li>Build up your Survey by dragging and dropping Questions and Sections from the menus on the left onto the Survey.</li>
+        <li>To create a new Section, click the "create a Section" button under the "Add a Section" list on the left.</li>
+        <li>To edit what appears in a Section, drag and drop it from the "Add a Section" list onto the tabs bar above.</li>
+    </ul>
+</div>
+<div class="config">
+	<span class="ui-icon ui-icon-triangle-1-s"></span>Configuration:
+	<form class="survey-form hideable" onsubmit="return false;">
+		<input type="hidden" name="id" value="<%= survey.id %>" /><br/>
+		<table>
+			<tr>
+			    <td class="td-label" title="The title for your Survey.">Survey Title:<span class="marker" title="required">*</span></td>
+			    <td class="td-input"><input type="text" name="title" value="<%= survey.title %>" class="ui-corner-all"/></td>
+			</tr>
+			<tr>
+			    <td class="td-label" title="The description for your Survey.">Survey Description:<span class="marker" title="required">*</span></td>
+			    <td class="td-input"><input type="text" name="description" value="<%= survey.description %>" class="ui-corner-all"/></td>
+			</tr>
+			<tr>
+			    <td class="td-label" title="Introductory message to show before the user starts the survey.">Introductory Message:</td>
+			    <td class="td-input"><input type="text" name="introText" value="<%= survey.introText %>" class="ui-corner-all"/></td>
+			</tr>
+			<tr>
+			    <td class="td-label" title="Message to show once the user has submitted answers to the survey.">Completion Message:</td>
+			    <td class="td-input"><input type="text" name="completedMessage" value="<%= survey.completedMessage %>" class="ui-corner-all"/></td>
+			</tr>
+			<tr>
+			    <td class="td-label" title="The header to display above each question in this Survey that does not have a different header specified.">Top Level Header:</td>
+			    <td class="td-input"><input type="text" name="mainLineTitle" value="<%= survey.mainLineTitle %>" class="ui-corner-all"/></td>
+			</tr>
+			<tr>
+			    <td class="td-label" title="The creator of this Survey.">Creator:<span class="marker" title="required">*</span></td>
+			    <td class="td-input"><input type="text" name="creator" value="<%= survey.creator %>" class="ui-corner-all"/></td>
+			</tr>
+			<tr>
+			    <td class="td-label" title="Support Email address for takers of this Survey.">Survey Support Email:<span class="marker" title="required">*</span></td>
+			    <td class="td-input"><input type="text" name="contactEmail" value="<%= survey.contactEmail %>" class="ui-corner-all"/></td>
+			</tr>
+			<tr>
+	            <td class="td-label" title="The preferred number of questions you want to render per page.">Questions Per Page:</td>
+	            <td class="td-input"><input type="text" name="questionsPerPage" value="<%= survey.questionsPerPage %>" class="ui-corner-all"/></td>
+	        </tr>
+	        <tr>
+	            <td class="td-label" title="Base namespace to use for this survey">Base XML namespace:</td>
+	            <td class="td-input"><input type="text" name="xmlBase" value="<%= survey.xmlBase %>" class="ui-corner-all"/></td>
+	        </tr>
+			<tr>
+			    <td class="td-label" title="The language this Survey is written in.">Language:</td>
+			    <td class="td-input">
+			        <select name="language">
+			            <option value="english" <% if (survey.language && survey.language === 'english') { %> selected="selected" <% } %>>English</option>
+			        </select>
+			    </td>
+			<tr/>
+			<tr>
+				<td class="td-label" title="Allow the user to see a summary page of their answers before submission">Answer Review:</td>
+				<td class="td-input">
+					<input type="checkbox" name="reviewAnswers" value="true" <% if (survey.reviewAnswers && survey.reviewAnswers == true) { %> checked="checked" <% } %>/>
+				</td>
+			</tr>
+			<tr>
+				<td class="td-label"title="Show a message at the start of the survey and on each page warning the user not to enter any identified information">De-identified Message:</td>
+				<td class="td-input">
+					<input type="checkbox" name="deident" value="true" <% if (survey.deident && survey.deident == true) { %> checked="checked" <% } %>/>
+				</td>
+			</tr>
+		</table>
+	
+	</form>
+</div>
+
+<div class="content-label">Contents:</div>
+<div class="empty-message <% if (survey.firstLineitem) { %>stay-hidden<% } %>">To add Sections and Questions to your survey, drag and drop them here </div>
+<div class="content line-items ui-corner-all <% if (survey.firstLineitem) { %>hideBorder<% } %>">
+    <% if (survey.firstLineitem) { %>
+        <%= view('views/lineitem/show', {lineitem:Lineitem.findOne({id:survey.firstLineitem})}) %>
+    <% } %>
+</div>
+

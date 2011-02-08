@@ -1,0 +1,7 @@
+<%= view('views/' + lineitem.type + '/show_' + lineitem.subType, {lineitem:lineitem}) %>
+
+
+<% if (lineitem.nextLineitem) { %>
+    <%= view('views/lineitem/show', {lineitem:Lineitem.findOne({id:lineitem.nextLineitem})}) %>
+<% } %>
+

@@ -1,0 +1,28 @@
+<GridSelectOneQuestion<% if (lineitem.about){ %> rdf:about="<%= lineitem.about %>" <% } %>>
+    <% if (lineitem.questionText) { %>
+        <questionText><%= lineitem.questionText %></questionText>
+    <% } %>
+    
+    <% if (lineitem.defaultAnswerForEstimation) { %>
+        <defaultAnswerForEstimation rdf:resource="<%= lineitem.defaultAnswerForEstimation %>" />
+    <% } %>
+
+    <GridAnswers>
+		<AnswerSequence rdf:about="#<%= lineitem.id %>Answers">
+            <% if (lineitem.childAnswer) {%>
+                <% var childLineitem = Lineitem.findOne({id:lineitem.childAnswer}) %>
+                <%= view('views/lineitem/show_rdf', {lineitem:childLineitem}) %>
+            <% } %>
+        </AnswerSequence>
+    </GridAnswers>
+    
+    <GridQuestions>
+		<QuestionSequence>
+            <% if (lineitem.childQuestion) {%>
+                <% var childLineitem = Lineitem.findOne({id:lineitem.childQuestion}) %>
+                <%= view('views/lineitem/show_rdf', {lineitem:childLineitem}) %>
+            <% } %>
+        </QuestionSequence>
+    </GridQuestions>
+</GridSelectOneQuestion>
+

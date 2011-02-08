@@ -1,0 +1,28 @@
+<SimpleQuestion<% if (lineitem.about){ %>rdf:about="<%= lineitem.about %>" <% } %>>
+    <% if (lineitem.questionText) { %>
+        <questionText><%= lineitem.questionText %></questionText>
+    <% } %>
+    <% if (lineitem.defaultAnswerForEstimation) { %>
+        <defaultAnswerForEstimation rdf:resource="<%= lineitem.answerProperty %>" />
+    <% } %>
+    <questionAnswers>
+        <AnswerSequence>
+          <rdf:li>
+            <TextAnswer>
+                <% if (lineitem.answerProperty) { %>
+                    <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
+                <% } %>
+                <% if (lineitem.dataType) { %>
+                    <datatype rdf:resource="<%= lineitem.dataType %>" />
+                <% } %>
+                <% if (lineitem.answerLabel) { %>
+                    <answerLabel><%= lineitem.answerLabel %></answerLabel>
+                <% } %>
+                <% if (lineitem.answerNote) { %>
+                    <answerNote><%= lineitem.answerNote %></answerNote>
+                <% } %>
+            </TextAnswer>
+          </rdf:li>
+        </AnswerSequence>
+      </questionAnswers>
+</SimpleQuestion>

@@ -1,0 +1,9 @@
+<rdf:li>
+    <%= view('views/' + lineitem.type + '/show_' + lineitem.subType + '_rdf', {lineitem:lineitem}) %>
+</rdf:li>
+
+
+<% if (lineitem.nextLineitem) { %>
+    <%= view('views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:lineitem.nextLineitem})}) %>
+<% } %>
+

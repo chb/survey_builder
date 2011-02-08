@@ -1,0 +1,21 @@
+<SelectMultipleQuestion<% if (lineitem.about){ %>rdf:about="<%= lineitem.about %>" <% } %>>
+    <% if (lineitem.questionText) { %>
+        <questionText><%= lineitem.questionText %></questionText>
+    <% } %>
+    <% if (lineitem.answerProperty) { %>
+        <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
+    <% } %>
+    <% if (lineitem.defaultAnswerForEstimation) { %>
+        <defaultAnswerForEstimation rdf:resource="<%= lineitem.defaultAnswerForEstimation %>" />
+    <% } %>
+    <questionAnswers>
+        <AnswerSequence>
+            <% if (lineitem.child) {%>
+                <% var childLineitem = Lineitem.findOne({id:lineitem.child}) %>
+                <%= view('views/lineitem/show_rdf', {lineitem:childLineitem}) %>
+            <% } %>
+        </AnswerSequence>
+    </questionAnswers>
+</SelectMultipleQuestion>
+
+
