@@ -4,20 +4,25 @@
 $.Controller.extend('Surveybuilder.Controllers.Tabs',
 /* @Static */
 {
-    onDocument: false,
-    
-    updateTitle: function(line) {
-    	$('#tabs a[href="#' + line.id + '"]').children().text(line.title);
-    }
+    onDocument: false
 },
 /* @Prototype */
 {
+	updateTitle: function(line) {
+    	$('#surveyBuilderTabs a[href="#' + line.id + '"]').children().text(line.title);
+    },
+    
 	'tabs.makeSortable subscribe': function(event, params) {
     	this.makeSortable(params.el, params.connectWith);
     },
     
+    /**
+     * Make an element sortable
+     * @param {Object} DOM element to make sortable
+     * @param {String} jQuery selector for other sortables to connect this element with
+     */
 	makeSortable: function(el, connectWith){
-        //TODO: better way?  live attachement when upgrade to jquery 1.4?
+        //TODO: better location for this?
         $(el).sortable({
             axis: 'y',
             connectWith: connectWith,
@@ -26,17 +31,6 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
             placeholder: 'placeholder',
             update: function(event, ui){
                 // occurs when a lineitem is moved, or created
-                // attach controller(s) to the new lineitem
-                ui.item.surveybuilder_lineitem();
-                if (ui.item.hasClass('logicComponent')) {
-                	ui.item.surveybuilder_logic_component();
-                	// TODO: inital hack to update branch targets
-        			OpenAjax.hub.publish('logicComponent.updateLines', {lines:LINES});
-                }
-                if (ui.item.hasClass('branch')) {
-                	ui.item.surveybuilder_branch();
-                }
-                
                 // register the move with the controller
                 OpenAjax.hub.publish('lineitem.movedInDom', {el:ui.item, isDelete:false});
                 OpenAjax.hub.publish('tabs.markTabAsChanged', {});
@@ -51,37 +45,55 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
     },
     
     init: function(){
-    	//steal.dev.log("tabs controller init");
-        $('#tabs').resizable({
+    	steal.dev.log('new tabs controller instance created');
+    	//TODO: using this.element.tabs() does the initial tab-ification of the 
+    	//tabs, but does not attach the jquery id to the element, and so future 
+    	//calls to the tabs() function fail.  For now using the id for selection,
+    	//but this does not make sense on a prototype init
+    	$('#surveyBuilderTabs').tabs({
+		    tabTemplate: '<li><a href="#{href}"><span class="ui-icon ui-icon-gear changes-made" title="content changed"></span><span>#{label}</span></a><a class="close-tab"><span class="ui-icon ui-icon-closethick close-icon"></span></a></li>',
+		    add: function(event, ui) {
+		        $('#surveyBuilderTabs').tabs('select', '#' + ui.panel.id);
+		    }
+		});
+		
+		// Make tabs resizable
+        $('#surveyBuilderTabs').resizable({
             handles: 'e',
             alsoResize: '.ui-tabs-nav, #tabsTopper, #tabsTopperHelper',
             stop: function(event, ui){
                 // resize sets a specific height, but we want it to be able to grow after a resize
-                $('#tabs').css("height", "auto");
+                $('#surveyBuilderTabs').css("height", "auto");
             }
         });
+        
+        // Make tabs able to receive lines dropped on them 
         $(".ui-tabs-nav").droppable({
-        accept: '.line',
-        hoverClass: 'tab-hover',
-        drop: function(event, ui) {
-            var about = ui.draggable.find('input[name="about"]').attr("value");
-            OpenAjax.hub.publish('tabs.openLine', {id:about});
-        }
-    });
+		    accept: '.line',
+		    hoverClass: 'tab-hover',
+		    drop: function(event, ui) {
+		        var lineId = ui.draggable.attr("data-line");
+		        OpenAjax.hub.publish('tabs.openLine', {id:lineId});
+		    }
+		});
     },
     
     'tabs.openLine subscribe': function(event, params) {
     	this.openLineInTab(params.id);
     },
     
+    /**
+     * Open up a Line in the tabs
+     * @param {Number} id the Line to open
+     */
     openLineInTab: function(id){
         var currentLine = Line.findOne({id:id});
         if ($('#'+id).length) {
             // line already open
             return;
         }
-        var tabsDiv = $('#tabs');
-        tabsDiv.append(this.view('/line/show', {line:currentLine}));
+        var tabsDiv = $('#surveyBuilderTabs');
+        tabsDiv.append($.View('//surveybuilder/views/line/show', {line:currentLine}));
         tabsDiv.tabs('add' , "#"+id , currentLine.title);
         // add line-controller to newly opened line
         $('#'+id).surveybuilder_line();
@@ -94,19 +106,21 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
         this.makeSortable($('#'+id).find('.sub-questions'), '.sub-questions');
         this.makeSortable($('#'+id).find('.grid-answers'), '.grid-answers');
         this.makeSortable($('#'+id).find('.answers'), '.answers');
-        // TODO: inital hack to update branch targets
-        OpenAjax.hub.publish('logicComponent.updateLines', {lines:LINES});
     },
     
     'tabs.close subscribe': function(event, params) {
     	this.closeTabById(params.id);
     },
     
+    /**
+     * Close a tab
+     * @param {Number} id the tab to close
+     */
     closeTabById: function(id){
-        var tabsDiv = $('#tabs');
+        var tabsDiv = $('#surveyBuilderTabs');
         var fullId = '#' + id;
 
-        $('#tabs .ui-tabs-nav li').each(function(index){
+        $('#surveyBuilderTabs .ui-tabs-nav li').each(function(index){
             if ($(this).children(':first').attr("href") === fullId){  // TODO better way of selecting that isn't as brittle or slow
                 tabsDiv.tabs('remove', index);
                 return;
@@ -123,7 +137,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
     '.close-tab click' : function(el, ev){
         if ($(el).siblings().find('.changes-made:visible').length > 0){
             if(confirm("close without saving changes?")) {
-                var tabs = $('#tabs');
+                var tabs = $('#surveyBuilderTabs');
                 var lineId = $('.ui-tabs-selected a').attr('href').replace('#', '');
                 OpenAjax.hub.publish('line.discardChanges', {id:lineId});
                 OpenAjax.hub.publish('components.refreshLines', {});
@@ -132,54 +146,88 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
             }
         }
         else{
-            var tabs = $('#tabs');
+            var tabs = $('#surveyBuilderTabs');
             tabs.tabs('remove', tabs.tabs('option', 'selected'));
         }
         ev.stopPropagation();
     },
     
+    /**
+     * Collection of subscriptions for events that should mark the tab as changed
+     */
+    
     'survey.created subscribe': function() {
     	steal.dev.log("Tabs: survey.updated");
-    	this.markTabAsChanged()
+    	this.markTabAsChanged('survey');
+    	OpenAjax.hub.publish('buttons.enableSaveButton', {}); 
     },
     
     'survey.updated subscribe': function() {
     	steal.dev.log("Tabs: survey.updated");
-    	this.markTabAsChanged()
+    	this.markTabAsChanged('survey');
+    	OpenAjax.hub.publish('buttons.enableSaveButton', {});
     },
     
-    'survey.destroy subscribe': function() {
+    'survey.destroyed subscribe': function() {
     	steal.dev.log("Tabs: survey.destroy");
-    	this.markTabAsChanged()
     },
     
-    'line.updated subscribe': function() {
+    'line.updated subscribe': function(event, line) {
     	steal.dev.log("Tabs: line.updated");
-    	this.markTabAsChanged()
+		this.updateTitle(line); 
+    	this.markTabAsChanged(line.id);
+    	OpenAjax.hub.publish('buttons.enableSaveButton', {});
     },
     
-    'line.destroy subscribe': function() {
+    'line.destroyed subscribe': function(event, params) {
     	steal.dev.log("Tabs: line.destroy");
-    	this.markTabAsChanged()
+    	OpenAjax.hub.publish('buttons.enableSaveButton', {});
     },
     
     'lineitem.updated subscribe': function() {
     	steal.dev.log("Tabs: lineitem.updated");
-    	this.markTabAsChanged()
+    	this.markCurrentTabAsChanged();
+    	OpenAjax.hub.publish('buttons.enableSaveButton', {});
     },
     
-    'lineitem.destroy subscribe': function() {
+    'lineitem.destroyed subscribe': function() {
     	steal.dev.log("Tabs: lineitem.destroy");
-    	this.markTabAsChanged()
+    	this.markCurrentTabAsChanged();
+    	OpenAjax.hub.publish('buttons.enableSaveButton', {});
     },
     
     'tabs.markTabAsChanged subscribe': function(event, params) {
-    	this.markTabAsChanged();
+    	this.markTabAsChanged(params.id);
+    },
+    /**
+     * Mark a tab as changed
+     * @param {Number} id the id of the tab to change
+     */
+    markTabAsChanged: function(id){
+    	$('#surveyBuilderTabs a[href="#' + id + '"] .ui-icon-gear').show();
+    	OpenAjax.hub.publish('buttons.enableSaveButton', {});
     },
     
-    markTabAsChanged: function(){
+    'survey.loadFinished subscribe': function(event, params) {
+    	this.markTabsAsUnchanged();
+    },
+    
+    'tabs.markTabsAsUnchanged subscribe': function(event, params) {
+    	this.markTabsAsUnchanged();
+    },
+    
+    /**
+     * Remove all changed indicators from tabs
+     */
+    markTabsAsUnchanged: function() {
+    	$('.ui-icon-gear').hide();
+    },
+    
+    /**
+     * Mark the currently selected tab as changed
+     */
+    markCurrentTabAsChanged: function(){
        $('.ui-tabs-selected .ui-icon-gear').show();
-       $('#saveAll').removeClass('disabled').attr("disabled", false);
     }
     
 });

@@ -2,18 +2,31 @@
     <div class="howto <% if (HIDEHOWTO) { %> stay-hidden <% } %>">
         <span class="ui-icon ui-icon-triangle-1-s"></span>Quick Start Guide:
         <ul class="hideable">
-            <li>Build up this Section by dragging and dropping Questions and other Sections from the menus on the left onto this Section.</li>
-            <li>You can add this Section to your Survey by clicking on the "My Survey" tab, and then dragging and dropping this Section from the left hand "Add a Section" menu onto your Survey.</li>
+        	<% if (SURVEY.surveyLine === line.about) { %>
+        		<li>This is the Main Section of your Survey.  Build up your Survey by dragging and dropping Questions and other Sections from the menus on the left into the "Contents" area below.</li>
+        		<li>Sections that are not branched to from this section will not show up in your survey.</li>
+        		<li>To create a new Section, click the "create a Section" button under the "Add a Section" list on the left.</li>
+        		<li>To edit what appears in a Section, drag and drop it from the "Add a Section" list onto the tabs bar above.</li>
+        	<% } else { %>
+		        <li>Build up this Section by dragging and dropping Questions and other Sections from the menus on the left into the "Contents" area below.</li>
+		        <li>You can add this Section to your Survey by clicking on the "My Survey" tab, and then dragging and dropping this Section from the left hand "Add a Section" menu onto your Survey.</li>
+            <% } %>
         </ul>
     </div>
     <div class="config">
 		<span class="ui-icon ui-icon-triangle-1-s"></span>Configuration:
 		<form class="line-form hideable" onsubmit="return false;">
 		    <table>
-		        <tr>
-		            <td class="td-label" title="The title for this Section.  This will show up as a header above each question in this Section.">Title:</td>
-		            <td class="td-input"><input type="text" name="title" value="<%= line.title %>" class="ui-corner-all"/></td>
-		        </tr>
+		    	<% if (SURVEY.surveyLine !== line.about) { %>
+				    <tr>
+				        <td class="td-label" title="The title for this Section.  This will show up as a header above each question in this Section.">Title:</td>
+				        <td class="td-input"><input type="text" name="title" value="<%= line.title %>" class="ui-corner-all"/></td>
+				    </tr>
+				    <tr>
+				        <td class="td-label" title="The RDF identifier for this line.">rdf:about:</td>
+				        <td class="td-input"><input type="text" name="about" value="<%= line.about %>" class="required ui-corner-all"/></td>
+				    </tr>
+		        <% } %>
 		        <tr>
 		            <td class="td-label" title="The preferred number of questions you want to render per page.">Questions Per Page:</td>
 		            <td class="td-input"><input type="text" name="questionsPerPage" value="<%= line.questionsPerPage %>" class="ui-corner-all"/></td>
@@ -22,10 +35,10 @@
 		</form>
 	</div>
 	<div class="content-label">Contents:</div>
-    <div class="empty-message <% if (line.firstLineitem) { %>stay-hidden<% } %>">To add Sections and Questions to this Section, drag and drop them here </div>
-    <div class="content line-items ui-corner-all <% if (line.firstLineitem) { %>hideBorder<% } %>">
-        <% if (line.firstLineitem) { %>
-            <%= view('views/lineitem/show', {lineitem:Lineitem.findOne({id:line.firstLineitem})}) %>
+    <div class="empty-message <% if (line.child) { %>stay-hidden<% } %>">To add Sections and Questions to this Section, drag and drop them here </div>
+    <div class="content line-items ui-corner-all <% if (line.child) { %>hideBorder<% } %>">
+        <% if (line.child) { %>
+            <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:Lineitem.findOne({id:line.child}), line:line}) %>
         <% } %>
     </div>
 </div>

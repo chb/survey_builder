@@ -6,7 +6,7 @@
         <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
     <% } %>
     <% if (lineitem.defaultAnswerForEstimation) { %>
-        <defaultAnswerForEstimation rdf:resource="<%= lineitem.defaultAnswerForEstimation %>" />
+        <defaultAnswerForEstimation><%= lineitem.defaultAnswerForEstimation %></defaultAnswerForEstimation>
     <% } %>
     <% if (lineitem.displayType) { %>
         <displayType><%= lineitem.displayType %></displayType>
@@ -19,7 +19,7 @@
 			<AnswerSequence>
 			    <% if (lineitem.child) {%>
 			        <% var childLineitem = Lineitem.findOne({id:lineitem.child}) %>
-			        <%= view('views/lineitem/show_rdf', {lineitem:childLineitem}) %>
+			        <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:childLineitem}) %>
 			    <% } %>
 			</AnswerSequence>
 	    </questionAnswers>

@@ -1,4 +1,4 @@
-<Line rdf:about="<%= line.id %>">
+<Line rdf:about="<%= line.about %>">
     <% if (line.title) { %>
         <dc:title><%= line.title %></dc:title>
     <% } %>
@@ -7,8 +7,8 @@
         <questionsPerPage><%= line.questionsPerPage %></questionsPerPage>
     <% } %>
 
-    <% if (line.firstLineitem) { %>
-        <%= view('views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:line.firstLineitem})}) %>
+    <% if (line.child) { %>
+        <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:line.child})}) %>
     <% } %>
 
 </Line>

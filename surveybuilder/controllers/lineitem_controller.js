@@ -6,47 +6,65 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 {
     onDocument: false,
     
+    /**
+     * Delete a Lineitem, its children, and any siblings
+     * @param {Object} lineitem the lineitem to delete
+     */
     lineitemDeleteRecursive: function(lineitem){
-        if(lineitem.child){
-            Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitem.child}));
+		if (lineitem){
+		    if(lineitem.child){
+		        Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitem.child}));
+		    }
+		    if(lineitem.childQuestion){
+		        Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitem.childQuestion}));
+		    }
+		    if(lineitem.childAnswer){
+		        Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitem.childAnswer}));
+		    }
+		    if(lineitem.nextLineitem){
+		        Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitem.nextLineitem}));
+		    }
+		    Lineitem.destroy(lineitem.id);
         }
-        if(lineitem.childQuestion){
-            Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitem.childQuestion}));
-        }
-        if(lineitem.childAnswer){
-            Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitem.childAnswer}));
-        }
-        if(lineitem.nextLineitem){
-            Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitem.nextLineitem}));
-        }
-        Lineitem.destroy(lineitem.id);
-
     },
     
+    /**
+     * Remove a Lineitem from the DOM
+     * @param {Object} el the element to remove
+     */
     deleteLineitemFromDOM: function(el){
         // "move" the lineitem to limbo
         Surveybuilder.Controllers.Lineitem.lineitemMovedInDom(el, true);
-	if (el.closest('.content').children().length === 1) {
+		if (el.closest('.content').children().length === 1) {
            	// this is the only item
            	el.closest('.content').removeClass("hideBorder").siblings('.empty-message').show().removeClass('stay-hidden');
         }
         $(el).slideUp().remove();
     },
     
+    /**
+     * Delete a Lineitem and its children
+     * @param {Number} id the id of the Lineitem to delete
+     */
     lineitemDeleteById: function(id){
         // delete this lineitem and all children
         var lineitemToDelete = Lineitem.findOne({id:id});
-        Surveybuilder.Controllers.Lineitem.lineitemDelete(lineitemToDelete);
-    },
-    
-    lineitemDelete: function(lineitemToDelete){
-        // delete this lineitem and all children
         if(lineitemToDelete.child){
-            Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitemToDelete.child}));
-        }
+		        Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitemToDelete.child}));
+		    }
+		    if(lineitemToDelete.childQuestion){
+		        Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitemToDelete.childQuestion}));
+		    }
+		    if(lineitemToDelete.childAnswer){
+		        Surveybuilder.Controllers.Lineitem.lineitemDeleteRecursive(Lineitem.findOne({id:lineitemToDelete.childAnswer}));
+		    }
         Lineitem.destroy(lineitemToDelete.id);
     },
     
+    /**
+     * Delete the branches to a given Line
+     * //TODO: this is more of a generic bulk delete on Lineitems, so rename or refactor
+     */
     deleteBranches: function(lineitems){
         var lineitem;
         var lineitemId;
@@ -61,77 +79,127 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                 Surveybuilder.Controllers.Lineitem.deleteLineitemFromDOM(el);
             }
             else{
-                Surveybuilder.Controllers.Lineitem.lineitemMoved(lineitemId, null, null, null, 'delete');
+                Surveybuilder.Controllers.Lineitem.lineitemMoved(lineitemId, null, null, null, null, 'delete');
             }
             
-            Surveybuilder.Controllers.Lineitem.lineitemDelete(lineitem)
+            Surveybuilder.Controllers.Lineitem.lineitemDeleteById(lineitem.id);
         }
     },
     
+    /**
+    * Handle changes that need to happen when an element has been moved in the DOM
+    * @param {Object} el the element that was moved
+    * @param {Boolean} isDelete flag for whether this is a delete
+    */
     lineitemMovedInDom: function(el, isDelete){
 
-        var lineitem = $(el);  //TODO: check to see if this is necessary, or if it is already a jQuery object
-        var params = lineitem.children("form").formParams();
-        var prev = lineitem.prev();
-        var next = lineitem.next();
-        var newParent = null;
+        var params = el.children("form").formParams();
+        var prev = el.prev();
+        var prevId = prev ? prev.attr('id') : null;
+        var next = el.next();
+        var nextId = next ? next.attr('id') : null;
+        var newParentId = null;
+        var newParentType = null;
         var moveType;
+        var lineitem;
 
 		// get the parent
-		var parent = lineitem.parent() && lineitem.parent().closest('.parent');  // have to go up to parent before calling closest, since lineitem has that class
+		var parent = el.parent() && el.parent().closest('.parent');  // have to go up to parent before calling closest, since lineitem has that class
+		var parentId = parent ? parent.attr('id') : null;
 
         // If this is the first child, set the new parent
-        if(prev && prev.length === 0){
-            newParent = parent;
+        if(!prevId){
+            newParentId = parentId;
+            if(parent.hasClass("lineitem")) {
+            	if(parent.hasClass("grid")) {
+            		newParentType = "grid"
+            	}
+            	else {
+                    newParentType = "lineitem";
+                }
+            }
+            else if(parent.hasClass("line")){
+                newParentType = "line";
+            }
+            else if(parent.attr("id") === "survey"){
+                newParentType = "survey";
+            }
         }
 
         // check to see if new lineitem or not
-        if(!isDelete){
-            if (!lineitem.attr("id")) {
+        if(!isDelete) {
+            if (!el.attr("id")) {
                 moveType = 'new';
-                lineitem.attr("id", new Date().getTime());  //TODO: better id creation scheme
-                lineitem.addClass("lineitem");
-                params["id"] = lineitem.attr("id");
+                params["id"] = new Date().getTime();
+                if (el.hasClass("grid")) {
+                	// 
+                	params["about"] = params.id;
+                }
                 if (parent.hasClass("grid") && params["type"] === "question") {
-                	params["answersId"] = "#" + parent.attr("id") + "Answers";
+                	params["answersId"] = "#" + Lineitem.findOne({id:parent.attr("id")}).about + "Answers";
+                }
+                if (el.hasClass("branch")) {
+                	params["lineId"] = el.attr("data-line");
                 }
 
-                new Lineitem(params).save();
+                lineitem = new Lineitem(params);
+                lineitem.save();
+				el.replaceWith($.View('//surveybuilder/views/' + el.attr("data-type") + '/show_' + el.attr("data-subType"), {lineitem: lineitem}));
+				// grab new element in dom
+				el = $('#' + lineitem.id);  
+				// attach controllers as needed
+				el.surveybuilder_lineitem();
+                if (el.hasClass('logicComponent')) {
+                	el.surveybuilder_logic_component();
+                }
+                if (el.hasClass('branch')) {
+                	el.surveybuilder_branch();
+                }
             }
             else{
                 moveType = 'existing';
+                //lineitem = el.model();
+                lineitem = Lineitem.findOne({id:el.attr('id')}); 
             }
-	// hide the empty-Message and content border if content no longer empty
-        if (lineitem.closest('.content').children().length === 1) {
-		// this is the only item
-		lineitem.closest('.content').addClass('hideBorder').siblings('.empty-message').hide().addClass("stay-hidden");
-	}
-	
+			// hide the empty-Message and content border if content no longer empty
+		    if (el.closest('.content').children().length === 1) {
+				// this is the only item
+				el.closest('.content').addClass('hideBorder').siblings('.empty-message').hide().addClass("stay-hidden");
+			}
         }
         else{
-            moveType = 'delete'
+            moveType = 'delete';
+            //lineitem = el.model();
+            lineitem = Lineitem.findOne({id:el.attr('id')});  
         }
 
         // make content section sortable if this is a new lineitem
         if (moveType === 'new') {
         	//TODO: move these into a sigle place for configuring connections
-        	OpenAjax.hub.publish('tabs.makeSortable', {'el':lineitem.find('.line-items'), connectWith:'.line-items'});
-		    OpenAjax.hub.publish('tabs.makeSortable', {'el':lineitem.find('.sub-questions'), connectWith:'.sub-questions'});
-		    OpenAjax.hub.publish('tabs.makeSortable', {'el':lineitem.find('.grid-answers'), connectWith:'.grid-answers'});
-	  		OpenAjax.hub.publish('tabs.makeSortable', {'el':lineitem.find('.answers'), connectWith:'.answers'});
+        	OpenAjax.hub.publish('tabs.makeSortable', {'el':el.find('.line-items'), connectWith:'.line-items'});
+		    OpenAjax.hub.publish('tabs.makeSortable', {'el':el.find('.sub-questions'), connectWith:'.sub-questions'});
+		    OpenAjax.hub.publish('tabs.makeSortable', {'el':el.find('.grid-answers'), connectWith:'.grid-answers'});
+	  		OpenAjax.hub.publish('tabs.makeSortable', {'el':el.find('.answers'), connectWith:'.answers'});
         }
 
-        Surveybuilder.Controllers.Lineitem.lineitemMoved(lineitem.attr("id"), prev, next, newParent, moveType);
+        Surveybuilder.Controllers.Lineitem.lineitemMoved(lineitem.id, prevId, nextId, newParentId, newParentType, moveType);
     },
-    lineitemMoved: function(id, prev, next, newParent, moveType){
+    
+    /**
+    * Update the underlying Objects when a Lineitem is moved or deleted
+    * @param {Number} id the id of the element that was moved
+    * @param {Number} prev ID of the previous sibling of this element
+    * @param {Number} next ID of next sibling of this element
+    * @param {Number} newParent ID of new parent of this element
+    * @param {String} newParentType the type of the new parent (lineitem, line, or survey)
+    * @param {String} moveType the type of move (new, existing, or delete)
+    */
+    lineitemMoved: function(id, prevId, nextId, newParentId, newParentType, moveType){
         var oldPrev;
         var oldNext;
         var currentLineitem;
-        var parent = null;
         var oldParentId;
         var oldParentType;
-        var newParentId;
-        var newParentType;
 
         // get the existing object
         currentLineitem = Lineitem.findOne({id:id});
@@ -154,36 +222,38 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                 // moving or deleting the first element, so update the old parent
                 var newChild = (oldNext && oldNext.id) || null;
                 if (oldParentId && oldParentType){
-                    if("lineitem" === oldParentType) {
-                    	var parentLineItem = Lineitem.findOne({id:oldParentId});
-                    	if(newParent.hasClass("grid")) {
-                        	steal.dev.log("moved child of grid")
-                        	if (currentLineitem.attr("type") === "question") {
-		                    	parentLineItem.attr("childQuestion", newChild);
-		                    }
-		               		else if (currentLineitem.attr("type") === "answer") {
-		               			parentLineItem.attr("childAnswer", newChild);
-		               		}
-                    	}
-                    	else {
-                            steal.dev.log("moved child of lineitem")
-		                    parentLineItem.attr("child", newChild);
-                        }
-                        
-                        parentLineItem.save();
-                    }
-                    else if("line" === oldParentType){
-                        //steal.dev.log("moved child of a line");
-                        var parentLine = Line.findOne({id:oldParentId});
-                        parentLine.attr("firstLineitem", newChild);
-                        parentLine.save();
-                    }
-                    else if("survey" === oldParentType){
-                        //steal.dev.log("moved first child of survey");
-                        var survey = Survey.findOne({id:"1"}); // TODO: currently hardcoded to a single survey
-                        survey.attr("firstLineitem", newChild);
-                        survey.save();
-                    }
+                	switch (oldParentType) {
+                		case "lineitem":
+                			var parentLineItem = Lineitem.findOne({id:oldParentId});
+	                    	if(newParentType === "grid") {
+	                        	steal.dev.log("moved child of grid")
+	                        	if (currentLineitem.attr("type") === "question") {
+			                    	parentLineItem.attr("childQuestion", newChild);
+			                    }
+			               		else if (currentLineitem.attr("type") === "answer") {
+			               			parentLineItem.attr("childAnswer", newChild);
+			               		}
+	                    	}
+	                    	else {
+	                            steal.dev.log("moved child of lineitem")
+			                    parentLineItem.attr("child", newChild);
+	                        }
+	                        parentLineItem.save();
+                			break;
+                		case "line":
+                			var parentLine = Line.findOne({id:oldParentId});
+	                        parentLine.attr("child", newChild);
+	                        parentLine.save();
+                			break;
+                		case "survey":
+                			var survey = Survey.findOne({id:"1"}); // TODO: currently hardcoded to a single survey
+	                        survey.attr("child", newChild);
+	                        survey.save();
+                			break;
+                		default:
+                			break;
+                	}
+                    
                     if (oldNext){
                         // moved first child, so give next sibling a parent
                         oldNext.attr('parentId', oldParentId);
@@ -199,13 +269,13 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 
         // update the new siblings and parent as needed
         if('delete' !== moveType) {
-            if(prev && prev.length > 0){
+            if(prevId){
                 // not the first child, so clear out parent info
                 currentLineitem.attr('parentId', null);
                 currentLineitem.attr('parentType', null);
 
                 // update the new previous
-                var prevLineItem = Lineitem.findOne({id:prev.attr("id")});
+                var prevLineItem = Lineitem.findOne({id:prevId});
                 currentLineitem.attr("prevLineitem", prevLineItem.id);
                 prevLineItem.attr("nextLineitem", id);
                 prevLineItem.save();
@@ -214,59 +284,43 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                 // first item
                 currentLineitem.attr("prevLineitem", "");
                 // update parent
-                if (newParent){
-                        newParentId = newParent.attr("id");
-                        if(newParent.hasClass("lineitem")) {
-                        	if(newParent.hasClass("grid")) {
-                        		newParentType = "grid"
-                        	}
-                        	else {
-	                            newParentType = "lineitem";
-	                        }
-                        }
-                        else if(newParent.hasClass("line")){
-                            newParentType = "line";
-                        }
-                        else if(newParent.attr("id") === "survey"){
-                            newParentType = "survey";
-                        }
+                if (newParentId){
                         currentLineitem.attr("parentId", newParentId);
                         currentLineitem.attr("parentType", newParentType);
-                    }
-                if (newParentId && newParentType){
-                    if("lineitem" === newParentType) {
-                        var parentLineItem = Lineitem.findOne({id:newParentId});
-                        parentLineItem.attr("child", id);
-                        parentLineItem.save();
-                    }
-                    if("grid" === newParentType) {
-                        var parentLineItem = Lineitem.findOne({id:newParentId});
-                        if (currentLineitem.attr("type") === "question") {
-                        	parentLineItem.attr("childQuestion", id);
+                        switch (newParentType) {
+                        	case "lineitem":
+                        		var parentLineItem = Lineitem.findOne({id:newParentId});
+		                        parentLineItem.attr("child", id);
+		                        parentLineItem.save();
+                        		break;
+                        	case "grid":
+                        		var parentLineItem = Lineitem.findOne({id:newParentId});
+		                        if (currentLineitem.attr("type") === "question") {
+		                        	parentLineItem.attr("childQuestion", id);
+		                        }
+		                   		else if (currentLineitem.attr("type") === "answer") {
+		                   			parentLineItem.attr("childAnswer", id);
+		                   		}
+		                        parentLineItem.save();
+                        		break;
+                        	case "line":
+		                        var parentLine = Line.findOne({id:newParentId});
+		                        parentLine.attr("child", id);
+		                        parentLine.save();
+                        		break;
+                        	case "survey":
+                        		var survey = Survey.findOne({id:"1"}); // TODO: currently hardcoded to a single survey
+		                        survey.attr("child", id);
+		                        survey.save();
+                        		break;
+                        	default:
+                        		break;
                         }
-                   		else if (currentLineitem.attr("type") === "answer") {
-                   			parentLineItem.attr("childAnswer", id);
-                   		}
-                        parentLineItem.save();
                     }
-                    else if("line" === newParentType){
-                        //steal.dev.log("new first child for a line");
-                        var parentLine = Line.findOne({id:newParentId});
-                        parentLine.attr("firstLineitem", id);
-                        parentLine.save();
-                    }
-                    else if("survey" === newParentType){
-                        //steal.dev.log("new first child of survey");
-                        var survey = Survey.findOne({id:"1"}); // TODO: currently hardcoded to a single survey
-                        survey.attr("firstLineitem", id);
-                        survey.save();
-                    }
-                }
-                
             }
-            if(next && next.length > 0){
+            if(nextId){
                 // update the new next
-                var nextLineItem = Lineitem.findOne({id:next.attr("id")});
+                var nextLineItem = Lineitem.findOne({id:nextId});
                 currentLineitem.attr("nextLineitem", nextLineItem.id);
                 nextLineItem.attr("prevLineitem", currentLineitem.id);
                 // clear out the new next's parent info in case it is populated
@@ -285,6 +339,10 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         }
     },
     
+    /**
+     * Discard any changes made to a Lineitem and its children
+     * @param {Number} id the id of the Lineitem to discard changes to
+     */
     discardChanges : function(id){
         var thisLineitem = Lineitem.findOne({id:id});
         var childLineitem = Lineitem.findOne({id:thisLineitem.attr('child')});
@@ -310,12 +368,13 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         Surveybuilder.Controllers.Lineitem.loadPreviousVersion(id);
     },
     loadPreviousVersion: function(id){
-        Lineitem.loadOne(id);
+        Lineitem.loadFromCache(id);
     }
 },
 /* @Prototype */
 {
     init : function(el, message){
+	    steal.dev.log('new lineitem controller instance created');
         // make quick add icon hoverable (if present)
         $('.quick-add').hover(
             function(){
@@ -346,6 +405,38 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         }
         ev.stopPropagation();
     },
+    
+    ".move click": function(el, ev) {
+    	steal.dev.log("move clicked");
+    	line = Line.findOne({id:el.closest(".line").attr("id")});
+    	Line.findAll({}, function(lines){
+    		el.find('.move-buttons').html($.View('//surveybuilder/views/line/listAsButtons', {lines:lines, currentLine:line})).prepend('<div class="move-header ui-state-default ui-corner-top">Move To: </div>').show(); //TODO: move to view
+    	});
+    },
+    
+    ".move button click": function(el, ev) {
+    	var lineitemElement = el.closest('.lineitem');
+    	var lineId = el.attr('data-line');
+    	var line = Line.findOne({id:lineId});
+    	var lineElement = $('#' + lineId);
+    	if (lineElement && lineElement.length > 0) {
+    		// line open in DOM
+    		this.Class.lineitemMovedInDom(lineitemElement.detach().prependTo(lineElement.find('.content').first()), false );
+    	}
+    	else {
+    		// line not open in DOM
+    		this.Class.lineitemMoved(lineitemElement.attr("id"), null, line.child, lineId, "line", "existing");
+    		lineitemElement.remove();
+    	}
+    	
+    	el.closest(".move-buttons").hide();
+    	ev.stopPropagation();
+    },
+    
+    ".move-buttons mouseleave": function(el, ev) {
+    	el.slideUp();
+    },
+    
     ".quick-add-buttons button click": function(el, ev){
         var element = $(el);
         var content = element.closest('.lineitem').find('.content');
@@ -371,7 +462,8 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     
     lineitemFormChange: function(el, ev) {
         var currentLineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')}); 
-        currentLineitem.attr(el.attr("name"), el.val());
+        //var currentLineitem = el.closest('.lineitem').model();
+        currentLineitem.attr(el.attr("name"), SURVEY_UTILS.htmlEncode(el.val()));
         currentLineitem.save();
         ev.stopPropagation();
     }    

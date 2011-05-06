@@ -1,0 +1,4 @@
+<option value=null <% if (lineitem && !lineitem.branchTarget) { %> selected="selected" <% } %>>...</option>
+<% for(var lineitem in lineitems) { %>
+		<option value="<%= lineitems[lineitem].answerObject %>" <% if (lineitem && lineitem.branchTarget && lineitem.branchTarget === lineitems[lineitem].answerObject) { %> selected="selected" <% } %>><%= lineitems[lineitem].answerObject %></option>
+<% } %>

@@ -1,5 +1,6 @@
+<option value=null <% if (lineitem && !lineitem.branchTarget) { %> selected="selected" <% } %>></option>
 <% for(var line in lines) { %>
-		<% if (lines[line].id != parentLineId) { %>
-			<option value="<%= lines[line].id %>" <% if (lineitem && lineitem.branchTarget && lineitem.branchTarget === lines[line].id) { %> selected="selected" <% } %>><%= lines[line].title %></option>
+		<% if (SURVEY.surveyLine !== line.about && (parentLine == null || lines[line].id != parentLine.id)) { %>
+			<option value="<%= lines[line].about %>" <% if (lineitem && lineitem.branchTarget && lineitem.branchTarget === lines[line].about) { %> selected="selected" <% } %>><%= lines[line].title %></option>
 		<% } %>
 <% } %>

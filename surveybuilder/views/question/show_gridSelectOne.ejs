@@ -1,7 +1,8 @@
-<div <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem parent grid <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>">
+<div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem parent grid <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
     <span class="handle sexybutton sexysimple sexysilver hide-in-tabs"><%= lineitem.displayName %></span>
     <span class="ui-icon ui-icon-triangle-1-s"></span>
     <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
+    <%= $.View("//surveybuilder/views/lineitem/_move") %>
     <span class="ui-icon ui-icon-trash"></span>
     
     <div class="header hideable"><%= lineitem.displayName %></div>
@@ -24,7 +25,7 @@
 		<div class="sub-questions content hideable ui-corner-all <% if (lineitem.childQuestion) { %>hideBorder<% } %>">
 			<% if (lineitem.childQuestion) {%>
 			    <% var childLineitem = Lineitem.findOne({id:lineitem.childQuestion}) %>
-			    <%= view('views/lineitem/show', {lineitem:childLineitem}) %>
+			    <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:childLineitem}) %>
 			<% } %>
 		</div>
 	</div>
@@ -34,7 +35,7 @@
 		<div class="grid-answers content hideable ui-corner-all <% if (lineitem.childAnswer) { %>hideBorder<% } %>">
 		    <% if (lineitem.childAnswer) {%>
 				    <% var childLineitem = Lineitem.findOne({id:lineitem.childAnswer}) %>
-				    <%= view('views/lineitem/show', {lineitem:childLineitem}) %>
+				    <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:childLineitem}) %>
 				<% } %>
 		</div>
     </div>

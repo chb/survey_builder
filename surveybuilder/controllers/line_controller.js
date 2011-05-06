@@ -6,10 +6,14 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
 {
     onDocument: false,
     
+    /**
+     * Discard changes made to a given Line
+     * @param {Number} id line to discard unsaved changes from
+     */
     discardChanges: function(id){
 
         var thisLine = Line.findOne({id:id});
-        var childLineitem = Lineitem.findOne({id:thisLine.attr('firstLineitem')});
+        var childLineitem = Lineitem.findOne({id:thisLine.attr('child')});
         var next;
 
         // discard the changes to lineitems in this line
@@ -22,8 +26,12 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
         Surveybuilder.Controllers.Line.loadPreviousVersion(id);
     },
     
+    /**
+     * Load the previous version of a Line
+     * @param {Number} id line to reload
+     */
     loadPreviousVersion: function(id){
-        Line.loadOne(id);
+        Line.loadFromCache(id);
     }
 },
 /* @Prototype */
@@ -32,11 +40,14 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
         var currentLine = Line.findOne({id:el.closest('.line').attr('id')});
         currentLine.attr(el.attr("name"), el.val());
         currentLine.save();
+        
         // show "content changed" indicator
         $('.ui-tabs-selected .ui-icon-gear').show();
         $('#saveAll').removeClass('disabled').attr("disabled", false);
         ev.stopPropagation();
 		//TODO: is this not in jvmc3?        ev.stopDelegation();
+		
+		OpenAjax.hub.publish('components.refreshLines', {});
     }
     
 });

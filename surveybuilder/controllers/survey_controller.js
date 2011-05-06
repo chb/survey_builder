@@ -8,39 +8,54 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
 },
 /* @Prototype */
 {
-    /**
-     * Loads in the Survey and then renders it.
-     */
-    load: function(){
-        Survey.loadRemote();
-        if (!SURVEY){
-            new Survey().save();
-            SURVEY = Survey.findOne({id:"1"});
-        }
-        else{
-            Lineitem.loadAll();
-        }
-    	this.list();
+    'survey.load subscribe': function(event, params) {
+    	DATA_CONNECTOR = params['data_connector'];
+    	this.loadSurvey(params['id'], 
+    	    //success
+    		function(){
+    			OpenAjax.hub.publish('survey.list', {});
+    			OpenAjax.hub.publish('components.refreshLines', {});
+    			var mainLine = Line.findOne({about:SURVEY.surveyLine});
+    			OpenAjax.hub.publish('tabs.openLine', {id:mainLine.id});
+    		},
+    		//error
+    		function(){
+    			alert('ERROR: failed to load survey');
+    		});
     },
-    
+
+    /**
+     * Load in the Survey
+     */
+    loadSurvey: function(id, success, error){
+        Survey.loadRemote(id, success, error);
+    },
     'survey.list subscribe': function(event, params) {
     	this.list();
+    	OpenAjax.hub.publish('survey.loadFinished', {});
     },
     
     /**
      * Display the survey
      */
     list: function(){
-        var surveyDiv = $('#survey').html(this.view('show', {survey:SURVEY}));
+        var surveyDiv = $('#survey').html($.View('//surveybuilder/views/survey/show', {survey:SURVEY}));
+        
         // add controller(s) to all the rendered lineitems
         $('#survey .lineitem').surveybuilder_lineitem();
         $('#survey .logicComponent').surveybuilder_logic_component();
         $('#survey .branch').surveybuilder_branch();
+        
         // make the content divs sortable
         OpenAjax.hub.publish('tabs.makeSortable', {'el':surveyDiv.find('.line-items'), connectWith:'.line-items'});
         OpenAjax.hub.publish('tabs.makeSortable', {'el':surveyDiv.find('.sub-questions'), connectWith:'.sub-questions'});
         OpenAjax.hub.publish('tabs.makeSortable', {'el':surveyDiv.find('.grid-answers'), connectWith:'.grid-answers'});
   		OpenAjax.hub.publish('tabs.makeSortable', {'el':surveyDiv.find('.answers'), connectWith:'.answers'});
+  		
+  		// attach form validation
+  		/*$('form').each( function(){
+			$(this).validate();
+		}); */
     },
     
     'survey.export subscribe': function(event, params) {
@@ -56,8 +71,9 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
       		OpenAjax.hub.publish('tabs.close', {id:'export'});      
         }
 
-        $('.ui-tabs-nav').after('<div id="export"><button id="saveExport" class="sexybutton sexysimple"><span class="download2">Save Export</button><textarea >' + this.view('show_rdf', {survey:SURVEY, lines:LINES, date:new Date()}).replace(/^\s*[\n\f\r]/gm, '') + '</textarea></div>');
-        $('#tabs').tabs('add' , "#export" , 'export');
+		//add in an export tab and populate with exported survey
+        $('.ui-tabs-nav').after('<div id="export"><textarea >' + $.View('//surveybuilder/views/survey/show_rdf', {survey:SURVEY, lines:LINES, date:new Date()}).replace(/^\s*[\n\f\r]/gm, '') + '</textarea></div>');
+        $('#surveyBuilderTabs').tabs('add' , "#export" , 'export');
     },
     ".survey-form input change": function(el, ev){
         this.surveyFormChange(el, ev);
@@ -82,7 +98,7 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     },
     
     /*
-     * Handlers for Lineitem events
+     * Handlers for static Lineitem events
 	 */ 
 	'lineitem.movedInDom subscribe': function(event, params) {
     	Surveybuilder.Controllers.Lineitem.lineitemMovedInDom(params.el, params.isDelete);
@@ -97,35 +113,15 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     },
    
 	/*
-     * Handlers for Line events
+     * Handlers for static Line events
 	 */ 
-        
-    
-    'line.updated subscribe' : function(event, line){
-    	// update tab showing the Line
-		Surveybuilder.Controllers.Tabs.updateTitle(line); 
-		
-		// update any Logic Components that use this Line
-        Line.findAll({}, function(lines) {
-        	OpenAjax.hub.publish('logicComponent.updateLines', {lines:lines});     
-        });
-        
-        // update branches  
-        OpenAjax.hub.publish('branch.updatedLine', line); 
-    },
-    
-    "line.destroyed subscribe": function(event, line){
+    "line.destroyed subscribe": function(event, params){
 		// delete any branches to this line		
-		Lineitem.findAll({lineId:line}, Surveybuilder.Controllers.Lineitem.deleteBranches);
+		Lineitem.findAll({lineId:params.id}, Surveybuilder.Controllers.Lineitem.deleteBranches);
 		
-		// update any logic components that depend on this line
-        Line.findAll({}, function(lines) {
-        	OpenAjax.hub.publish('logicComponent.updateLines', {lines:lines});     
-        });
     },
     
     'line.discardChanges subscribe': function(event, params) {
     	Surveybuilder.Controllers.Line.discardChanges(params.id);
-    },
-   
+    }   
 });

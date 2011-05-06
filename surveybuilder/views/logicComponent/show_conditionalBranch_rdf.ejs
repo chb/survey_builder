@@ -1,4 +1,32 @@
 <ConditionalBranch>
-    <branchCondition><%= lineitem.branchCondition %></branchCondition>
-    <line rdf:resource="<%= lineitem.branchTarget %>" />
+	<condition>
+		<Condition>
+			<leftOperand>
+				<Operand>
+					<% if (lineitem.leftOperandDataType === 'survey:predicate' || lineitem.leftOperandDataType === 'survey:object') { %>
+						<value rdf:resource="<%= lineitem.leftOperand %>" />
+					<% } else { %>
+						<value><%= lineitem.leftOperand %></value>
+					<% } %>
+					<datatype><%= lineitem.leftOperandDataType %></datatype>
+				</Operand>
+			</leftOperand>
+			<operator>
+				<Operator>
+					<value><%= lineitem.operator %></value>
+				</Operator>
+			</operator>
+			<rightOperand>
+				<Operand>
+					<% if (lineitem.rightOperandDataType === 'survey:predicate' || lineitem.rightOperandDataType === 'survey:object') { %>
+						<value rdf:resource="<%= lineitem.rightOperand %>" />
+					<% } else { %>
+						<value><%= lineitem.rightOperand %></value>
+					<% } %>
+					<datatype><%= lineitem.rightOperandDataType %></datatype>
+				</Operand>
+			</rightOperand>
+		</Condition>
+	</condition>    
+	<line rdf:resource="<%= lineitem.branchTarget %>" />
 </ConditionalBranch>

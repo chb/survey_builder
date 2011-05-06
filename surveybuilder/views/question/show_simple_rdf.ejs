@@ -3,7 +3,7 @@
         <questionText><%= lineitem.questionText %></questionText>
     <% } %>
     <% if (lineitem.defaultAnswerForEstimation) { %>
-        <defaultAnswerForEstimation rdf:resource="<%= lineitem.answerProperty %>" />
+        <defaultAnswerForEstimation rdf:resource="<%= lineitem.defaultAnswerForEstimation %>" />
     <% } %>
     <questionAnswers>
         <AnswerSequence>
@@ -13,7 +13,7 @@
                     <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
                 <% } %>
                 <% if (lineitem.dataType) { %>
-                    <datatype rdf:resource="<%= lineitem.dataType %>" />
+                    <datatype rdf:resource="<%= lineitem.dataType %>" ></datatype>
                 <% } %>
                 <% if (lineitem.answerLabel) { %>
                     <answerLabel><%= lineitem.answerLabel %></answerLabel>

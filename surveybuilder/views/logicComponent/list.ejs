@@ -1,4 +1,4 @@
 <%for(var i = 0; i < logicComponents.length; i++){%>
-    <%= view('views/logicComponent/show_' + logicComponents[i].subType, {lineitem:logicComponents[i]}) %>
+    <%= $.View('//surveybuilder/views/logicComponent/show_' + logicComponents[i].subType, {lineitem:logicComponents[i], line:null}) %>
 <%}%>
 

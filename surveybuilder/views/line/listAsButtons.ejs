@@ -1,0 +1,5 @@
+<%for(var i = 0; i < lines.length; i++){%>
+	<% if (currentLine && currentLine.id !== lines[i].id) { %>
+    	<button class="sexybutton sexymedium sexysimple sexysilver" data-line="<%= lines[i].id %>"><%= lines[i].title %></button>
+    <% } %>
+<%}%>

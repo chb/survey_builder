@@ -8,18 +8,27 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
 },
 /* @Prototype */
 {
-    load: function(){
-    	// load existing lines
-    	Line.loadAll(this.callback('listLines'));
+    init: function(){
+		steal.dev.log('new components controller instance created');
+
+    	// load existing components
+    	Line.findAll({}, this.callback('listLines'));
         Question.findAll({}, this.callback('listQuestions'));
         Answer.findAll({}, this.callback('listAnswers'));
         LogicComponent.findAll({}, this.callback('listLogicComponents'));
+        
+        //attach controllers
         $('.lineitem').surveybuilder_lineitem();
         $('.logicComponent').surveybuilder_logic_component();
     },
     
+    /**
+     * List available Lines and make them draggable
+     * @param {Object} lines array of lines to render
+     */
     listLines: function(lines) {
-    	$('#line-list').html(this.view('line/list', {lines:lines} )).append('<div id="add-line-div"><span id="add-line" class="ui-icon ui-icon-circle-plus"></span><span id="add-line-description">create a section</span></div>');
+    	//TODO: move add a line html to view
+    	$('#line-list').html($.View('//surveybuilder/views/line/list', {lines:lines} )).append('<div id="add-line-div"><span id="add-line" class="ui-icon ui-icon-circle-plus"></span><span id="add-line-description">create a section</span></div>');
 
         $('#line-list .branch').draggable({
             connectToSortable: '.line-items',
@@ -49,12 +58,19 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
     	this.refreshLines();
     },
 
+	/**
+	 * Refresh the list of Lines
+	 */
     refreshLines: function(){
         Line.findAll({},this.callback('listLines'));
     },
 
+	/**
+	 * List available question types and make them draggable
+	 * @param {Object} questions array of question types to render
+	 */
     listQuestions: function(questions) {
-        $('#question-list').html(this.view('question/list', {questions:questions} ));
+        $('#question-list').html($.View('//surveybuilder/views/question/list', {questions:questions} ));
         $('#question-list .question').draggable({
             connectToSortable: '.line-items',
             handle: '.handle',
@@ -74,8 +90,12 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
         });
     },
 
+	/**
+	 * List available answer types and make them draggable
+	 * @param {Object} answers array of answer types to render
+	 */
     listAnswers: function(answers) {
-        $('#answer-list').html(this.view('answer/list', {answers:answers} ));
+        $('#answer-list').html($.View('//surveybuilder/views/answer/list', {answers:answers} ));
         $('#answer-list .answer').draggable({
             connectToSortable: '.answers',
             handle: '.handle',
@@ -95,8 +115,12 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
         });
     },
     
+    /**
+	 * List available logic components and make them draggable
+	 * @param {Object} logicComponents array of logic component types to render
+	 */
     listLogicComponents: function(logicComponents) {
-        $('#logic-list').html(this.view('logicComponent/list', {logicComponents:logicComponents} ));
+        $('#logic-list').html($.View('//surveybuilder/views/logicComponent/list', {logicComponents:logicComponents} ));
         $('#logic-list .logicComponent').draggable({
             connectToSortable: '.line-items',
             handle: '.handle',
@@ -117,17 +141,20 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
     },
     
     "#add-line click": function(el, ev){
-        var tabs = $('#tabs');
+        var tabs = $('#surveyBuilderTabs');
         var params = [];
         params['title'] = 'new-section';
         params['id'] = new Date().getTime();
+        // set 'about' to default to the title + generated id
+        params['about'] = params['title'] + params['id'];
         new Line(params).save();
         var newLine = Line.findOne(params['id']);
         OpenAjax.hub.publish('tabs.openLine', {id:params.id});
-        $('#tabs li a[href="#' + params['id'] +  '"] .ui-icon-gear').show();
+        OpenAjax.hub.publish('tabs.markTabAsChanged', {'id':params['id']});
+        OpenAjax.hub.publish('components.refreshLines', {});
         $('#saveAll').removeClass('disabled').attr("disabled", false);
-        Line.findAll({}, this.callback('listLines'));
     },
+    
     ".delete-line click": function(el, ev){
         el.closest('.button-menu-content').hide();
         ev.stopPropagation();
@@ -135,8 +162,8 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
             var lineId = el.attr("data-line");
             var lineToDelete = Line.findOne({id:lineId});
             OpenAjax.hub.publish('tabs.close', {id:lineId});
-            if (lineToDelete.firstLineitem){
-            	OpenAjax.hub.publish('lineitem.deleteRecursive', {lineitem:Lineitem.findOne({id:lineToDelete.firstLineitem})});  //TODO why is this calling the recursive version?
+            if (lineToDelete.child){
+            	OpenAjax.hub.publish('lineitem.deleteRecursive', {lineitem:Lineitem.findOne({id:lineToDelete.child})});
             }
             Line.destroy(lineId);
             $('#saveAll').removeClass('disabled').attr("disabled", false);
@@ -148,9 +175,9 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
      * reload the line list.
      */
     'line.updated subscribe' : function(called, line){
-        Line.findAll({}, this.callback('listLines'));
+       // Line.findAll({}, this.callback('listLines'));
     },
-    "line.destroyed subscribe": function(called, line){
+    "line.destroyed subscribe": function(called, params){
         // refresh the display of available Lines
         Line.findAll({}, this.callback('listLines'));
     },

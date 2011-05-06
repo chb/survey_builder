@@ -1,7 +1,6 @@
-<%= view('views/' + lineitem.type + '/show_' + lineitem.subType, {lineitem:lineitem}) %>
-
+<%= $.View('//surveybuilder/views/' + lineitem.type + '/show_' + lineitem.subType, {lineitem:lineitem, line:line}) %>
 
 <% if (lineitem.nextLineitem) { %>
-    <%= view('views/lineitem/show', {lineitem:Lineitem.findOne({id:lineitem.nextLineitem})}) %>
+    <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:Lineitem.findOne({id:lineitem.nextLineitem}), line:line}) %>
 <% } %>
 

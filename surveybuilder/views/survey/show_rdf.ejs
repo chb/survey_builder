@@ -1,4 +1,5 @@
-<Survey>
+<Survey xmlns="http://indivo.org/vocab/xml/documents#">
+	<id><% if (survey.title) { %> <%= survey.name %> <%}%></id>
     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
                xmlns:survey="http://indivo.org/survey/vocab#"
@@ -8,51 +9,21 @@
                xml:base="<% if (survey.xmlBase) { %><%= survey.xmlBase %><% } else { %>http://surveys.indivo.org/sample/<% } %>">
 
         <Survey rdf:about="<%= survey.id %>">
-          <% if (survey.title) { %>
-            <dc:title><%= survey.title %></dc:title>
-          <%}%>
-          <% if (survey.description) { %>
-            <dc:description><%=  survey.description %></dc:description>
-          <%}%>
-          <% if (survey.creator) { %>
-            <dc:creator><%= survey.creator %></dc:creator>
-          <%}%>
-            <dc:date><%= (date.getMonth() +1)  + '/' + date.getDate() + '/' + date.getFullYear() %></dc:date>
-          <% if (survey.language) { %>
-            <dc:language><%= survey.language %></dc:language>
-          <%}%>
-          <% if (survey.contactEmail) { %>
-            <contactEMail rdf:resource="<%= survey.contactEmail %>">Survey Support</contactEMail>
-          <%}%>
-          <surveyLine rdf:resource="#mainline" />
-          <% if (survey.introText) { %>
-            <introText><%= survey.introText %></introText>
-          <%}%>
-          <% if (survey.completedMessage) { %>
-            <completedMessage><%= survey.completedMessage %></completedMessage>
-          <%}%>
-          <% if (survey.deident) { %>
-            <showDeIdentifiedMessage><%= survey.deident %></showDeIdentifiedMessage>
-          <%}%>
-          <% if (survey.reviewAnswers) { %>
-            <reviewAnswers><%= survey.reviewAnswers %></reviewAnswers>
-          <%}%>
+			<% if (survey.title) { %> <dc:title><%= survey.title %></dc:title> <%}%>
+			<% if (survey.description) { %> <dc:description><%=  survey.description %></dc:description> <%}%>
+			<% if (survey.creator) { %> <dc:creator><%= survey.creator %></dc:creator> <%}%>
+			<dc:date><%= (date.getMonth() +1)  + '/' + date.getDate() + '/' + date.getFullYear() %></dc:date>
+			<% if (survey.language) { %> <dc:language><%= survey.language %></dc:language> <%}%>
+			<% if (survey.contactEmail) { %> <contactEMail rdf:resource="mailto:<%= survey.contactEmail %>">Survey Support</contactEMail> <%}%>
+			<surveyLine rdf:resource="#mainline" />
+			<% if (survey.introText) { %> <introText><%= survey.introText %></introText> <%}%>
+			<% if (survey.completedMessage) { %> <completedMessage><%= survey.completedMessage %></completedMessage> <%}%>
+			<% if (survey.deident) { %> <showDeIdentifiedMessage><%= survey.deident %></showDeIdentifiedMessage> <%}%>
+			<% if (survey.reviewAnswers) { %> <reviewAnswers><%= survey.reviewAnswers %></reviewAnswers> <%}%>
         </Survey>
 
-        <Line rdf:about="#mainline">
-        	<% if (survey.questionsPerPage) { %>
-				<questionsPerPage><%= survey.questionsPerPage %></questionsPerPage>
-			<% } %>
-            <% if (survey.mainLineTitle) { %>
-                <dc:title><%= survey.mainLineTitle %></dc:title>
-            <% } %>
-
-            <% if (survey.firstLineitem) { %>
-                <%= view('views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:survey.firstLineitem})}) %>
-            <% } %>
-        </Line>
         <% for (var line in lines) { %>
-            <%= view('views/line/show_line_rdf', {line:lines[line]}) %>
+            <%= $.View('//surveybuilder/views/line/show_line_rdf', {line:lines[line]}) %>
         <% } %>
     </rdf:RDF>
 </Survey>

@@ -1,0 +1,28 @@
+<table class="condition .ui-corner-all">
+	<tr class ="condition-row">
+		<td class="td-label">
+			<span>Answer To:</span> 
+			<input type="hidden" name="leftOperandDataType" value="survey:predicate" />
+		</td>
+		<td class="condition-td td-input">
+			<%= $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:lineitem.leftOperand, operandDatatype:"survey:predicate", name:"leftOperand"}) %>
+		</td>
+	</tr>
+	<tr  class ="condition-row">
+		<td>
+			<select name="operator" class="branchOperation">
+				<%= $.View('//surveybuilder/views/logicComponent/show_branchOperations', {lineitem:lineitem}) %>
+			</select>
+		</td>
+	</tr>
+	<tr class="condition-row">
+		<td class="td-label">
+			<select name="rightOperandDataType" class="right-operand-dataType" >
+				<%= $.View('//surveybuilder/views/logicComponent/show_branchOperandTypes', {operandDatatype:lineitem.rightOperandDataType}) %>
+			</select>:
+		</td>
+		<td class="condition-td td-input">
+			<%= $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:lineitem.rightOperand, operandDatatype:lineitem.rightOperandDataType, name:"rightOperand"}) %>
+		</td>
+	</tr>
+</table>

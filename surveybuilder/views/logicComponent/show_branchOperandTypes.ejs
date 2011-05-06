@@ -1,0 +1,6 @@
+<option value=null <% if (!operandDatatype) { %> selected="selected" <% } %>></option>
+<option value="survey:predicate" <% if (operandDatatype && operandDatatype === "survey:predicate") { %> selected="selected" <% } %>>Answer To</option>
+<option value="survey:object" <% if (operandDatatype && operandDatatype === "survey:object") { %> selected="selected" <% } %>>Answer Object</option>
+<option value="http://www.w3.org/2001/XMLSchema#integer" <% if (operandDatatype && operandDatatype === "http://www.w3.org/2001/XMLSchema#integer") { %> selected="selected" <% } %>>Integer</option>
+<option value="http://www.w3.org/2001/XMLSchema#decimal" <% if (operandDatatype && operandDatatype === "http://www.w3.org/2001/XMLSchema#decimal") { %> selected="selected" <% } %>>Decimal</option>
+<option value="http://www.w3.org/2001/XMLSchema#date" <% if (operandDatatype && operandDatatype === "http://www.w3.org/2001/XMLSchema#date") { %> selected="selected" <% } %>>Date</option>

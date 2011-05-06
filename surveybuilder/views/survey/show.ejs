@@ -1,9 +1,9 @@
 <div class="howto <% if (HIDEHOWTO) { %> stay-hidden <% } %>">
     <span class="ui-icon ui-icon-triangle-1-s"></span>Quick Start Guide:
     <ul class="hideable">
-        <li>Build up your Survey by dragging and dropping Questions and Sections from the menus on the left onto the Survey.</li>
-        <li>To create a new Section, click the "create a Section" button under the "Add a Section" list on the left.</li>
-        <li>To edit what appears in a Section, drag and drop it from the "Add a Section" list onto the tabs bar above.</li>
+        <li>Configure your survey by filling in the form below.</li>
+        <li>To add contents to your survey, click on the "Main Section" Tab.</li>
+        
     </ul>
 </div>
 <div class="config">
@@ -13,11 +13,11 @@
 		<table>
 			<tr>
 			    <td class="td-label" title="The title for your Survey.">Survey Title:<span class="marker" title="required">*</span></td>
-			    <td class="td-input"><input type="text" name="title" value="<%= survey.title %>" class="ui-corner-all"/></td>
+			    <td class="td-input"><input type="text" name="title" value="<%= survey.title %>" class="required ui-corner-all"/></td>
 			</tr>
 			<tr>
 			    <td class="td-label" title="The description for your Survey.">Survey Description:<span class="marker" title="required">*</span></td>
-			    <td class="td-input"><input type="text" name="description" value="<%= survey.description %>" class="ui-corner-all"/></td>
+			    <td class="td-input"><input type="text" name="description" value="<%= survey.description %>" class="required ui-corner-all"/></td>
 			</tr>
 			<tr>
 			    <td class="td-label" title="Introductory message to show before the user starts the survey.">Introductory Message:</td>
@@ -33,11 +33,11 @@
 			</tr>
 			<tr>
 			    <td class="td-label" title="The creator of this Survey.">Creator:<span class="marker" title="required">*</span></td>
-			    <td class="td-input"><input type="text" name="creator" value="<%= survey.creator %>" class="ui-corner-all"/></td>
+			    <td class="td-input"><input type="text" name="creator" value="<%= survey.creator %>" class="required ui-corner-all"/></td>
 			</tr>
 			<tr>
 			    <td class="td-label" title="Support Email address for takers of this Survey.">Survey Support Email:<span class="marker" title="required">*</span></td>
-			    <td class="td-input"><input type="text" name="contactEmail" value="<%= survey.contactEmail %>" class="ui-corner-all"/></td>
+			    <td class="td-input"><input type="text" name="contactEmail" value="<%= survey.contactEmail %>" class="required email ui-corner-all"/></td>
 			</tr>
 			<tr>
 	            <td class="td-label" title="The preferred number of questions you want to render per page.">Questions Per Page:</td>
@@ -72,11 +72,12 @@
 	</form>
 </div>
 
+<!-- 
 <div class="content-label">Contents:</div>
-<div class="empty-message <% if (survey.firstLineitem) { %>stay-hidden<% } %>">To add Sections and Questions to your survey, drag and drop them here </div>
-<div class="content line-items ui-corner-all <% if (survey.firstLineitem) { %>hideBorder<% } %>">
-    <% if (survey.firstLineitem) { %>
-        <%= view('views/lineitem/show', {lineitem:Lineitem.findOne({id:survey.firstLineitem})}) %>
+<div class="empty-message <% if (survey.child) { %>stay-hidden<% } %>">To add Sections and Questions to your survey, drag and drop them here </div>
+<div class="content line-items ui-corner-all <% if (survey.child) { %>hideBorder<% } %>">
+    <% if (survey.child) { %>
+        <%= $.View("//surveybuilder/views/lineitem/show.ejs", {lineitem:Lineitem.findOne({id:survey.child}), line:null})%>
     <% } %>
 </div>
-
+-->

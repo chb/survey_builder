@@ -20,7 +20,7 @@ form textarea {height:2.5em; resize:none; vertical-align:middle;}
 .component-header{float:left; margin-bottom:0;}
 form{padding-left:1.5em;}
 .add-question{float:right; margin-top:0; position:static}
-.ui-icon-trash{float:right; margin-top:0; position:static}
+.ui-icon-trash, .ui-icon-extlink {float:right; margin-top:0; position:static}
 .handle, .ui-icon-grip-dotted-vertical{cursor:move; left:0px;}
 .content-label {margin-left:1em; margin-top:1em; }
 .header{margin-left:2em; font-weight:bold; overflow:hidden;}
@@ -29,20 +29,23 @@ form{padding-left:1.5em;}
 .tab-hover {background: #E3A1A1; }
 .ui-draggable-dragging {height: 2em !important; overflow:hidden !important; z-index:9000 !important;}
 .ui-draggable-dragging .button-menu {display:none;}
-.ui-tabs .ui-tabs-nav {position:fixed; width:630px; min-width: 490px; z-index:1;}
-.ui-tabs .ui-tabs-panel {margin-top: 2.5em;}
+#surveyBuilderTabs .ui-tabs-nav {position:fixed; width:630px; min-width: 490px; z-index:1;}
+#surveyBuilderTabs .ui-tabs-panel {margin-top: 2.5em;}
 
 .close-tab {position:relative; padding:0 !important; left:-15px; top:-2px;}
 .close-icon, .changes-made {display:none; left:0;}
-.ui-tabs-selected .close-icon {display:block;}
+#surveyBuilderTabs .ui-tabs-selected .close-icon {display:block;}
 .content-group { margin-bottom:1em; margin-left:1em; position:relative;}
 .content-group .collapse { left:0; }
 .content { margin:0 0.5em 1em; min-height:3em; }
 .changes-made {cursor: default;}
+.move {display: inline-block; position:relative; float:right;}
+.move-header {padding-left:5px;}
+.quick-add {display: inline-block; position:relative;}
 .quick-add-icon {float:right; margin-top:0; position:static}
 .quick-add-subquestion, .quick-add-gridanswer {display:inline-block; margin-top:0; position:static}
-.quick-add-buttons {display: none; background-color:#EEEEEE; left:97%; padding:0; position:absolute; top:-1px;}
-.quick-add-buttons button {margin: 0 0 2px !important; width:120px;}
+.quick-add-buttons, .move-buttons {display: none; background-color:#EEEEEE; left:16px; padding:0; position:absolute; top:-1px; z-index:100000;}
+.quick-add-buttons button, .move-buttons button {display:block !important; margin: 0 0 2px !important; width:120px;}
 .empty-message {bottom:-1.4em; font-style:italic; height:1em; margin-left:1em; margin-right:1em; position:relative; }
 .howto {font-style:italic; margin: 0.5em; margin-left:1em;}
 .howto .ui-icon {left:-1em; position:relative; top:1em;}
@@ -56,7 +59,7 @@ form{padding-left:1.5em;}
 
 #survey {position:relative;}
 
-#tabs {width: 640px; margin-left: 235px; margin-top: 45px; min-width:500px;}
+#surveyBuilderTabs {width: 640px; margin-left: 235px; margin-top: 45px; min-width:500px;}
 
 #components {background-color: #FFFFFF; position:fixed; width:220px; margin-left:5px; min-height:100px; top:3em; z-index:1;}
 #components .info-icon {margin-top: 10px; position:relative; float: left; left:inherit; top:auto}
@@ -71,6 +74,7 @@ form{padding-left:1.5em;}
 #components .ui-icon-triangle-1-s {display:none;}
 #components .ui-icon-triangle-1-e {display:none;}
 #components .ui-icon-trash {display:none;}
+#components .ui-icon-extlink {display:none;}
 #components .ui-icon-grip-dotted-vertical {display:none;}
 #components .header {display:none;}
 #components .lineitem .ui-icon-circle-plus {display:none;}
@@ -87,8 +91,8 @@ form{padding-left:1.5em;}
 #add-line {float:left; margin:0; position:relative; top:2px;}
 #add-line-description {margin-left:20px;}
 
-#tabs button {margin: 1em 1em;}
-#tabs .hide-in-tabs {display: none;}
+#surveyBuilderTabs  button {margin: 1em 1em;}
+#surveyBuilderTabs  .hide-in-tabs {display: none;}
 
 #export {padding:0;}
 #export textarea {border:none; height:480px; margin:2px; padding:0; width:99%;}
@@ -110,6 +114,29 @@ form{padding-left:1.5em;}
 .sub-questions .displayType {display:none !important;}
 
 .grid-answers .predicate {display:none !important;}
+
+.conditionalBranch .content-group {	margin-left: 0;}
+
+.condition-row {margin-left: 25px;}
+.condition .td-label {min-width: 175px;}
+.condition input {margin:0; width:80%;}
+.condition button {margin:0 !important; width:25px;}
+.condition button .ui-button-text {display:inline;}
+#ajax-loader {
+    background-image: url('../ajax_loader_E5E1DF.gif');
+    display: none;
+    height: 32px;
+    left: 0;
+    margin-left: 10px;
+    position: fixed;
+    top: 3px;
+    width: 32px;
+}
+
+/* validation errors */
+input.error {
+	border: 1px solid red !important;
+}
 
 /* fancey effects */
 .lineitem {

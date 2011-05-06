@@ -16,8 +16,6 @@ $.Model.extend('Line',
      * @param {Function} error a callback function for an error in the ajax request.
      */
     findAll : function(params, success, error){
-	//success([Line.wrap({'displayName':'testing line', 'about':'testing-line', 'type':'line', 'title':'line for testing'}), Line.wrap({'displayName':'another testing line', 'about':'another-testing-line', 'type':'line', 'title':'another line for testing'})]);
-        // var lines = LINES;
         var linesarray = [];
         for (var line in LINES){
             linesarray.push(LINES[line]);
@@ -32,8 +30,16 @@ $.Model.extend('Line',
      * @param {Function} error a callback function for an error in the ajax request.
      */
     findOne : function(params, success, error){
-        return LINES[params.id];
-        //success([Line.wrap({'type':'simple', 'displayName':'Simple'}), Line.wrap({'type':'selectOne', 'displayName':'Select One'}), Line.wrap({'type':'selectMultiple', 'displayName':'Select Multiple'})]);
+    	if (params.about) {
+    		for (var line in LINES) {
+    			if (LINES[line].about === params.about) {
+    				return LINES[line];
+    			}
+    		}
+    	}
+    	else {
+        	return LINES[params.id];
+        }
     },
     /**
      * Updates a Line's data.
@@ -63,9 +69,13 @@ $.Model.extend('Line',
      * @param {Function} error a callback that should be called with an object of errors.
      */
     destroy : function(id, success, error){
-        // TODO: short circuiting to a local only delete for now
+    	var about = "";
+    	var line = LINES[id];
+    	if (line) {
+    		about = line.about;
+    	}
         delete LINES[id];
-        this.publish("destroyed", id);
+        this.publish("destroyed", {id:id, about:about});
     },
     /**
      * Creates a Line.
@@ -74,40 +84,48 @@ $.Model.extend('Line',
      * @param {Function} error a callback that should be called with an object of errors.
      */
     create : function(attrs, success, error){
-        alert('implement create');
+        alert('implement Line.create');
     },
     saveAll : function(){
-        $.DOMCached.set('lines', LINES);
+        alert('implement Line.saveAll');
     },
     loadAll : function(success){
-        var lines = $.DOMCached.get('lines');
-        for (var line in lines){
-            LINES[line] = new Line(lines[line]);
-        }
-        var linesarray = [];
-        for (var line in LINES){
-            linesarray.push(LINES[line]);
-        }
-
-        success(linesarray);
+        alert('implement Line.loadAll');
     },
-    loadOne : function(id){
-        var savedLines = $.DOMCached.get('lines');
-        if (!savedLines){
-            // no lines saved off
+    /**
+     * Load a Line from the local cache
+     * @param {Number} id the id of the Line to load
+     */
+    loadFromCache : function(id){
+        var cachedLines = $.jStorage.get('lines');
+        if (!cachedLines){
+            // no lines cached off
             LINES = {};
         }
         else{
-            if (savedLines[id]){
+            if (cachedLines[id]){
                 // line has a previous save state
-                LINES[id] = new Line(savedLines[id]);
+                LINES[id] = new Line(cachedLines[id]);
             }
             else {
-                // line does not have a previous save state, so clear out info to default
-                LINES[id].attr("firstLineitem", "null");
-                LINES[id].attr("title", "new-section");
+				// line does not have a previous save state, so clear out info to default
+			    LINES[id].attr("child", null);
+			    LINES[id].attr("title", "new-section");
             }
         }
+    },
+    
+    loadFromXML: function(node) {
+    	steal.dev.log("loading line from xmlDoc");
+		line = new Line({id:new Date().getTime(), type:'line'});
+		line.attr('about', node.attr('rdf:about'));
+		line.attr('title', SURVEY_UTILS.getElementText(node, "dc:title"));
+		line.attr('questionsPerPage', SURVEY_UTILS.getElementText(node, "questionsPerPage"));
+		line.save();
+		
+		//only grab the top level Lineitems
+		Lineitem.loadFromXML(node.children().filter('[nodeName="rdf:li"]'), line);
+    	
     }
 },
 /* @Prototype */

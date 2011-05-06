@@ -1,11 +1,11 @@
-<div id="<%= lineitem.id %>" class="lineitem branch line lineitem ui-corner-all" data-line="<%= lineitem.about %>">
+<div <%= lineitem %> id="<%= lineitem.id %>" class="lineitem branch line lineitem ui-corner-all" data-line="<%= lineitem.lineId %>">
     <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
     <span class="ui-icon ui-icon-trash"></span>
-    <div class="header">Branch to: <%= Line.findOne({id:lineitem.about}).title %></div>
+    <div class="header">Branch to: <%= lineitem.displayName %></div>
     <form>
         <input type="hidden" name="type" value="branch" />
         <input type="hidden" name="subType" value="branch" />
         <input type="hidden" name="about" value="<%= lineitem.about %>" />
-        <input type="hidden" name="displayName" value="<%= Line.findOne({id:lineitem.about}).title %>" />
+        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
     </form>
 </div>

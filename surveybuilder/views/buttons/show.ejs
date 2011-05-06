@@ -1,0 +1,10 @@
+<div id="buttons">
+    <button id="saveAll" class="first sexybutton sexysimple disabled" disabled="disabled"><span class="save">Save</span></button>
+    <button id="exportSurvey" class="sexybutton sexysimple"><span class="export">Export</span></button>
+    <a id="previewSurvey" href="<%= PREVIEW_PATH %>" target="_blank" class="sexybutton sexysimple"><span class="preview">Preview</span></a>
+    <button id="collapseAll" class="sexybutton sexysimple">Collapse All</button>
+    <button id="hideHowto" class="sexybutton sexysimple"><span class="help">Hide Quick Start</span></button>
+    <button id="showHowto" class="sexybutton sexysimple"><span class="help">Show Quick Start</span></button>
+    <% if (!!EXIT_PATH) { %> <a id="exit" href="<%= EXIT_PATH %>" class="sexybutton sexysimple">Exit</a><% } %>
+    <div id="ajax-loader"></div>
+</div>

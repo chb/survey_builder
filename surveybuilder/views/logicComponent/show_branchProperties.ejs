@@ -1,0 +1,6 @@
+<option value=null <% if (lineitem && !lineitem.branchProperty) { %> selected="selected" <% } %>>...</option>
+<% for(var lineitem in lineitems) { %>
+	<% if (lineitems[lineitem].type === 'question' && lineitems[lineitem].subType !== 'gridSelectOne') { %>
+		<option value="<%= lineitems[lineitem].answerProperty %>" <% if (lineitem && lineitem.branchProperty && lineitem.branchProperty === lineitems[lineitem].answerProperty) { %> selected="selected" <% } %>><%= lineitems[lineitem].answerProperty %></option>
+	<% } %>
+<% } %>

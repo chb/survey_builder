@@ -7,11 +7,12 @@ steal.plugins(
 	
 	.css('resources/facebox/facebox', 'resources/css/SexyButtons/sexybuttons', 'resources/css/redmond/jquery-ui-1.8.6.custom', 'resources/css/main')	// loads styles, overwrites styles from right to left
 
-	.resources('js/jquery-ui-1.8.6.custom.min.js')
+	.resources('js/jquery-ui-1.8.10.custom.js')
     .resources('js/application.js')
+    .resources('js/utils.js')
     .resources('js/jquery-json.js')
-    .resources('js/domcached-0.1-jquery.js')
-    .resources("facebox/facebox.js")
+	.resources('js/jstorage.min.js')
+    .resources('facebox/facebox.js')
 
 	.models('survey','line', 'lineitem', 'question', 'answer', 'logicComponent')	// loads files in models folder 
 

@@ -8,10 +8,10 @@
     <% } %>
 
     <GridAnswers>
-		<AnswerSequence rdf:about="#<%= lineitem.id %>Answers">
+		<AnswerSequence rdf:about="#<%= lineitem.about %>Answers">
             <% if (lineitem.childAnswer) {%>
                 <% var childLineitem = Lineitem.findOne({id:lineitem.childAnswer}) %>
-                <%= view('views/lineitem/show_rdf', {lineitem:childLineitem}) %>
+                <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:childLineitem}) %>
             <% } %>
         </AnswerSequence>
     </GridAnswers>
@@ -20,7 +20,7 @@
 		<QuestionSequence>
             <% if (lineitem.childQuestion) {%>
                 <% var childLineitem = Lineitem.findOne({id:lineitem.childQuestion}) %>
-                <%= view('views/lineitem/show_rdf', {lineitem:childLineitem}) %>
+                <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:childLineitem}) %>
             <% } %>
         </QuestionSequence>
     </GridQuestions>
