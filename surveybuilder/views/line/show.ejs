@@ -16,15 +16,12 @@
     <div class="config">
 		<span class="ui-icon ui-icon-triangle-1-s"></span>Section Configuration:
 		<form class="line-form hideable" onsubmit="return false;">
+			<input type="hidden" name="about" value="<%= line.about %>" />
 		    <table>
 		    	<% if (SURVEY.surveyLine !== line.about) { %>
 				    <tr>
 				        <td class="td-label" title="The title for this Section.  This will show up as a header above each question in this Section.">Title:</td>
 				        <td class="td-input"><input type="text" name="title" value="<%= line.title %>" class="ui-corner-all"/></td>
-				    </tr>
-				    <tr>
-				        <td class="td-label" title="The RDF identifier for this line.">rdf:about:</td>
-				        <td class="td-input"><input type="text" name="about" value="<%= line.about %>" class="required ui-corner-all"/></td>
 				    </tr>
 		        <% } %>
 		        <tr>
