@@ -5,16 +5,16 @@
         	<% if (SURVEY.surveyLine === line.about) { %>
         		<li>This is the Main Section of your Survey.  Build up your Survey by dragging and dropping Questions and other Sections from the menus on the left into the "Contents" area below.</li>
         		<li>Sections that are not branched to from this section will not show up in your survey.</li>
-        		<li>To create a new Section, click the "create a Section" button under the "Add a Section" list on the left.</li>
-        		<li>To edit what appears in a Section, drag and drop it from the "Add a Section" list onto the tabs bar above.</li>
+        		<li>To create a new Section, click the "create a section" button under the "My Sections" list on the left.</li>
+        		<li>To edit a Section, drag and drop it from the "My Sections" list onto the tabs bar above, or select "edit" from the drop down menu next to the Section's name.</li>
         	<% } else { %>
 		        <li>Build up this Section by dragging and dropping Questions and other Sections from the menus on the left into the "Contents" area below.</li>
-		        <li>You can add this Section to your Survey by clicking on the "My Survey" tab, and then dragging and dropping this Section from the left hand "Add a Section" menu onto your Survey.</li>
+		        <li>You can add this Section to your Survey by clicking on the "My Survey" tab, and then dragging and dropping this Section from the left hand "My Sections" menu onto your Survey.</li>
             <% } %>
         </ul>
     </div>
     <div class="config">
-		<span class="ui-icon ui-icon-triangle-1-s"></span>Configuration:
+		<span class="ui-icon ui-icon-triangle-1-s"></span>Section Configuration:
 		<form class="line-form hideable" onsubmit="return false;">
 		    <table>
 		    	<% if (SURVEY.surveyLine !== line.about) { %>
