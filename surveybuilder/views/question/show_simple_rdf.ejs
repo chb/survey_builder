@@ -5,13 +5,13 @@
     <% if (lineitem.defaultAnswerForEstimation) { %>
         <defaultAnswerForEstimation rdf:resource="<%= lineitem.defaultAnswerForEstimation %>" />
     <% } %>
+    <% if (lineitem.answerProperty) { %>
+        <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
+    <% } %>
     <questionAnswers>
         <AnswerSequence>
           <rdf:li>
             <TextAnswer>
-                <% if (lineitem.answerProperty) { %>
-                    <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
-                <% } %>
                 <% if (lineitem.dataType) { %>
                     <datatype rdf:resource="<%= lineitem.dataType %>" ></datatype>
                 <% } %>
