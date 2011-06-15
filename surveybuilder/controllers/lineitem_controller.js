@@ -153,7 +153,8 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                 	el.surveybuilder_logic_component();
                 }
                 if (el.hasClass('branch')) {
-                	el.surveybuilder_branch();
+                	line = Line.findOne({id: el.attr("data-line")});
+                	el.surveybuilder_branch({model: line});
                 }
             }
             else{
@@ -171,15 +172,6 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
             moveType = 'delete';
             //lineitem = el.model();
             lineitem = Lineitem.findOne({id:el.attr('id')});  
-        }
-
-        // make content section sortable if this is a new lineitem
-        if (moveType === 'new') {
-        	//TODO: move these into a sigle place for configuring connections
-        	OpenAjax.hub.publish('tabs.makeSortable', {'el':el.find('.line-items'), connectWith:'.line-items'});
-		    OpenAjax.hub.publish('tabs.makeSortable', {'el':el.find('.sub-questions'), connectWith:'.sub-questions'});
-		    OpenAjax.hub.publish('tabs.makeSortable', {'el':el.find('.grid-answers'), connectWith:'.grid-answers'});
-	  		OpenAjax.hub.publish('tabs.makeSortable', {'el':el.find('.answers'), connectWith:'.answers'});
         }
 
         Surveybuilder.Controllers.Lineitem.lineitemMoved(lineitem.id, prevId, nextId, newParentId, newParentType, moveType);
@@ -384,6 +376,10 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                 $(this).parent().find('.quick-add-buttons').hide();
             }
         );
+        $(el).find('.line-items').surveybuilder_lineitem_content({connectWith: '.line-items'});
+        $(el).find('.sub-questions').surveybuilder_lineitem_content({connectWith: '.sub-questions'});
+        $(el).find('.grid-answers').surveybuilder_lineitem_content({connectWith: '.grid-answers'});
+        $(el).find('.answers').surveybuilder_lineitem_content({connectWith: '.answers'});
     },
    
     ".lineitem-form input change": function(el, ev){

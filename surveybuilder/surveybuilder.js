@@ -16,6 +16,6 @@ steal.plugins(
 
 	.models('survey','line', 'lineitem', 'question', 'answer', 'logicComponent')	// loads files in models folder 
 
-	.controllers('main', 'components','survey','line','tabs', 'lineitem', 'buttons', 'logicComponent', 'branch')	// loads files in controllers folder
+	.controllers('main', 'component_list', 'components','survey','line','tabs', 'lineitem', 'buttons', 'logicComponent', 'branch', 'lineitem_content')	// loads files in controllers folder
 
 	.views();	// adds views to be added to build

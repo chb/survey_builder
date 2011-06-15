@@ -16,10 +16,14 @@ $.Model.extend('Question',
      * @param {Function} error a callback function for an error in the ajax request.
      */
     findAll : function(params, success, error){
-        success([new Question({'type':'question','subType':'simple', 'displayName':'Simple'}), 
+    	questions = [new Question({'type':'question','subType':'simple', 'displayName':'Simple'}), 
         		new Question({'type':'question','subType':'selectOne', 'displayName':'Multiple Choice'}), 
         		new Question({'type':'question','subType':'selectMultiple', 'displayName':'All that Apply'}),
-        		new Question({'type':'question','subType':'gridSelectOne', 'displayName':'Grid'})]);
+        		new Question({'type':'question','subType':'gridSelectOne', 'displayName':'Grid'})];
+        if (success) {
+        	success(questions);
+        }
+        return questions;
     },
     /**
      * Updates a question's data.

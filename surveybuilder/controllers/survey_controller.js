@@ -14,7 +14,6 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     	    //success
     		function(){
     			OpenAjax.hub.publish('survey.list', {});
-    			OpenAjax.hub.publish('components.refreshLines', {});
     			var mainLine = Line.findOne({about:SURVEY.surveyLine});
     			OpenAjax.hub.publish('tabs.openLine', {id:mainLine.id});
     		},
@@ -45,17 +44,6 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
         $('#survey .lineitem').surveybuilder_lineitem();
         $('#survey .logicComponent').surveybuilder_logic_component();
         $('#survey .branch').surveybuilder_branch();
-        
-        // make the content divs sortable
-        OpenAjax.hub.publish('tabs.makeSortable', {'el':surveyDiv.find('.line-items'), connectWith:'.line-items'});
-        OpenAjax.hub.publish('tabs.makeSortable', {'el':surveyDiv.find('.sub-questions'), connectWith:'.sub-questions'});
-        OpenAjax.hub.publish('tabs.makeSortable', {'el':surveyDiv.find('.grid-answers'), connectWith:'.grid-answers'});
-  		OpenAjax.hub.publish('tabs.makeSortable', {'el':surveyDiv.find('.answers'), connectWith:'.answers'});
-  		
-  		// attach form validation
-  		/*$('form').each( function(){
-			$(this).validate();
-		}); */
     },
     
     'survey.export subscribe': function(event, params) {

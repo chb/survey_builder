@@ -21,7 +21,11 @@ $.Model.extend('Line',
             linesarray.push(LINES[line]);
         }
         
-        success(linesarray);
+        if(success) {
+        	success(linesarray);
+        } 
+        return linesarray;
+        //success(linesarray);
     },  
      /**
      * Retrieves a line data from your backend services.
@@ -30,16 +34,23 @@ $.Model.extend('Line',
      * @param {Function} error a callback function for an error in the ajax request.
      */
     findOne : function(params, success, error){
+    	var result;
     	if (params.about) {
     		for (var line in LINES) {
     			if (LINES[line].about === params.about) {
-    				return LINES[line];
+    				result = LINES[line];
     			}
     		}
     	}
     	else {
-        	return LINES[params.id];
+        	result = LINES[params.id];
         }
+        
+        if (success) {
+        	success(result);
+        }
+        
+        return result;
     },
     /**
      * Updates a Line's data.
@@ -84,7 +95,11 @@ $.Model.extend('Line',
      * @param {Function} error a callback that should be called with an object of errors.
      */
     create : function(attrs, success, error){
-        alert('implement Line.create');
+    	steal.dev.log('line.create');
+    	// generate id since we don't hook up to a service yet
+    	attrs['id'] = new Date().getTime();
+        LINES[attrs.id] = new Line(attrs);
+        success(LINES[attrs.id]);
     },
     saveAll : function(){
         alert('implement Line.saveAll');
@@ -117,7 +132,7 @@ $.Model.extend('Line',
     
     loadFromXML: function(node) {
     	steal.dev.log("loading line from xmlDoc");
-		line = new Line({id:new Date().getTime(), type:'line'});
+		line = new Line({type:'line'});
 		line.attr('about', node.attr('rdf:about'));
 		line.attr('title', SURVEY_UTILS.getElementText(node, "dc:title"));
 		line.attr('questionsPerPage', SURVEY_UTILS.getElementText(node, "questionsPerPage"));

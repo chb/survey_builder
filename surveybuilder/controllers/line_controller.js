@@ -36,6 +36,11 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
 },
 /* @Prototype */
 {
+	init : function(el, message){
+	    steal.dev.log('new line controller instance created');
+	    // add in content controller
+        $(el).find('.line-items').surveybuilder_lineitem_content({connectWith: '.line-items'});
+    },
     ".line-form input change": function(el, ev){
         var currentLine = Line.findOne({id:el.closest('.line').attr('id')});
         currentLine.attr(el.attr("name"), el.val());
@@ -46,8 +51,6 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
         $('#saveAll').removeClass('disabled').attr("disabled", false);
         ev.stopPropagation();
 		//TODO: is this not in jvmc3?        ev.stopDelegation();
-		
-		OpenAjax.hub.publish('components.refreshLines', {});
     }
     
 });

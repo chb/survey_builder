@@ -16,7 +16,11 @@ $.Model.extend('Answer',
      * @param {Function} error a callback function for an error in the ajax request.
      */
     findAll : function(params, success, error){
-        success([new Answer({'type':'answer','subType':'label', 'displayName':'Fixed Choice'}), new Answer({'type':'answer','subType':'text', 'displayName':'Free Text'})]);
+    	answers = [new Answer({'type':'answer','subType':'label', 'displayName':'Fixed Choice'}), new Answer({'type':'answer','subType':'text', 'displayName':'Free Text'})];
+        if (success) {
+        	success(answers);
+        }
+        return answers;
     },
     /**
      * Updates an answer's data.

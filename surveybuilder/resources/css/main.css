@@ -83,11 +83,11 @@ form{padding-left:1.5em;}
 #components .content {display:none;}
 #components form {display:none;}
 #components .content-label {display: none;}
-#line-list, #question-list, #answer-list, #logic-list {float:left;  min-height:2em; width: 220px}
+#line-list, #question-list, #answer-list, #logic-list {float:left; width: 220px}
 
 #showHowto, #hideHowto {display:none;}
 
-#add-line-div {margin-top:5px;}
+#add-line-div {float: left; margin-top:5px;}
 #add-line {float:left; margin:0; position:relative; top:2px;}
 #add-line-description {margin-left:20px;}
 

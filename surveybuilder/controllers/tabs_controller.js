@@ -11,39 +11,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
 	updateTitle: function(line) {
     	$('#surveyBuilderTabs a[href="#' + line.id + '"]').children().text(line.title);
     },
-    
-	'tabs.makeSortable subscribe': function(event, params) {
-    	this.makeSortable(params.el, params.connectWith);
-    },
-    
-    /**
-     * Make an element sortable
-     * @param {Object} DOM element to make sortable
-     * @param {String} jQuery selector for other sortables to connect this element with
-     */
-	makeSortable: function(el, connectWith){
-        //TODO: better location for this?
-        $(el).sortable({
-            axis: 'y',
-            connectWith: connectWith,
-            forcePlaceholderSize: true,
-            handle: '.ui-icon-grip-dotted-vertical',
-            placeholder: 'placeholder',
-            update: function(event, ui){
-                // occurs when a lineitem is moved, or created
-                // register the move with the controller
-                OpenAjax.hub.publish('lineitem.movedInDom', {el:ui.item, isDelete:false});
-                OpenAjax.hub.publish('tabs.markTabAsChanged', {});
-            },
-            over: function(event, ui){
-                ui.sender.parent().find('.empty-message').css("visibility", "hidden");
-            },
-            out: function(even, ui){
-                ui.sender.parent().find('.empty-message').css("visibility", "visible");
-            }
-        });
-    },
-    
+       
     init: function(){
     	steal.dev.log('new tabs controller instance created');
     	//TODO: using this.element.tabs() does the initial tab-ification of the 
@@ -95,17 +63,16 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
         var tabsDiv = $('#surveyBuilderTabs');
         tabsDiv.append($.View('//surveybuilder/views/line/show', {line:currentLine}));
         tabsDiv.tabs('add' , "#"+id , currentLine.title);
+        this.markTabAsChanged(id);
         // add line-controller to newly opened line
         $('#'+id).surveybuilder_line();
         // add controllers to each newly rendered lineitem
         $('#'+id + ' .lineitem').surveybuilder_lineitem();
         $('#'+id + ' .logicComponent').surveybuilder_logic_component();
-        $('#'+id + ' .branch').surveybuilder_branch();
-        // make content divs sortable on newly opened line
-        this.makeSortable($('#'+id).find('.line-items'), '.line-items');
-        this.makeSortable($('#'+id).find('.sub-questions'), '.sub-questions');
-        this.makeSortable($('#'+id).find('.grid-answers'), '.grid-answers');
-        this.makeSortable($('#'+id).find('.answers'), '.answers');
+        $('#'+id + ' .branch').each(function() {
+        	line = Line.findOne({id:$(this).attr('data-line')});
+        	$(this).surveybuilder_branch({model:line});
+        });
     },
     
     'tabs.close subscribe': function(event, params) {
@@ -140,7 +107,6 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
                 var tabs = $('#surveyBuilderTabs');
                 var lineId = $('.ui-tabs-selected a').attr('href').replace('#', '');
                 OpenAjax.hub.publish('line.discardChanges', {id:lineId});
-                OpenAjax.hub.publish('components.refreshLines', {});
                 OpenAjax.hub.publish('survey.list', {});
                 tabs.tabs('remove', tabs.tabs('option', 'selected'));
             }
