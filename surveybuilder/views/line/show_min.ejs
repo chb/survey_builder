@@ -1,4 +1,4 @@
-<div <%= line %> class="lineitem <% if (SURVEY.surveyLine !== line.about) { %>branch<% } %> line ui-corner-all" data-line="<%= line.id %>" data-type="branch" data-subType="branch">
+<div <%= line %> class="lineitem <% if (Survey.findOne({id:1}).surveyLine !== line.about) { %>branch<% } %> line ui-corner-all" data-line="<%= line.id %>" data-type="branch" data-subType="branch">
     <span class="handle display-name sexybutton sexysimple sexysilver hide-in-tabs" href="#" title="<%= line.title %>"><%= line.title %></span>
     <span class="sexybutton sexysimple sexysilver hide-in-tabs button-menu"><span class="arrow-down after">-</span><div class="button-menu-content ui-corner-tr ui-corner-bottom"><a href="#" class="edit-line sexybutton sexysimple" data-line="<%= line.id %>">edit</a><br/><a href="#" class="delete-line sexybutton sexysimple" data-line="<%= line.id %>">delete</a></div></span>
     <span class="ui-icon handle ui-icon-grip-dotted-vertical"></span>

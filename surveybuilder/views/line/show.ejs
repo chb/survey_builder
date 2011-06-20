@@ -2,7 +2,7 @@
     <div class="howto <% if (HIDEHOWTO) { %> stay-hidden <% } %>">
         <span class="ui-icon ui-icon-triangle-1-s"></span>Quick Start Guide:
         <ul class="hideable">
-        	<% if (SURVEY.surveyLine === line.about) { %>
+        	<% if (Survey.findOne({id:1}).surveyLine === line.about) { %>
         		<li>This is the Main Section of your Survey.  Build up your Survey by dragging and dropping Questions and other Sections from the menus on the left into the "Contents" area below.</li>
         		<li>Sections that are not branched to from this section will not show up in your survey.</li>
         		<li>To create a new Section, click the "create a section" button under the "My Sections" list on the left.</li>
@@ -18,7 +18,7 @@
 		<form class="line-form hideable" onsubmit="return false;">
 			<input type="hidden" name="about" value="<%= line.about %>" />
 		    <table>
-		    	<% if (SURVEY.surveyLine !== line.about) { %>
+		    	<% if (Survey.findOne({id:1}).surveyLine !== line.about) { %>
 				    <tr>
 				        <td class="td-label" title="The title for this Section.  This will show up as a header above each question in this Section.">Title:</td>
 				        <td class="td-input"><input type="text" name="title" value="<%= line.title %>" class="ui-corner-all"/></td>

@@ -25,7 +25,7 @@ $.Controller.extend('Surveybuilder.Controllers.Branch',
 		if (branchToUpdate) {
 			branchToUpdate.attr("displayName", updatedLine.title);
 			branchToUpdate.attr("about", updatedLine.about);
-			branchToUpdate.save();    		
+			branchToUpdate.save();
 		}
 		this.element.find('.display-name').text(updatedLine.title);
 		this.element.find('input[name="displayName"]').val(updatedLine.title);

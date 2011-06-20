@@ -23,14 +23,14 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
     
     "#add-line click": function(el, ev){
         var params = [];
-        line = new Line().save().then(function(line){
-        	line.attr('title', 'new-section');
-	        // set 'about' to default to the title + generated id
-	        line.attr('about', line.title + line.id);
-	        line.save();
-	        OpenAjax.hub.publish('tabs.openLine', {id:line.id});
-	        $('#saveAll').removeClass('disabled').attr("disabled", false);
-        });
+        line = new Line();
+        line.save();  // save to generate id
+    	line.attr('title', 'new-section');
+        // set 'about' to default to the title + generated id
+        line.attr('about', line.title + line.id);
+        line.save();
+        OpenAjax.hub.publish('tabs.openLine', {id:line.id});
+        $('#saveAll').removeClass('disabled').attr("disabled", false);
     },
     
     ".delete-line click": function(el, ev){

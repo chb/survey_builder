@@ -22,8 +22,8 @@
 			<% if (survey.reviewAnswers) { %> <reviewAnswers><%= survey.reviewAnswers %></reviewAnswers> <%}%>
         </Survey>
 
-        <% for (var line in lines) { %>
-            <%= $.View('//surveybuilder/views/line/show_line_rdf', {line:lines[line]}) %>
+        <% for (var i=0; i<lines.length; i++) { %>
+            <%= $.View('//surveybuilder/views/line/show_line_rdf', {line:lines[i]}) %>
         <% } %>
     </rdf:RDF>
 </Survey>

@@ -5,6 +5,7 @@
 $.Model.extend('Survey',
 /* @Static */
 {
+	listType:  $.Model.List,
     /**
      * Retrieves a Survey 
      * @param {Object} params params that might refine your results.
@@ -13,8 +14,12 @@ $.Model.extend('Survey',
      */
     findOne : function(params, success, error){
     	steal.dev.log("findOne on survey");
-    	//only one survey is open at a time, so return the current one
-        return SURVEY;
+    	if (params.id) {
+    		return Survey.list.get(params.id)[0]; //TODO why is list.get returning an array?
+    	}
+    	else {
+    		return null;
+    	}
     },
     /**
      * Updates a Survey's data.
@@ -24,18 +29,12 @@ $.Model.extend('Survey',
      * @param {Function} error a callback that should be called with an object of errors.
      */
     update : function(id, attrs, success, error){
-        // TODO: for now ends up getting called even if it should be a create, since the ID is set
-        steal.dev.log("update on survey");
-        var survey = this.findOne();
-        if (survey){
-            for(var attribute in attrs){
-                survey.attr(attribute, attrs[attribute]);
-            }
-        }
-        else{
-            SURVEY = new Survey(attrs);
-        }
-        success();
+        //Since we are using $.Model.list to store Surveys, just return the model from the list
+		survey = Survey.findOne({id:id});
+		if (success) {
+			success(survey);
+		}
+		return survey
     },
     /**
      * Creates a Survey.
@@ -44,9 +43,23 @@ $.Model.extend('Survey',
      * @param {Function} error a callback that should be called with an object of errors.
      */
     create : function(attrs, success, error){
-       	// local create should not be called
-       	alert('ERROR: survey create called');
-       	error();
+    	if (Survey.findOne(1)) {
+    		// currently hard-coded for a single survey, so throw error if we are trying to create another
+    		if (error) {
+    			error();
+    		}
+    		alert("ERROR: tried to create second survey");
+    	}
+    	else {
+    		// NOTE: The success callback passed in by $.Model.save() will update the  
+			// calling model with the new id, which will in turn add it to our
+			// $.Model.list store.  Because of this, we do not create a new instance
+			// of Line here, since it would end up being duplicated in our store.
+			attrs.id = 1;
+			if (success) {
+				success(attrs);
+			}
+		}
     },
     /**
      * Save off survey builder definition using the provided data connector
@@ -55,12 +68,12 @@ $.Model.extend('Survey',
      * @param {function} error callback function that should be called on failure
      */
     saveRemote : function(id, success, error){
-    	DATA_CONNECTOR.save_survey(id, $.View('//surveybuilder/views/survey/show_rdf', {survey:SURVEY, lines:LINES, date:new Date()}).replace(/^\s*[\n\f\r]/gm, ''), success, error); 
+    	DATA_CONNECTOR.save_survey(id, $.View('//surveybuilder/views/survey/show_rdf', {survey:Survey.findOne({id:1}), lines:Line.findAll(), date:new Date()}).replace(/^\s*[\n\f\r]/gm, ''), success, error); 
     },
     saveToCache : function() {
-    	$.jStorage.set('survey', SURVEY);
-		$.jStorage.set('lineitems', LINEITEMS);
-		$.jStorage.set('lines', LINES);
+    	$.jStorage.set('survey', Survey.findOne({id:1}));
+		$.jStorage.set('lineitems', Lineitem.findAll());
+		$.jStorage.set('lines', Line.findAll());
     },
     /**
      * Load survey builder definition using the provided data connector
@@ -87,7 +100,7 @@ $.Model.extend('Survey',
 			steal.dev.log("This is not an xml doc");
 		}
 		
-		survey = new Survey({id:1});
+		survey = new Survey();
 		survey.attr('type', 'survey');
 		var root = jQuery(xml).find('[nodeName="Survey"]').first();
 		var name = SURVEY_UTILS.getElementText(root, "id");
@@ -123,7 +136,8 @@ $.Model.extend('Survey',
 					var branchTarget = Line.findOne({about:lineitems[id].about});
 					if (branchTarget) {
 						lineitems[id].attr('displayName', branchTarget.title);
-						lineitems[id].attr('lineId', branchTarget.id).save();
+						lineitems[id].attr('lineId', branchTarget.id);
+						lineitems[id].save();
 					}
 				}
 			}
@@ -132,10 +146,6 @@ $.Model.extend('Survey',
 		
 		success(); 
 	}
-	
-	
 },
 /* @Prototype */
-{
-	
-})
+{})

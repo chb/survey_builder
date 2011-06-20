@@ -13,7 +13,7 @@ $.Controller.extend('Surveybuilder.Controllers.LogicComponent',
 		// show possible branch targets
 		var parentLine = Line.findOne({id:this.element.closest('.line').attr('id')});
 		var currentLineitem = Lineitem.findOne({id:this.element.attr('id')});
-		this.element.find('.branchTarget').html($.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:LINES, lineitem:currentLineitem, parentLine:parentLine}));
+		this.element.find('.branchTarget').html($.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:Line.findAll(), lineitem:currentLineitem, parentLine:parentLine}));
 		// enable comboboxes
 		var rightOperandSelector = this.element.find('.right-operand-dataType');
 		this.configureCombobox(this.element.find('.leftOperand'), 'survey:predicate');
@@ -62,7 +62,6 @@ $.Controller.extend('Surveybuilder.Controllers.LogicComponent',
 			if (params.about == currentLineitem.attr('branchTarget'))  {
 				// remove branch target if it is no longer an option
 				currentLineitem.attr("branchTarget", null);
-				currentLineitem.save();
 			}
 		}
 		// update the drop-down list of branch targets
@@ -75,7 +74,7 @@ $.Controller.extend('Surveybuilder.Controllers.LogicComponent',
 		var currentLineitem = Lineitem.findOne({id:this.element.attr('id')});
 		var parentLine = Line.findOne({id:this.element.closest('.parent').attr('id')});
 		var branchTargetEl = this.element.find(".branchTarget");
-		branchTargetEl.html($.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:LINES, lineitem:currentLineitem, parentLine:parentLine}));
+		branchTargetEl.html($.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:Line.findAll(), lineitem:currentLineitem, parentLine:parentLine}));
 	},
 
 	".right-operand-dataType change": function(el, ev) {

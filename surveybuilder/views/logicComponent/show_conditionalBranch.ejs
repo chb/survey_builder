@@ -16,7 +16,7 @@
 				<td class="td-label" title="The Section to branch to">Branch to Section:</span></td>
 				<td class="td-input">
 					<select name="branchTarget" class="branchTarget">
-						<%= $.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:LINES, lineitem:lineitem, parentLine:line}) %>
+						<%= $.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:Line.findAll(), lineitem:lineitem, parentLine:line}) %>
 					</select>
 				</td>
 			</tr>

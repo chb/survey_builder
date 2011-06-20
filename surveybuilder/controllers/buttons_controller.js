@@ -71,7 +71,7 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
     	//save off a copy of the internal representations
         Survey.saveToCache();
         //save external representation remotely
-        Survey.saveRemote(SURVEY.id, 
+        Survey.saveRemote(1, 
 			function(){
 				// hide all "content changed" indicators
 				OpenAjax.hub.publish('tabs.markTabsAsUnchanged', {});

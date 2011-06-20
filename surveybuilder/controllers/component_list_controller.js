@@ -10,6 +10,7 @@ $.Controller("Surveybuilder.ComponentList", {
 		nameAttribute: 'displayName',  //attribute on the model that gets displayed as the name
 		nameSpan: '.display-name',  //span to update when the nameAttribute is updated
 		nameInput: 'displayName',  //input to update when the nameAttribute is updated
+		stuff: Lineitem
 	}
 }, {
 	init : function() {

@@ -9,6 +9,7 @@
 $.Model.extend('Line',
 /* @Static */
 {
+	listType:  $.Model.List,
 	/**
      * Retrieves Line data from your backend services.
      * @param {Object} params params that might refine your results.
@@ -16,16 +17,12 @@ $.Model.extend('Line',
      * @param {Function} error a callback function for an error in the ajax request.
      */
     findAll : function(params, success, error){
-        var linesarray = [];
-        for (var line in LINES){
-            linesarray.push(LINES[line]);
-        }
+        var linesarray = Line.list;
         
         if(success) {
         	success(linesarray);
         } 
         return linesarray;
-        //success(linesarray);
     },  
      /**
      * Retrieves a line data from your backend services.
@@ -34,16 +31,19 @@ $.Model.extend('Line',
      * @param {Function} error a callback function for an error in the ajax request.
      */
     findOne : function(params, success, error){
-    	var result;
+    	var result = null;
     	if (params.about) {
-    		for (var line in LINES) {
-    			if (LINES[line].about === params.about) {
-    				result = LINES[line];
+    		lineList = Line.list;
+    		for (var i=0; i< lineList.length; i++) {
+    			if (lineList[i].about === params.about) {
+    				result = lineList[i];
     			}
     		}
     	}
     	else {
-        	result = LINES[params.id];
+        	if (params.id) {
+	    		result = Line.list.get(params.id)[0]; //TODO why is list.get returning an array?
+	    	}
         }
         
         if (success) {
@@ -60,19 +60,29 @@ $.Model.extend('Line',
      * @param {Function} error a callback that should be called with an object of errors.
      */
     update : function(id, attrs, success, error){
-        // TODO: for now ends up getting called even if it should be a create, since the ID is set
-        steal.dev.log('line.update');
-        var existingLine = this.findOne(attrs);
-        if (existingLine){
-            for(var attribute in attrs){
-                existingLine.attr(attribute, attrs[attribute]);
-            }
-        }
-        else{
-            LINES[attrs.id] = new Line(attrs);
-        }
-        success();
+		//Since we are using $.Model.list to store lines, just return the model from the list
+		line = Line.findOne({id:id});
+		if (success) {
+			success(line);
+		}
+		return line
     },
+    /**
+     * Creates a Line.
+     * @param {Object} attrs A line's attributes.
+     * @param {Function} success a callback function that indicates a successful create.  The data that comes back must have an ID property.
+     * @param {Function} error a callback that should be called with an object of errors.
+     */
+	create : function(attrs, success, error){
+		// NOTE: The success callback passed in by $.Model.save() will update the  
+		// calling model with the new id, which will in turn add it to our
+		// $.Model.list store.  Because of this, we do not create a new instance
+		// of Line here, since it would end up being duplicated in our store.
+		attrs.id = new Date().getTime();
+		if (success) {
+			success(attrs);
+		}
+	},
     /**
      * Destroys a Line's data.
      * @param {String} id A unique id representing the Line.
@@ -81,31 +91,15 @@ $.Model.extend('Line',
      */
     destroy : function(id, success, error){
     	var about = "";
-    	var line = LINES[id];
+    	var line = Line.findOne({id:id});
     	if (line) {
     		about = line.about;
     	}
-        delete LINES[id];
+    	//TODO destroy handled by super?
         this.publish("destroyed", {id:id, about:about});
-    },
-    /**
-     * Creates a Line.
-     * @param {Object} attrs A line's attributes.
-     * @param {Function} success a callback function that indicates a successful create.  The data that comes back must have an ID property.
-     * @param {Function} error a callback that should be called with an object of errors.
-     */
-    create : function(attrs, success, error){
-    	steal.dev.log('line.create');
-    	// generate id since we don't hook up to a service yet
-    	attrs['id'] = new Date().getTime();
-        LINES[attrs.id] = new Line(attrs);
-        success(LINES[attrs.id]);
     },
     saveAll : function(){
         alert('implement Line.saveAll');
-    },
-    loadAll : function(success){
-        alert('implement Line.loadAll');
     },
     /**
      * Load a Line from the local cache
@@ -113,20 +107,17 @@ $.Model.extend('Line',
      */
     loadFromCache : function(id){
         var cachedLines = $.jStorage.get('lines');
-        if (!cachedLines){
-            // no lines cached off
-            LINES = {};
+        var line = Line.findOne({id:id});
+        
+        //TODO: check to make sure entire old line is loaded with all sub-components
+        if (cachedLines && cachedLines[id]){
+        	// line has a previous save state, so destroy old and load from cache
+            line.destroy;
+            line = new Line(cachedLines[id]);
+            line.save();
         }
         else{
-            if (cachedLines[id]){
-                // line has a previous save state
-                LINES[id] = new Line(cachedLines[id]);
-            }
-            else {
-				// line does not have a previous save state, so clear out info to default
-			    LINES[id].attr("child", null);
-			    LINES[id].attr("title", "new-section");
-            }
+        	line.destroy();
         }
     },
     
@@ -140,7 +131,6 @@ $.Model.extend('Line',
 		
 		//only grab the top level Lineitems
 		Lineitem.loadFromXML(node.children().filter('[nodeName="rdf:li"]'), line);
-    	
     }
 },
 /* @Prototype */

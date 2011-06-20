@@ -13,8 +13,8 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     	this.loadSurvey(params['id'], 
     	    //success
     		function(){
-    			OpenAjax.hub.publish('survey.list', {});
-    			var mainLine = Line.findOne({about:SURVEY.surveyLine});
+    			OpenAjax.hub.publish('survey.render', {});
+    			var mainLine = Line.findOne({about:Survey.findOne({id:1}).surveyLine});
     			OpenAjax.hub.publish('tabs.openLine', {id:mainLine.id});
     		},
     		//error
@@ -29,16 +29,16 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     loadSurvey: function(id, success, error){
         Survey.loadRemote(id, success, error);
     },
-    'survey.list subscribe': function(event, params) {
-    	this.list();
+    'survey.render subscribe': function(event, params) {
+    	this.render();
     	OpenAjax.hub.publish('survey.loadFinished', {});
     },
     
     /**
      * Display the survey
      */
-    list: function(){
-        var surveyDiv = $('#survey').html($.View('//surveybuilder/views/survey/show', {survey:SURVEY}));
+    render: function(){
+        var surveyDiv = $('#survey').html($.View('//surveybuilder/views/survey/show', {survey:Survey.findOne({id:1})}));
         
         // add controller(s) to all the rendered lineitems
         $('#survey .lineitem').surveybuilder_lineitem();
@@ -60,7 +60,7 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
         }
 
 		//add in an export tab and populate with exported survey
-        $('.ui-tabs-nav').after('<div id="export"><textarea >' + $.View('//surveybuilder/views/survey/show_rdf', {survey:SURVEY, lines:LINES, date:new Date()}).replace(/^\s*[\n\f\r]/gm, '') + '</textarea></div>');
+        $('.ui-tabs-nav').after('<div id="export"><textarea >' + $.View('//surveybuilder/views/survey/show_rdf', {survey:Survey.findOne({id:1}), lines:Line.findAll(), date:new Date()}).replace(/^\s*[\n\f\r]/gm, '') + '</textarea></div>');
         $('#surveyBuilderTabs').tabs('add' , "#export" , 'export');
     },
     ".survey-form input change": function(el, ev){
@@ -81,7 +81,7 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
         else {
 	        survey.attr(el.attr("name"), el.val());
         }
-        survey.update();
+        survey.save();
         ev.stopPropagation();
     },
     

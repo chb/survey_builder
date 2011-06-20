@@ -10,9 +10,6 @@ $.Controller.extend('Surveybuilder.Controllers.Main',
 {
     init: function(){
     	surveyBuilder = {};
-    	SURVEY = null;
-        LINEITEMS = {};
-        LINES = {};
         HIDEHOWTO = $.jStorage.get('hideHowto');
         surveyBuilder['PREDICATES'] = [];
         surveyBuilder['PREDICATE_MAP'] = {};

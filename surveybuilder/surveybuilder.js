@@ -3,6 +3,7 @@ steal.plugins(
 	'jquery/controller/subscribe',	// subscribe to OpenAjax.hub
 	'jquery/view/ejs',				// client side templates
 	'jquery/model',					// Ajax wrappers
+	'jquery/model/list',
 	'jquery/dom/form_params')		// form data helper
 	
 	.css('resources/facebox/facebox', 'resources/css/SexyButtons/sexybuttons', 'resources/css/redmond/jquery-ui-1.8.6.custom', 'resources/css/main')	// loads styles, overwrites styles from right to left

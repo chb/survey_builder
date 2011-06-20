@@ -107,7 +107,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
                 var tabs = $('#surveyBuilderTabs');
                 var lineId = $('.ui-tabs-selected a').attr('href').replace('#', '');
                 OpenAjax.hub.publish('line.discardChanges', {id:lineId});
-                OpenAjax.hub.publish('survey.list', {});
+                OpenAjax.hub.publish('survey.render', {});
                 tabs.tabs('remove', tabs.tabs('option', 'selected'));
             }
         }

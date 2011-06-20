@@ -250,6 +250,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                         // moved first child, so give next sibling a parent
                         oldNext.attr('parentId', oldParentId);
                         oldNext.attr('parentType', oldParentType);
+                        oldNext.save();
                     }
                 }
             }
@@ -293,7 +294,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 		                   		else if (currentLineitem.attr("type") === "answer") {
 		                   			parentLineItem.attr("childAnswer", id);
 		                   		}
-		                        parentLineItem.save();
+		                   		parentLineItem.save();
                         		break;
                         	case "line":
 		                        var parentLine = Line.findOne({id:newParentId});
@@ -324,11 +325,8 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                 // last Lineitem
                 currentLineitem.attr("nextLineitem", "");
             }
-
-            if('delete' !== moveType){
-                currentLineitem.save();
-            }
         }
+        currentLineitem.save();
     },
     
     /**
@@ -343,18 +341,21 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         
         // discard the children of this lineitem
         while (childLineitem){
-            Surveybuilder.Controllers.Lineitem.discardChanges(childLineitem.id);
-            childLineitem = Lineitem.findOne({id:childLineitem.attr('nextLineitem')});
+        	var nextId = childLineitem.attr('nextLineitem');
+        	Surveybuilder.Controllers.Lineitem.discardChanges(childLineitem.id);
+        	childLineitem = Lineitem.findOne({id:nextId});
         }
         // discard the child questions of this lineitem
         while (childQuestion){
+        	var nextId = childQuestion.attr('nextLineitem');
             Surveybuilder.Controllers.Lineitem.discardChanges(childQuestion.id);
-            childQuestion = Lineitem.findOne({id:childLineitem.attr('nextLineitem')});
+            childQuestion = Lineitem.findOne({id:nextId});
         }
         // discard the child answers of this lineitem
         while (childAnswer){
+        	var nextId = childAnswer.attr('nextLineitem');
             Surveybuilder.Controllers.Lineitem.discardChanges(childAnswer.id);
-            childAnswer = Lineitem.findOne({id:childLineitem.attr('nextLineitem')});
+            childAnswer = Lineitem.findOne({id:nextId});
         }
 
         Surveybuilder.Controllers.Lineitem.loadPreviousVersion(id);
