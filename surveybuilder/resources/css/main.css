@@ -21,7 +21,7 @@ form textarea {height:2.5em; resize:none; vertical-align:middle;}
 form{padding-left:1.5em;}
 .add-question{float:right; margin-top:0; position:static}
 .ui-icon-trash, .ui-icon-extlink {float:right; margin-top:0; position:static}
-.handle, .ui-icon-grip-dotted-vertical{cursor:move; left:0px;}
+.ui-draggable .handle, .ui-icon-grip-dotted-vertical{cursor:move; left:0px;}
 .content-label {margin-left:1em; margin-top:1em; }
 .header{margin-left:2em; font-weight:bold; overflow:hidden;}
 .placeholder, .placeholder-drag {border: 1px solid #CC0000; margin: 5px 10px 5px 20px; position: relative; -moz-border-radius: 6px; -webkit-border-radius: 6px; }
