@@ -29,6 +29,28 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     },
     
     /**
+     * Restore a Lineitem, its children, and any siblings to the state saved off in cache
+     * @param {Object} lineitem the lineitem to restore
+     */
+    lineitemRestoreRecursive: function(lineitem){
+		if (lineitem){
+		    if(lineitem.child){
+		        Surveybuilder.Controllers.Lineitem.lineitemRestoreRecursive(Lineitem.findOne({id:lineitem.child}));
+		    }
+		    if(lineitem.childQuestion){
+		        Surveybuilder.Controllers.Lineitem.lineitemRestoreRecursive(Lineitem.findOne({id:lineitem.childQuestion}));
+		    }
+		    if(lineitem.childAnswer){
+		        Surveybuilder.Controllers.Lineitem.lineitemRestoreRecursive(Lineitem.findOne({id:lineitem.childAnswer}));
+		    }
+		    if(lineitem.nextLineitem){
+		        Surveybuilder.Controllers.Lineitem.lineitemRestoreRecursive(Lineitem.findOne({id:lineitem.nextLineitem}));
+		    }
+		    Lineitem.loadFromCache(lineitem.id);
+        }
+    },
+    
+    /**
      * Remove a Lineitem from the DOM
      * @param {Object} el the element to remove
      */
@@ -333,7 +355,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
      * Discard any changes made to a Lineitem and its children
      * @param {Number} id the id of the Lineitem to discard changes to
      */
-    discardChanges : function(id){
+    /*discardChanges : function(id){
         var thisLineitem = Lineitem.findOne({id:id});
         var childLineitem = Lineitem.findOne({id:thisLineitem.attr('child')});
         var childQuestion = Lineitem.findOne({id:thisLineitem.attr('childQuestion')});
@@ -362,7 +384,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     },
     loadPreviousVersion: function(id){
         Lineitem.loadFromCache(id);
-    }
+    }*/
 },
 /* @Prototype */
 {

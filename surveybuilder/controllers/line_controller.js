@@ -11,18 +11,6 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
      * @param {Number} id line to discard unsaved changes from
      */
     discardChanges: function(id){
-
-        var thisLine = Line.findOne({id:id});
-        var childLineitem = Lineitem.findOne({id:thisLine.attr('child')});
-        var next;
-
-        // discard the changes to lineitems in this line
-        while (childLineitem){
-            next = childLineitem.attr('nextLineitem');
-            OpenAjax.hub.publish('lineitem.discardChanges', {id:childLineitem.id});
-            childLineitem = Lineitem.findOne({id:next});
-        }
-        
         Surveybuilder.Controllers.Line.loadPreviousVersion(id);
     },
     
@@ -31,7 +19,11 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
      * @param {Number} id line to reload
      */
     loadPreviousVersion: function(id){
-        Line.loadFromCache(id);
+        line = Line.loadFromCache(id);
+        if (line.child) {
+        	// restore children
+        	Surveybuilder.Controllers.Lineitem.lineitemRestoreRecursive(Line.findOne(line.child));
+        }
     }
 },
 /* @Prototype */

@@ -16,6 +16,7 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     			OpenAjax.hub.publish('survey.render', {});
     			var mainLine = Line.findOne({about:Survey.findOne({id:1}).surveyLine});
     			OpenAjax.hub.publish('tabs.openLine', {id:mainLine.id});
+    			OpenAjax.hub.publish('survey.loadFinished', {});
     		},
     		//error
     		function(){
@@ -31,7 +32,6 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     },
     'survey.render subscribe': function(event, params) {
     	this.render();
-    	OpenAjax.hub.publish('survey.loadFinished', {});
     },
     
     /**
@@ -90,10 +90,6 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
 	 */ 
 	'lineitem.movedInDom subscribe': function(event, params) {
     	Surveybuilder.Controllers.Lineitem.lineitemMovedInDom(params.el, params.isDelete);
-    },
-    
-    'lineitem.discardChanges subscribe': function(event, params) {
-    	Surveybuilder.Controllers.Lineitem.discardChanges(params.id);
     },
     	
 	'lineitem.deleteRecursive subscribe': function(event, params) {

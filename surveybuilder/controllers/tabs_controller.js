@@ -63,7 +63,6 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
         var tabsDiv = $('#surveyBuilderTabs');
         tabsDiv.append($.View('//surveybuilder/views/line/show', {line:currentLine}));
         tabsDiv.tabs('add' , "#"+id , currentLine.title);
-        this.markTabAsChanged(id);
         // add line-controller to newly opened line
         $('#'+id).surveybuilder_line();
         // add controllers to each newly rendered lineitem
@@ -107,7 +106,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
                 var tabs = $('#surveyBuilderTabs');
                 var lineId = $('.ui-tabs-selected a').attr('href').replace('#', '');
                 OpenAjax.hub.publish('line.discardChanges', {id:lineId});
-                OpenAjax.hub.publish('survey.render', {});
+                //OpenAjax.hub.publish('survey.render', {});
                 tabs.tabs('remove', tabs.tabs('option', 'selected'));
             }
         }
@@ -132,10 +131,6 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
     	steal.dev.log("Tabs: survey.updated");
     	this.markTabAsChanged('survey');
     	OpenAjax.hub.publish('buttons.enableSaveButton', {});
-    },
-    
-    'survey.destroyed subscribe': function() {
-    	steal.dev.log("Tabs: survey.destroy");
     },
     
     'line.updated subscribe': function(event, line) {

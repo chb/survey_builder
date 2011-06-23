@@ -70,10 +70,13 @@ $.Model.extend('Survey',
     saveRemote : function(id, success, error){
     	DATA_CONNECTOR.save_survey(id, $.View('//surveybuilder/views/survey/show_rdf', {survey:Survey.findOne({id:1}), lines:Line.findAll(), date:new Date()}).replace(/^\s*[\n\f\r]/gm, ''), success, error); 
     },
+    /**
+     * Save off the Survey and all of its components to local cache.
+     */
     saveToCache : function() {
-    	$.jStorage.set('survey', Survey.findOne({id:1}));
-		$.jStorage.set('lineitems', Lineitem.findAll());
-		$.jStorage.set('lines', Line.findAll());
+    	$.jStorage.set('survey', Survey.findOne({id:1}).attrs());
+    	Line.saveAllToCache();
+		Lineitem.saveAllToCache();
     },
     /**
      * Load survey builder definition using the provided data connector
@@ -88,7 +91,6 @@ $.Model.extend('Survey',
     		},
     		error
     	);
-    		
 	},
 	
 	loadFromXML: function(xml, success, error){
@@ -143,6 +145,9 @@ $.Model.extend('Survey',
 			}
 			
 		});
+		
+		// populate cache
+		Survey.saveToCache();
 		
 		success(); 
 	}

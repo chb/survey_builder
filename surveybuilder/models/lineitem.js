@@ -37,6 +37,8 @@ $.Model.extend('Lineitem',
 		if (success) {
         	success(lineitemsarray);
        }
+       
+       return lineitemsarray;
     },
     /**
      * Retrieves a lineitem data from backend services.
@@ -162,6 +164,18 @@ $.Model.extend('Lineitem',
     },
     loadAll : function(){
     	alert('implement Lineitem.loadAll');
+    },
+    /**
+     * Save all Lineitems to the local cache
+     */
+    saveAllToCache : function() {
+    	// build an array of Lineitem attributes, so we don't recreate the actual 
+    	// Classes when loading them from cache
+    	var attrArray = $.map(Lineitem.findAll(), function(lineitem, i){
+    		return lineitem.attrs();
+    	});
+    	
+		$.jStorage.set('lineitems', attrArray);
     },
     /**
      * Load Lineitem from the local cache.

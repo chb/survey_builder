@@ -95,30 +95,55 @@ $.Model.extend('Line',
     	if (line) {
     		about = line.about;
     	}
-    	//TODO destroy handled by super?
+		if (success) {
+			success();
+		}
+		
         this.publish("destroyed", {id:id, about:about});
     },
     saveAll : function(){
         alert('implement Line.saveAll');
     },
     /**
+     * Save all Lines to the local cache
+     */
+    saveAllToCache : function() {
+    	// build an array of Line attributes, so we don't recreate the actual 
+    	// Classes when loading them from cache
+    	var attrArray = $.map(Line.findAll(), function(line, i){
+    		return line.attrs();
+    	});
+    	
+		$.jStorage.set('lines', attrArray);
+    },
+    /**
      * Load a Line from the local cache
      * @param {Number} id the id of the Line to load
      */
     loadFromCache : function(id){
-        var cachedLines = $.jStorage.get('lines');
         var line = Line.findOne({id:id});
+        var lineId = line.id;
+        var cachedLine = null;
         
-        //TODO: check to make sure entire old line is loaded with all sub-components
-        if (cachedLines && cachedLines[id]){
-        	// line has a previous save state, so destroy old and load from cache
-            line.destroy;
-            line = new Line(cachedLines[id]);
+        //line.destroy();
+        
+        var cachedLines = $.jStorage.get('lines');
+        // find the cached line
+        if (cachedLines) {
+        	for (var i=0; i<cachedLines.length; i++) {
+        		if (cachedLines[i].id == lineId) {
+        			cachedLine = cachedLines[i];
+        			break;
+        		}
+        	}
+        }
+        if (cachedLine){
+        	// line has a previous save state, so load from cache
+            line.attrs(cachedLine);
             line.save();
         }
-        else{
-        	line.destroy();
-        }
+        
+        return line;
     },
     
     loadFromXML: function(node) {
@@ -131,7 +156,9 @@ $.Model.extend('Line',
 		
 		//only grab the top level Lineitems
 		Lineitem.loadFromXML(node.children().filter('[nodeName="rdf:li"]'), line);
-    }
+    },
+    
+    
 },
 /* @Prototype */
 {})
