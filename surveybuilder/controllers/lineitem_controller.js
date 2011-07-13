@@ -349,7 +349,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
             }
         }
         currentLineitem.save();
-    },
+    }
     
     /**
      * Discard any changes made to a Lineitem and its children

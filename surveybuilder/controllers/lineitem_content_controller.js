@@ -31,6 +31,6 @@ $.Controller("Surveybuilder.lineitemContent", {
                 ui.sender.parent().find('.empty-message').css("visibility", "visible");
             }
         });
-    },
+    }
     
 });

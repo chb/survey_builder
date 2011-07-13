@@ -156,8 +156,7 @@ $.Model.extend('Line',
 		
 		//only grab the top level Lineitems
 		Lineitem.loadFromXML(node.children().filter('[nodeName="rdf:li"]'), line);
-    },
-    
+    }    
     
 },
 /* @Prototype */
