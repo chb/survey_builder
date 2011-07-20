@@ -22,12 +22,12 @@ $.Controller.extend('Surveybuilder.Controllers.Branch',
 	},
 	updateName: function(updatedLine) {
 		branchToUpdate = Lineitem.findOne({id:this.element.attr('id')});
-		if (branchToUpdate) {
+		if (branchToUpdate && (branchToUpdate.displayName !== updatedLine.title || branchToUpdate.about !== updatedLine.about)) {
 			branchToUpdate.attr("displayName", updatedLine.title);
 			branchToUpdate.attr("about", updatedLine.about);
 			branchToUpdate.save();
+			this.element.find('.display-name').text(updatedLine.title);
+			this.element.find('input[name="displayName"]').val(updatedLine.title);
 		}
-		this.element.find('.display-name').text(updatedLine.title);
-		this.element.find('input[name="displayName"]').val(updatedLine.title);
 	}
 });
