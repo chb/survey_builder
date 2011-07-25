@@ -1,12 +1,11 @@
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem parent grid <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
     <span class="handle sexybutton sexysimple sexysilver hide-in-tabs"><%= lineitem.displayName %></span>
-    <span class="ui-icon ui-icon-triangle-1-s"></span>
-    <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
+    <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
+    <span class="ui-icon ui-icon-triangle-1-s show-in-tabs"></span>
     <%= $.View("//surveybuilder/views/lineitem/_move") %>
-    <span class="ui-icon ui-icon-trash"></span>
-    
-    <div class="header hideable"><%= lineitem.displayName %></div>
-    <form class="lineitem-form" onsubmit="return false;">
+    <span class="ui-icon ui-icon-trash show-in-tabs"></span>
+    <div class="header hideable show-in-tabs"><%= lineitem.displayName %></div>
+    <form class="lineitem-form show-in-tabs" onsubmit="return false;">
         <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
         <input type="hidden" name="type" value="<%= lineitem.type %>" />
         <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
@@ -19,7 +18,7 @@
             </tr>
         </table>
     </form>
-    <div class="content-group hideable">
+    <div class="content-group hideable show-in-tabs">
     	<span class="ui-icon ui-icon-triangle-1-s collapse"></span>
 		<div class="content-label">Sub Questions:<span class="ui-icon ui-icon-circle-plus quick-add-subquestion" title="Add a new Sub Question"></span></div>
 		<div class="sub-questions content hideable ui-corner-all <% if (lineitem.childQuestion) { %>hideBorder<% } %>">
@@ -29,7 +28,7 @@
 			<% } %>
 		</div>
 	</div>
-	<div class="content-group hideable">
+	<div class="content-group hideable show-in-tabs">
 		<span class="ui-icon ui-icon-triangle-1-s collapse"></span>
 		<div class="content-label">Common Answers:<span class="ui-icon ui-icon-circle-plus quick-add-gridanswer" title="Add a new Common Answer"></span></div>
 		<div class="grid-answers content hideable ui-corner-all <% if (lineitem.childAnswer) { %>hideBorder<% } %>">

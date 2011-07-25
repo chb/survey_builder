@@ -19,22 +19,12 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
     	//calls to the tabs() function fail.  For now using the id for selection,
     	//but this does not make sense on a prototype init
     	$('#surveyBuilderTabs').tabs({
-		    tabTemplate: '<li><a href="#{href}"><span class="ui-icon ui-icon-gear changes-made" title="content changed"></span><span>#{label}</span></a><a class="close-tab"><span class="ui-icon ui-icon-closethick close-icon"></span></a></li>',
+		    tabTemplate: '<li><a href="#{href}"><span class="ui-icon ui-icon-gear changes-made" title="content changed"></span><span>#{label}</span></a><span class="close-tab ui-icon ui-icon-closethick close-icon"></span></li>',
 		    add: function(event, ui) {
 		        $('#surveyBuilderTabs').tabs('select', '#' + ui.panel.id);
 		    }
 		});
 		
-		// Make tabs resizable
-        $('#surveyBuilderTabs').resizable({
-            handles: 'e',
-            alsoResize: '.ui-tabs-nav, #tabsTopper, #tabsTopperHelper',
-            stop: function(event, ui){
-                // resize sets a specific height, but we want it to be able to grow after a resize
-                $('#surveyBuilderTabs').css("height", "auto");
-            }
-        });
-        
         // Make tabs able to receive lines dropped on them 
         $(".ui-tabs-nav").droppable({
 		    accept: '.line',
@@ -165,7 +155,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
      * @param {Number} id the id of the tab to change
      */
     markTabAsChanged: function(id){
-    	$('#surveyBuilderTabs a[href="#' + id + '"] .ui-icon-gear').show();
+    	$('#surveyBuilderTabs a[href="#' + id + '"]').siblings('.ui-icon-gear').show();
     	OpenAjax.hub.publish('buttons.enableSaveButton', {});
     },
     

@@ -1,11 +1,11 @@
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class ="lineitem parent question ui-corner-all" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
     <span class="handle sexybutton sexysimple sexysilver hide-in-tabs"><%= lineitem.displayName %></span>
-    <span class="ui-icon ui-icon-triangle-1-s"></span>
-    <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
+    <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
+    <span class="ui-icon ui-icon-triangle-1-s show-in-tabs"></span>
     <%= $.View("//surveybuilder/views/lineitem/_move") %>
-    <span class="ui-icon ui-icon-trash" title="delete"></span>
-    <div class="header hideable"><%= lineitem.displayName %></div>
-    <form class="lineitem-form" onsubmit="return false;">
+    <span class="ui-icon ui-icon-trash show-in-tabs" title="delete"></span>
+    <div class="header hideable show-in-tabs"><%= lineitem.displayName %></div>
+    <form class="lineitem-form show-in-tabs" onsubmit="return false;">
         <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
         <input type="hidden" name="type" value="<%= lineitem.type %>" />
         <input type="hidden" name="subType" value="<%= lineitem.subType %>" />

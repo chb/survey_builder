@@ -44,6 +44,7 @@ $.Controller("Surveybuilder.ComponentList", {
 	 */
 	makeDraggable: function(elements, connectTo) {
 		elements.draggable({
+			appendTo: '#placeholder-container',
 			connectToSortable: connectTo,
 			handle: '.handle',
 			helper: 'clone',
