@@ -36,6 +36,17 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
 		});
     },
     
+    /**
+     * Reposition the tabs-container based off the tab list height
+     */
+    repositionTabContent: function() {
+    	$("#tabs-container").css("top", ($("#buttons").innerHeight() + this.element.innerHeight()) + "px");
+    },
+    
+    "{window} resize": function() {
+    	this.repositionTabContent();
+    },
+    
     'tabs.openLine subscribe': function(event, params) {
     	this.openLineInTab(params.id);
     },
@@ -62,6 +73,8 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
         	line = Line.findOne({id:$(this).attr('data-line')});
         	$(this).surveybuilder_branch({model:line});
         });
+        
+        this.repositionTabContent();
     },
     
     'tabs.close subscribe': function(event, params) {
@@ -82,6 +95,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
                 return;
             }
         });
+        this.repositionTabContent();
     },
     ".ui-icon-document click": function(el, ev){
         OpenAjax.hub.publish('survey.export', {});
@@ -104,6 +118,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
             var tabs = $('#surveyBuilderTabs');
             tabs.tabs('remove', tabs.tabs('option', 'selected'));
         }
+        this.repositionTabContent();
         ev.stopPropagation();
     },
     
