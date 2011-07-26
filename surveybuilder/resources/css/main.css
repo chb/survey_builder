@@ -1,4 +1,4 @@
-body {margin:0;}
+body {font-size: 12px; margin:0;}
 
 .cb {clear:both;}
 
@@ -30,7 +30,7 @@ form{padding-left:1.5em;}
 .ui-draggable-dragging .button-menu {display:none;}
 
 #surveyBuilderTabs .ui-tabs-nav {
-	left: 230px;
+	left: 195px;
     min-width: 490px;
     position: fixed;
     right: 1em;
@@ -57,14 +57,28 @@ form{padding-left:1.5em;}
 .howto .ui-icon {left:-1em; position:relative; top:1em;}
 .stay-hidden {display:none !important;}
 
-#buttons {background-color:#E5E1DF; padding:5px 0; width:100%; z-index:1; height: 30px;}
-#buttons .first {margin-left:232px;}
+#buttons {
+	background-color:#747474; 
+	width:100%; 
+	z-index:1;
+}
+
+#buttons .first {
+	position: relative;
+	margin-left: 5px;
+}
+
+#buttons .button {
+	font-size: 13px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
 
 #survey {position:relative;}
 
 #tabs-container {
 	bottom: 1em;
-	left: 232px;
+	left: 195px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	position: absolute;
@@ -73,7 +87,7 @@ form{padding-left:1.5em;}
 }
 #surveyBuilderTabs {min-width:500px;}
 
-#components {background-color: #FFFFFF; bottom:1em; overflow-x:hidden; overflow-y:auto; position:absolute; width:220px; margin-left:5px; min-height:100px; top:40px; z-index:1;}
+#components {background-color: #FFFFFF; bottom:1em; overflow-x:hidden; overflow-y:auto; position:absolute; width:185px; margin-left:5px; min-height:100px; top:40px; z-index:1;}
 #components .lineitem {border: none;}
 #components .handle {max-width:188px; overflow:hidden;}
 #components .line .handle {-moz-border-radius-bottomright:0; border-bottom-right-radius:0; -moz-border-radius-topright:0; border-top-right-radius:0; margin-right:-4px; max-width:157px; padding-right:4px;}
@@ -83,7 +97,7 @@ form{padding-left:1.5em;}
 .button-menu-content ul {list-style-image:none; list-style-position:outside; list-style-type:none; padding-left:4px; padding-right:4px;}
 .button-menu a {color:#FFFFFF; text-decoration:none; display:block; padding:2px 4px; width:100%;}
 #components .show-in-tabs {display: none;}
-#line-list, #question-list, #answer-list, #logic-list {width: 220px}
+#line-list, #question-list, #answer-list, #logic-list {width: 185px}
 
 #placeholder-container .show-in-tabs {display: none;}
 #placeholder-container .lineitem {border: none;}
@@ -131,14 +145,12 @@ form{padding-left:1.5em;}
 .condition button {margin:0 !important; width:25px;}
 .condition button .ui-button-text {display:inline;}
 #ajax-loader {
-    background-image: url('../ajax_loader_E5E1DF.gif');
-    display: none;
-    height: 32px;
-    left: 0;
-    margin-left: 10px;
-    position: fixed;
-    top: 3px;
-    width: 32px;
+	background-image: url('../ajax-loader-747474.gif');
+	display: none;
+    height: 16px;
+    position: relative;
+    top: 5px;
+    width: 16px;
 }
 
 /* validation errors */

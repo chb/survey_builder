@@ -15,6 +15,9 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
         else{
             $('#hideHowto').show();
         }
+        
+        $('#buttons .button').button();
+        $('#buttons').buttonset();
     },
     'survey.loadFinished subscribe': function(event, params) {
     	this.disableSaveButton();
@@ -28,7 +31,7 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
      * Disable the save button
      */
     disableSaveButton: function() {
-    	$('#saveAll').addClass('disabled').attr("disabled", true);
+    	$('#saveAll').button('disable');
     },
     
     'buttons.enableSaveButton subscribe': function(event, params) {
@@ -39,7 +42,8 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
      * Enable the save button
      */
      enableSaveButton: function(){
-     	$('#saveAll').removeClass('disabled').attr("disabled", false);
+     	// Enable button and remove ui-states to prevent carryover styling from old selections/clicks. Using blur() wasn't enough.
+     	$('#saveAll').button('enable').removeClass("ui-state-focus ui-state-hover");  
      },
      
     'buttons.showAjaxLoader subscribe': function(event, params) {
@@ -50,7 +54,7 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
      * Show the ajax loader
      */
     showAjaxLoader: function() {
-    	$('#ajax-loader').show();
+    	$('#ajax-loader').css("display", "inline-block");
     },
     
     'buttons.hideAjaxLoader subscribe': function(event, params) {

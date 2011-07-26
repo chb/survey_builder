@@ -6,7 +6,7 @@ steal.plugins(
 	'jquery/model/list',
 	'jquery/dom/form_params')		// form data helper
 	
-	.css('resources/facebox/facebox', 'resources/css/SexyButtons/sexybuttons', 'resources/css/redmond/jquery-ui-1.8.6.custom', 'resources/css/main')	// loads styles, overwrites styles from right to left
+	.css('resources/facebox/facebox', 'resources/css/SexyButtons/sexybuttons', 'resources/css/redmond/jquery-ui-1.8.6.custom', 'resources/css/button-container/jquery-ui-1.8.14.custom', 'resources/css/main')	// loads styles, overwrites styles from right to left
 
 	.resources('js/jquery-ui-1.8.10.custom.js')
     .resources('js/application.js')
