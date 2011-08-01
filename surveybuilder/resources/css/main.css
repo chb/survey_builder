@@ -97,7 +97,7 @@ form{padding-left:1.5em;}
 #components {background-color: #FFFFFF; bottom:1em; overflow-x:hidden; overflow-y:auto; position:absolute; width:185px; margin-left:5px; min-height:100px; top:40px; z-index:1;}
 #components .lineitem {border: none; margin-top: 0; margin-bottom: 3px; white-space: nowrap;}
 #components .handle {max-width:188px;}
-#components .ui-button-icon-only {width: 16px;}
+#components .ui-button-icon-only, #tabs-container .ui-button-icon-only {width: 16px;}
 
 .drop-down-list {
 	border: 1px solid #CCCCCC;
