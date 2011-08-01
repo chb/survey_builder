@@ -50,7 +50,7 @@
  *
  * http://docs.jquery.com/UI/Theming/API
  *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana,Arial,sans-serif&fwDefault=normal&fsDefault=1em&cornerRadius=4px&bgColorHeader=ffffff&bgTextureHeader=01_flat.png&bgImgOpacityHeader=75&borderColorHeader=ffffff&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=747474&bgTextureDefault=01_flat.png&bgImgOpacityDefault=75&borderColorDefault=747474&fcDefault=ffffff&iconColorDefault=ffffff&bgColorHover=dadada&bgTextureHover=03_highlight_soft.png&bgImgOpacityHover=75&borderColorHover=999999&fcHover=212121&iconColorHover=454545&bgColorActive=ffffff&bgTextureActive=01_flat.png&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=212121&iconColorActive=454545&bgColorHighlight=fbf9ee&bgTextureHighlight=02_glass.png&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=05_inset_soft.png&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
+ * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana,Arial,sans-serif&fwDefault=normal&fsDefault=1em&cornerRadius=4px&bgColorHeader=ffffff&bgTextureHeader=01_flat.png&bgImgOpacityHeader=75&borderColorHeader=ffffff&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=3b3b3b&bgTextureDefault=01_flat.png&bgImgOpacityDefault=75&borderColorDefault=3b3b3b&fcDefault=ffffff&iconColorDefault=ffffff&bgColorHover=dadada&bgTextureHover=03_highlight_soft.png&bgImgOpacityHover=75&borderColorHover=999999&fcHover=212121&iconColorHover=454545&bgColorActive=ffffff&bgTextureActive=01_flat.png&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=212121&iconColorActive=454545&bgColorHighlight=fbf9ee&bgTextureHighlight=02_glass.png&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=05_inset_soft.png&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
  */
 
 
@@ -66,7 +66,7 @@
 
 /* Interaction states
 ----------------------------------*/
-#button-container .ui-state-default, #button-container .ui-widget-content .ui-state-default, #button-container .ui-widget-header .ui-state-default { border: 1px solid #747474; background: #747474 url(images/ui-bg_flat_75_747474_40x100.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; }
+#button-container .ui-state-default, #button-container .ui-widget-content .ui-state-default, #button-container .ui-widget-header .ui-state-default { border: 1px solid #3b3b3b; background: #3b3b3b url(images/ui-bg_flat_75_3b3b3b_40x100.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; }
 #button-container .ui-state-default a, #button-container .ui-state-default a:link, #button-container .ui-state-default a:visited { color: #ffffff; text-decoration: none; }
 #button-container .ui-state-hover, #button-container .ui-widget-content .ui-state-hover, #button-container .ui-widget-header .ui-state-hover, #button-container .ui-state-focus, #button-container .ui-widget-content .ui-state-focus, #button-container .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #dadada url(images/ui-bg_highlight-soft_75_dadada_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
 #button-container .ui-state-hover a, #button-container .ui-state-hover a:hover { color: #212121; text-decoration: none; }
@@ -288,55 +288,6 @@
 /* Overlays */
 #button-container .ui-widget-overlay { background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
 #button-container .ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 8px; -khtml-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }/*
- * jQuery UI Selectable 1.8.14
- *
- * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Selectable#theming
- */
-#button-container .ui-selectable-helper { position: absolute; z-index: 100; border:1px dotted black; }
-/*
- * jQuery UI Menu 1.8.14
- *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Menu#theming
- */
-#button-container .ui-menu {
-	list-style:none;
-	padding: 2px;
-	margin: 0;
-	display:block;
-	float: left;
-}
-#button-container .ui-menu .ui-menu {
-	margin-top: -3px;
-}
-#button-container .ui-menu .ui-menu-item {
-	margin:0;
-	padding: 0;
-	zoom: 1;
-	float: left;
-	clear: left;
-	width: 100%;
-}
-#button-container .ui-menu .ui-menu-item a {
-	text-decoration:none;
-	display:block;
-	padding:.2em .4em;
-	line-height:1.5;
-	zoom:1;
-}
-#button-container .ui-menu .ui-menu-item a.ui-state-hover,
-#button-container .ui-menu .ui-menu-item a.ui-state-active {
-	font-weight: normal;
-	margin: -1px;
-}
-/*
  * jQuery UI Button 1.8.14
  *
  * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)

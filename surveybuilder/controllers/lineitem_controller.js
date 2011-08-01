@@ -350,59 +350,18 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         }
         currentLineitem.save();
     }
-    
-    /**
-     * Discard any changes made to a Lineitem and its children
-     * @param {Number} id the id of the Lineitem to discard changes to
-     */
-    /*discardChanges : function(id){
-        var thisLineitem = Lineitem.findOne({id:id});
-        var childLineitem = Lineitem.findOne({id:thisLineitem.attr('child')});
-        var childQuestion = Lineitem.findOne({id:thisLineitem.attr('childQuestion')});
-        var childAnswer = Lineitem.findOne({id:thisLineitem.attr('childAnswer')});
-        
-        // discard the children of this lineitem
-        while (childLineitem){
-        	var nextId = childLineitem.attr('nextLineitem');
-        	Surveybuilder.Controllers.Lineitem.discardChanges(childLineitem.id);
-        	childLineitem = Lineitem.findOne({id:nextId});
-        }
-        // discard the child questions of this lineitem
-        while (childQuestion){
-        	var nextId = childQuestion.attr('nextLineitem');
-            Surveybuilder.Controllers.Lineitem.discardChanges(childQuestion.id);
-            childQuestion = Lineitem.findOne({id:nextId});
-        }
-        // discard the child answers of this lineitem
-        while (childAnswer){
-        	var nextId = childAnswer.attr('nextLineitem');
-            Surveybuilder.Controllers.Lineitem.discardChanges(childAnswer.id);
-            childAnswer = Lineitem.findOne({id:nextId});
-        }
-
-        Surveybuilder.Controllers.Lineitem.loadPreviousVersion(id);
-    },
-    loadPreviousVersion: function(id){
-        Lineitem.loadFromCache(id);
-    }*/
 },
 /* @Prototype */
 {
     init : function(el, message){
 	    steal.dev.log('new lineitem controller instance created');
-        // make quick add icon hoverable (if present)
-        $('.quick-add').hover(
-            function(){
-                $(this).parent().find('.quick-add-buttons').show();
-            },
-            function(){
-                $(this).parent().find('.quick-add-buttons').hide();
-            }
-        );
+        
         $(el).find('.line-items').surveybuilder_lineitem_content({connectWith: '.line-items'});
         $(el).find('.sub-questions').surveybuilder_lineitem_content({connectWith: '.sub-questions'});
         $(el).find('.grid-answers').surveybuilder_lineitem_content({connectWith: '.grid-answers'});
         $(el).find('.answers').surveybuilder_lineitem_content({connectWith: '.answers'});
+        
+        $(el).find('.button').button();
     },
    
     ".lineitem-form input change": function(el, ev){
@@ -427,13 +386,19 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     
     ".move click": function(el, ev) {
     	steal.dev.log("move clicked");
-    	line = Line.findOne({id:el.closest(".line").attr("id")});
-    	Line.findAll({}, function(lines){
-    		el.find('.move-buttons').html($.View('//surveybuilder/views/line/listAsButtons', {lines:lines, currentLine:line})).prepend('<div class="move-header ui-state-default ui-corner-top">Move To: </div>').show(); //TODO: move to view
-    	});
+    	if (!el.hasClass("active")){
+    		line = Line.findOne({id:el.closest(".line").attr("id")});
+	    	Line.findAll({}, function(lines){
+	    		var list = el.find('.drop-down-list');
+	    		list.html($.View('//surveybuilder/views/line/listAsButtons', {lines:lines, currentLine:line})).prepend('<div class="move-header ui-state-active ui-corner-top">Move To: </div>'); //TODO: move to view
+	    		list.find('.button').button();
+	    	});
+    	}
+    	this.toggleDropdown(el);
+    	return false;
     },
     
-    ".move button click": function(el, ev) {
+    ".move .button click": function(el, ev) {
     	var lineitemElement = el.closest('.lineitem');
     	var lineId = el.attr('data-line');
     	var line = Line.findOne({id:lineId});
@@ -448,15 +413,40 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     		lineitemElement.remove();
     	}
     	
-    	el.closest(".move-buttons").hide();
-    	ev.stopPropagation();
+    	this.toggleDropdown(el.closest(".drop-down"));
+		return false;
     },
     
     ".move-buttons mouseleave": function(el, ev) {
     	el.slideUp();
     },
     
-    ".quick-add-buttons button click": function(el, ev){
+    toggleDropdown: function(el){
+    	// Show drop-down menus on click
+		var button = el.find('.drop-down');
+    	if (button.hasClass("active")) {
+    		// close this active menu
+    		button.removeClass('active ui-corner-tl').addClass("ui-corner-left");
+    		button.siblings('.drop-down-list').hide();	
+    	}
+    	else {
+    		// close other config menus
+    		$('.drop-down.active').each(function(i) {
+    			$(this).removeClass('active ui-corner-tl').addClass("ui-corner-left");
+    			$(this).siblings('.drop-down-list').hide();
+    		});
+    		// show the menu
+	    	button.addClass('active ui-corner-tl').removeClass("ui-corner-left");
+	    	button.siblings('.drop-down-list').show();
+    	}
+    },
+    
+    ".quick-add click": function(el, ev) {
+    	this.toggleDropdown(el);
+    	return false;
+    },
+    
+    ".quick-add .button click": function(el, ev){
         var element = $(el);
         var content = element.closest('.lineitem').find('.content');
         var type = element.attr("data-type");

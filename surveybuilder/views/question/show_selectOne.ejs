@@ -1,10 +1,10 @@
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem parent <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
-    <span class="handle sexybutton sexysimple sexysilver hide-in-tabs"><%= lineitem.displayName %></span>
+    <span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
     <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
     <span class="ui-icon ui-icon-triangle-1-s show-in-tabs"></span>
-    <span class="ui-icon ui-icon-trash show-in-tabs"></span>
     <%= $.View("//surveybuilder/views/lineitem/_move") %>
-    <div class="header hideable show-in-tabs"><%= lineitem.displayName %></div>
+    <span class="ui-icon ui-icon-trash show-in-tabs"></span>
+    <div class="header show-in-tabs"><%= lineitem.displayName %></div>
     <form class="lineitem-form show-in-tabs" onsubmit="return false;">
         <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
         <input type="hidden" name="type" value="<%= lineitem.type %>" />
@@ -34,13 +34,13 @@
     <div class="content-group hideable show-in-tabs">
 		<span class="ui-icon ui-icon-triangle-1-s collapse"></span>
 		<span class="content-label">answers:</span>
-		<div class="quick-add">
-	        <span class="ui-icon ui-icon-circle-plus quick-add-icon"></span>
-	        <div class="quick-add-buttons ui-corner-all">
-	            <button class="sexybutton sexymedium sexysimple sexysilver" data-type="answer" data-subType="label">Fixed Choice</button>
-	            <button class="sexybutton sexymedium sexysimple sexysilver" data-type="answer" data-subType="text">Free Text</button>
-	        </div>
-	    </div>
+		<span class="quick-add">
+	        <span class="ui-icon ui-icon-circle-plus drop-down"></span>
+	        <div class="drop-down-list">
+	    		<div><a href="#" class="button" data-type="answer" data-subType="label">Fixed Choice</a></div>
+	    		<div><a href="#" class="delete-line button" data-type="answer" data-subType="text">Free Text</a></div>
+	    	</div>
+    	</span>
 		<div class="empty-message hideable <% if (lineitem.child) { %>stay-hidden<% } %>">To add Answers to your question, drag and drop them here </div>
 		 <div class="answers content hideable ui-corner-all <% if (lineitem.child) { %>hideBorder<% } %>">
 		    <% if (lineitem.child) {%>

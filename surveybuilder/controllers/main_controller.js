@@ -19,7 +19,7 @@ $.Controller.extend('Surveybuilder.Controllers.Main',
     
     'survey.open subscribe': function(event, params) {
     	//render main layout
-    	$('#surveyContainer').html($.View('//surveybuilder/views/main/show', {}));
+    	$('#survey-container').html($.View('//surveybuilder/views/main/show', {}));
     	
     	//attach controllers
 		$('#components').surveybuilder_components();

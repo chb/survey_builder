@@ -9,15 +9,18 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
 /* @Prototype */
 {
     init: function(){
+        $('#buttons .button').button();
+        $('#buttons').buttonset();
+        
+        // TODO: switch to toggle for same button
         if ($.jStorage.get('hideHowto')){
             $('#showHowto').show();
+            $('#hideHowto').hide();
         }
         else{
             $('#hideHowto').show();
+            $('#showHowto').hide();
         }
-        
-        $('#buttons .button').button();
-        $('#buttons').buttonset();
     },
     'survey.loadFinished subscribe': function(event, params) {
     	this.disableSaveButton();
@@ -86,6 +89,7 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
 				alert('remote save failure');
 			}
 		);
+		return false;
     },
     "#exportSurvey click": function(el, ev){
 	    OpenAjax.hub.publish('survey.export', {});

@@ -1,10 +1,10 @@
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
-	<span class="handle sexybutton sexysimple sexysilver hide-in-tabs"><%= lineitem.displayName %></span>
-	<span class="ui-icon ui-icon-triangle-1-s show-in-tabs"></span>
+	<span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
 	<span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
+	<span class="ui-icon ui-icon-triangle-1-s show-in-tabs"></span>
 	<span class="ui-icon ui-icon-trash show-in-tabs"></span>
 
-	<div class="header hideable show-in-tabs"><%= lineitem.displayName %></div>
+	<div class="header show-in-tabs"><%= lineitem.displayName %></div>
 	<form class="lineitem-form show-in-tabs" onsubmit="return false;">
 		<input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
 		<input type="hidden" name="type" value="<%= lineitem.type %>" />

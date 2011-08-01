@@ -40,7 +40,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
      * Reposition the tabs-container based off the tab list height
      */
     repositionTabContent: function() {
-    	$("#tabs-container").css("top", ($("#buttons").innerHeight() + this.element.innerHeight()) + "px");
+    	$("#tabs-container").css("top", ($("#buttons").innerHeight() + this.element.innerHeight() + 10) + "px");
     },
     
     "{window} resize": function() {

@@ -1,9 +1,18 @@
 $(function(){
 
    $('.info-icon').live('click', function(){
-       var infoDiv = $($(this).attr("data-infoId"));
+      var infoDiv = $($(this).attr("data-infoId"));
       jQuery.facebox(infoDiv.html());
    });
+
+  	// Hide drop-down menus when user clicks elsewhere  
+    $('html').click(function() {
+    	// close all active drop-down menus
+    	$('.drop-down.active').each(function(i) {
+			$(this).removeClass('active ui-corner-tl').addClass("ui-corner-left");
+			$(this).siblings('.drop-down-list').hide();
+		});
+    });
 
     // Hide details on lines/questions/answers/etc
     $(".ui-icon-triangle-1-s").live("click", function(){
@@ -31,6 +40,7 @@ $(function(){
 					.insertAfter( select )
 					.val( value )
 					.autocomplete({
+						appendTo: "#tabs-container",  //TODO: edited to append to tabs-container so it will pick up the same styles, but this limits this to a specific location
 						delay: 0,
 						minLength: 0,
 						source: function( request, response ) {

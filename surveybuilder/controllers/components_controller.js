@@ -33,9 +33,32 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
         $('#saveAll').removeClass('disabled').attr("disabled", false);
     },
     
+    toggleDropdown: function(el) {
+    	// Show drop-down menus on click
+    	if (el.hasClass("active")) {
+    		// close this active menu
+    		el.removeClass('active ui-corner-tl').addClass("ui-corner-left");
+    		el.siblings('.drop-down-list').hide();	
+    	}
+    	else {
+    		// close other config menus
+    		$('.drop-down.active').each(function(i) {
+    			$(this).removeClass('active ui-corner-tl').addClass("ui-corner-left");
+    			$(this).siblings('.drop-down-list').hide();
+    		});
+    		// show the menu
+	    	el.addClass('active ui-corner-tl').removeClass("ui-corner-left");
+	    	el.siblings('.drop-down-list').show();
+    	}
+    },
+    
+    ".drop-down click": function(el, ev) {
+		this.toggleDropdown(el);
+    	return false;
+    },
+    
     ".delete-line click": function(el, ev){
-        el.closest('.button-menu-content').hide();
-        ev.stopPropagation();
+        this.toggleDropdown(el.closest('.drop-down-list').siblings('.drop-down'));
         if(confirm('Do you really want to delete this Section? Everything under this Section will be deleted, along with any existing references to this section in your Survey or other Sections.')){
             var lineId = el.attr("data-line");
             var lineToDelete = Line.findOne({id:lineId});
@@ -43,20 +66,16 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
             if (lineToDelete.child){
             	OpenAjax.hub.publish('lineitem.deleteRecursive', {lineitem:Lineitem.findOne({id:lineToDelete.child})});
             }
-            Line.destroy(lineId);
+            lineToDelete.destroy();
             $('#saveAll').removeClass('disabled').attr("disabled", false);
         }
+        return false;
     },
-    '.button-menu click' : function(el, ev){
-        el.find('.button-menu-content').show();
-        ev.stopPropagation();
-    },
-	'.button-menu mouseleave': function(el, ev) {
-		el.find('.button-menu-content').slideUp("fast");
-	},
+    
     '.edit-line click' : function(el, ev){
     	OpenAjax.hub.publish('tabs.openLine', {id:el.attr("data-line")});
         el.closest('.button-menu-content').hide();
-        ev.stopPropagation();
+        this.toggleDropdown(el.closest('.drop-down-list').siblings('.drop-down'));
+        return false;
     }
 });

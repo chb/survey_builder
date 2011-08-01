@@ -8,13 +8,14 @@ $.Controller("Surveybuilder.ComponentList", {
 		draggableClass: 'line-item',  //class of items to make draggable
 		connectTo: ".line-items",  //class(es) of sortables to connect draggables to
 		nameAttribute: 'displayName',  //attribute on the model that gets displayed as the name
-		nameSpan: '.display-name',  //span to update when the nameAttribute is updated
+		nameSpan: '.display-name span',  //span to update when the nameAttribute is updated
 		nameInput: 'displayName',  //input to update when the nameAttribute is updated
 		stuff: Lineitem
 	}
 }, {
 	init : function() {
 		this.element.html( this.options.template, this.options.model.findAll());
+		this.buildButtonSets(this.element);
 		this.makeDraggable(this.element.find("." + this.options.draggableClass), this.options.connectTo);
 	},
 	"{model} created" : function(Model, ev, newItem) {
@@ -22,6 +23,7 @@ $.Controller("Surveybuilder.ComponentList", {
 		this.element.append(this.options.template, [newItem]);
 		//make models draggable if they match the draggableClass 
 		newElement = newItem.elements(this.element);
+		this.buildButtonSets(newElement);
 		if (newElement.hasClass(this.options.draggableClass)) {
 			this.makeDraggable(newElement, this.options.connectTo);
 		}
@@ -61,5 +63,16 @@ $.Controller("Surveybuilder.ComponentList", {
 				$(connectTo).sortable('option', 'placeholder', 'placeholder');
 			}
 		});
+	},
+	buildButtonSets: function(element) {
+		element.find('.button').button();
+		element.find('.drop-down').button( {
+			text: false,
+			icons: {
+				primary: "ui-icon-triangle-1-s"
+			}
+		})
+		
+		element.find('.split-button').buttonset();
 	}	
 });
