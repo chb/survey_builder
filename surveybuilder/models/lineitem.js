@@ -24,9 +24,10 @@ $.Model.extend('Lineitem',
 
 		//TODO: move this logic out of here 
         if(params && params.lineId){
-            for (var lineitem in Lineitem.list){
-                if(lineitem.lineId == params.lineId && lineitem.type === 'branch'){
-                    lineitemsarray.push(lineitem);
+        	var lineitems = Lineitem.list;
+            for (var i=0; i<lineitems.length; i++){
+                if(lineitems[i].lineId == params.lineId && lineitems[i].type === 'branch'){
+                    lineitemsarray.push(lineitems[i]);
                 }
             }
         }
@@ -138,10 +139,13 @@ $.Model.extend('Lineitem',
      * @param {Function} error a callback that should be called with an object of errors.
      */
     destroy : function(id, success, error){
-        // TODO:need a way to destroy remote ones as well? or does remote saving the survey store off one big lineitems object?
-        //delete LINEITEMS[id];
         // remove any predicate entries this lineitem had
         this.updatePredicates(id, null);
+        
+        Lineitem.list.remove(id);
+        if(success) {
+        	success();
+        }
     },
     /**
      * Creates a lineitem.
@@ -210,40 +214,36 @@ $.Model.extend('Lineitem',
     	var newLineitems = [];
     	
     	lineitems.each(function(index) { 
-    		var params = {};
-	    	var newLineitem = null;
 	    	var currentLineitem = null;
     		var lineitem = jQuery(this).children().first();
     		var tagName = lineitem.get(0).nodeName;
     
-    		// create an ID
-    		params.id = new Date().getTime();
+    		newLineitems[index] = new Lineitem();
+    		currentLineitem = newLineitems[index];
     		
     		// create links
     		if (index == 0) {
     			// link first child to parent
     			if (parent.subType === 'gridSelectOne') {
     				if (tagName === 'LabelAnswer') {
-    					parent.attr('childAnswer', params.id);
+    					parent.attr('childAnswer', currentLineitem.id);
     				}
     				if (tagName === 'SelectOneQuestion') {
-    					parent.attr('childQuestion', params.id);
+    					parent.attr('childQuestion', currentLineitem.id);
     				}
     			}
     			else {
-    				parent.attr('child', params.id);
+    				parent.attr('child', currentLineitem.id);
     			}
-    			params.parentId = parent.id;
-    			params.parentType = parent.type;
+    			currentLineitem.attr("parentId", parent.id);
+    			currentLineitem.attr("parentType", parent.type);
     		}
     		else {
     			// link siblings
-    			params.prevLineitem = newLineitems[index-1].id;
-    			newLineitems[index-1].attr('nextLineitem', params.id).save();
+    			currentLineitem.attr("prevLineitem", newLineitems[index-1].id);
+    			newLineitems[index-1].attr('nextLineitem', currentLineitem.id).save();
     		}
-    		newLineitems[index] = new Lineitem(params);
     		
-    		currentLineitem = newLineitems[index];
     		
     		switch(tagName) {
     			case "LabelAnswer":
@@ -366,6 +366,7 @@ $.Model.extend('Lineitem',
 /* @Prototype */
 {
 	setup : function(attributes) {
+		// we add in the id here since we are not tied into a remote service that would generate it for us
 		this.attr("id", new Date().getTime());
 		this._super(attributes);
 	},

@@ -89,18 +89,12 @@ $.Model.extend('Line',
      * @param {Function} success a callback function that indicates a successful destroy.
      * @param {Function} error a callback that should be called with an object of errors.
      */
-    destroy : function(id, success, error){
-    	var about = "";
-    	var line = Line.findOne({id:id});
-    	if (line) {
-    		about = line.about;
-    	}
+	destroy : function(id, success, error){
+		Line.list.remove(id);
 		if (success) {
 			success();
 		}
-		
-        this.publish("destroyed", {id:id, about:about});
-    },
+	},
     saveAll : function(){
         alert('implement Line.saveAll');
     },
