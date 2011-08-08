@@ -1,0 +1,8 @@
+<div class="answerType <%= answerType.type %> <%= answerType.subType %> ui-corner-all" data-type="<%= answerType.type %>" data-subType="<%= answerType.subType %>">
+    <span class="handle button hide-in-tabs"><%= answerType.displayName %></span>
+    <form>
+    	<input type="hidden" name="displayName" value="<%= answerType.displayName %>" />
+        <input type="hidden" name="type" value="<%= answerType.type %>" />
+        <input type="hidden" name="subType" value="<%= answerType.subType %>" />
+    </form>
+</div>

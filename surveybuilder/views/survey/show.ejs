@@ -74,10 +74,10 @@
 
 <!-- 
 <div class="content-label">Contents:</div>
-<div class="empty-message <% if (survey.child) { %>stay-hidden<% } %>">To add Sections and Questions to your survey, drag and drop them here </div>
-<div class="content line-items ui-corner-all <% if (survey.child) { %>hideBorder<% } %>">
-    <% if (survey.child) { %>
-        <%= $.View("//surveybuilder/views/lineitem/show.ejs", {lineitem:Lineitem.findOne({id:survey.child}), line:null})%>
+<div class="empty-message <% if (survey.childId) { %>stay-hidden<% } %>">To add Sections and Questions to your survey, drag and drop them here </div>
+<div class="content line-items ui-corner-all <% if (survey.childId) { %>hideBorder<% } %>">
+    <% if (survey.childId) { %>
+        <%= $.View("//surveybuilder/views/lineitem/show.ejs", {lineitem:Lineitem.findOne({id:survey.childId}), line:null})%>
     <% } %>
 </div>
 -->

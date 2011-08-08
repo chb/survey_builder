@@ -19,7 +19,13 @@ steal.plugins(
 	.resources('js/jstorage.min.js')
     .resources('facebox/facebox.js')
 
-	.models('survey','line', 'lineitem', 'question', 'answer', 'logicComponent')	// loads files in models folder 
+	.models('survey',
+			'questionType', 'answerType', 'logicComponentType', 
+			'line', 
+			'lineitem', 
+			'answer', 'labelAnswer', 'textAnswer', 
+			'question', 'simpleQuestion', 'selectOneQuestion', 'selectMultipleQuestion', 'gridSelectOneQuestion',
+			'logicComponent', 'branch', 'conditionalBranch')	// load models
 
 	.controllers('main', 'component_list', 'components','survey','line','tabs', 'lineitem', 'buttons', 'logicComponent', 'branch', 'lineitem_content')	// loads files in controllers folder
 

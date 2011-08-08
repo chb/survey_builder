@@ -12,9 +12,9 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
 		steal.dev.log('new components controller instance created');
 		// attach component_list controllers
 		$('#line-list').surveybuilder_component_list({model: Line, template: '//surveybuilder/views/line/list', draggableClass: 'branch', nameAttribute: 'title'});
-		$('#question-list').surveybuilder_component_list({model: Question, template: '//surveybuilder/views/question/list', draggableClass: 'question'});
-		$('#answer-list').surveybuilder_component_list({model: Answer, template: '//surveybuilder/views/answer/list', draggableClass: 'answer', connectTo: '.answers'});
-		$('#logic-list').surveybuilder_component_list({model: LogicComponent , template: '//surveybuilder/views/logicComponent/list', draggableClass: 'logicComponent'});
+		$('#question-list').surveybuilder_component_list({model: QuestionType, template: '//surveybuilder/views/questionType/list', draggableClass: 'questionType'});
+		$('#answer-list').surveybuilder_component_list({model: AnswerType, template: '//surveybuilder/views/answerType/list', draggableClass: 'answerType', connectTo: '.answers'});
+		$('#logic-list').surveybuilder_component_list({model: LogicComponentType , template: '//surveybuilder/views/logicComponentType/list', draggableClass: 'logicComponentType'});
 		
         //attach lineitem and logicComponent controllers
         $('.lineitem').surveybuilder_lineitem();
@@ -63,8 +63,8 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
             var lineId = el.attr("data-line");
             var lineToDelete = Line.findOne({id:lineId});
             OpenAjax.hub.publish('tabs.close', {id:lineId});
-            if (lineToDelete.child){
-            	OpenAjax.hub.publish('lineitem.deleteRecursive', {lineitem:Lineitem.findOne({id:lineToDelete.child})});
+            if (lineToDelete.childId){
+            	OpenAjax.hub.publish('lineitem.deleteRecursive', {lineitem:Lineitem.findOne({id:lineToDelete.childId})});
             }
             lineToDelete.destroy();
             $('#saveAll').removeClass('disabled').attr("disabled", false);

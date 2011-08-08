@@ -20,9 +20,9 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
      */
     loadPreviousVersion: function(id){
         line = Line.loadFromCache(id);
-        if (line.child) {
+        if (line.childId) {
         	// restore children
-        	Surveybuilder.Controllers.Lineitem.lineitemRestoreRecursive(Line.findOne(line.child));
+        	Surveybuilder.Controllers.Lineitem.lineitemRestoreRecursive(Line.findOne(line.childId));
         }
     }
 },

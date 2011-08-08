@@ -32,10 +32,10 @@
 		</form>
 	</div>
 	<div class="content-label">Contents:</div>
-    <div class="empty-message <% if (line.child) { %>stay-hidden<% } %>">To add Sections and Questions to this Section, drag and drop them here </div>
-    <div class="content line-items ui-corner-all <% if (line.child) { %>hideBorder<% } %>">
-        <% if (line.child) { %>
-            <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:Lineitem.findOne({id:line.child}), line:line}) %>
+    <div class="empty-message <% if (line.childId) { %>stay-hidden<% } %>">To add Sections and Questions to this Section, drag and drop them here </div>
+    <div class="content line-items ui-corner-all <% if (line.childId) { %>hideBorder<% } %>">
+        <% if (line.childId) { %>
+            <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:Lineitem.findOne({id:line.childId}), line:line}) %>
         <% } %>
     </div>
 </div>

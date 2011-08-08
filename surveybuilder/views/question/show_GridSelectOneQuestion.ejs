@@ -21,9 +21,9 @@
     <div class="content-group hideable show-in-tabs">
     	<span class="ui-icon ui-icon-triangle-1-s collapse"></span>
 		<div class="content-label">Sub Questions:<span class="ui-icon ui-icon-circle-plus quick-add-subquestion" title="Add a new Sub Question"></span></div>
-		<div class="sub-questions content hideable ui-corner-all <% if (lineitem.childQuestion) { %>hideBorder<% } %>">
-			<% if (lineitem.childQuestion) {%>
-			    <% var childLineitem = Lineitem.findOne({id:lineitem.childQuestion}) %>
+		<div class="sub-questions content hideable ui-corner-all <% if (lineitem.childQuestionId) { %>hideBorder<% } %>">
+			<% if (lineitem.childQuestionId) {%>
+			    <% var childLineitem = Lineitem.findOne({id:lineitem.childQuestionId}) %>
 			    <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:childLineitem}) %>
 			<% } %>
 		</div>
@@ -31,9 +31,9 @@
 	<div class="content-group hideable show-in-tabs">
 		<span class="ui-icon ui-icon-triangle-1-s collapse"></span>
 		<div class="content-label">Common Answers:<span class="ui-icon ui-icon-circle-plus quick-add-gridanswer" title="Add a new Common Answer"></span></div>
-		<div class="grid-answers content hideable ui-corner-all <% if (lineitem.childAnswer) { %>hideBorder<% } %>">
-		    <% if (lineitem.childAnswer) {%>
-				    <% var childLineitem = Lineitem.findOne({id:lineitem.childAnswer}) %>
+		<div class="grid-answers content hideable ui-corner-all <% if (lineitem.childAnswerId) { %>hideBorder<% } %>">
+		    <% if (lineitem.childAnswerId) {%>
+				    <% var childLineitem = Lineitem.findOne({id:lineitem.childAnswerId}) %>
 				    <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:childLineitem}) %>
 				<% } %>
 		</div>

@@ -33,12 +33,7 @@ $.Model.extend('Line',
     findOne : function(params, success, error){
     	var result = null;
     	if (params.about) {
-    		lineList = Line.list;
-    		for (var i=0; i< lineList.length; i++) {
-    			if (lineList[i].about === params.about) {
-    				result = lineList[i];
-    			}
-    		}
+    		result = Line.list.match("about", params.about)[0];
     	}
     	else {
         	if (params.id) {
@@ -140,6 +135,10 @@ $.Model.extend('Line',
         return line;
     },
     
+    /**
+    * Load in Line information from an XML representation
+    * @param {Object} node XML node to parse
+    */
     loadFromXML: function(node) {
     	steal.dev.log("loading line from xmlDoc");
 		line = new Line({type:'line'});
@@ -154,4 +153,8 @@ $.Model.extend('Line',
     
 },
 /* @Prototype */
-{})
+{
+	setChild: function(child) {
+		this.attr("childId", ((child) ? child.id : null));
+	}
+})

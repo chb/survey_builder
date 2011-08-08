@@ -99,10 +99,10 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
 	/*
      * Handlers for static Line events
 	 */ 
-    "line.destroyed subscribe": function(event, params){
-		// delete any branches to this line		
-		Lineitem.findAll({lineId:params.id}, Surveybuilder.Controllers.Lineitem.deleteBranches);
-		
+    "line.destroyed subscribe": function(event, line){
+		// delete any branches to this line
+		branches = Branch.findByLine(line);		
+		Surveybuilder.Controllers.Lineitem.deleteBranches(branches);
     },
     
     'line.discardChanges subscribe': function(event, params) {

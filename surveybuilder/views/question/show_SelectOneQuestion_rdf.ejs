@@ -17,8 +17,8 @@
 	<% } else { %>
 		<questionAnswers>
 			<AnswerSequence>
-			    <% if (lineitem.child) {%>
-			        <% var childLineitem = Lineitem.findOne({id:lineitem.child}) %>
+			    <% if (lineitem.childId) {%>
+			        <% var childLineitem = Lineitem.findOne({id:lineitem.childId}) %>
 			        <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:childLineitem}) %>
 			    <% } %>
 			</AnswerSequence>

@@ -7,8 +7,8 @@
         <questionsPerPage><%= line.questionsPerPage %></questionsPerPage>
     <% } %>
 
-    <% if (line.child) { %>
-        <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:line.child})}) %>
+    <% if (line.childId) { %>
+        <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:line.childId})}) %>
     <% } %>
 
 </Line>

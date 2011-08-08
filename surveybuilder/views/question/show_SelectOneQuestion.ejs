@@ -1,9 +1,10 @@
-<div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class ="lineitem parent <%= lineitem.type %> <%= lineitem.subType %> ui-corner-all" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
+<div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem parent <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
     <span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
     <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
     <span class="ui-icon ui-icon-triangle-1-s show-in-tabs"></span>
-    <%= $.View("//surveybuilder/views/lineitem/_move") %>
     <span class="ui-icon ui-icon-trash show-in-tabs"></span>
+    <span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
+    <%= $.View("//surveybuilder/views/lineitem/_move") %>
     <div class="header show-in-tabs"><%= lineitem.displayName %></div>
     <form class="lineitem-form show-in-tabs" onsubmit="return false;">
         <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
@@ -20,24 +21,33 @@
                 <td class="td-label" title="The RDF predicate for all Answers under this Question. If not specified at the Question level, it MUST be specified at the Answer level.">RDF Answer Property:</td>
                 <td class="td-input"><input type="text" name="answerProperty" value="<%= lineitem.answerProperty %>" class="ui-corner-all"/></td>
             </tr>
+            <tr class="hideable displayType">
+                <td class="td-label" title="Display format for this question's answers.">Answer Display Format:</td>
+                <td class="td-input">
+                    <select name="displayType">
+                        <option value="list" <% if (lineitem.displayType && (lineitem.displayType === '' || lineitem.displayType === 'list')) { %> selected="selected" <% } %>>list</option>
+                        <option value="dropDown" <% if (lineitem.displayType && lineitem.displayType === 'dropDown') { %> selected="selected" <% } %>>drop down</option>
+                    </select>
+                </td>
+            </tr>
         </table>
     </form>
     <div class="content-group hideable show-in-tabs">
 		<span class="ui-icon ui-icon-triangle-1-s collapse"></span>
 		<span class="content-label">answers:</span>
-		<div class="quick-add">
+		<span class="quick-add">
 	        <span class="ui-icon ui-icon-circle-plus drop-down"></span>
 	        <div class="drop-down-list">
-	    		<div><a href="#" class="button" data-type="answer" data-subType="label">Fixed Choice</a></div>
-	    		<div><a href="#" class="delete-line button" data-type="answer" data-subType="text">Free Text</a></div>
+	    		<div><a href="#" class="button" data-type="Answer" data-subType="LabelAnswer">Fixed Choice</a></div>
+	    		<div><a href="#" class="delete-line button" data-type="Answer" data-subType="TextAnswer">Free Text</a></div>
 	    	</div>
-    	</div>
-		<div class="empty-message hideable <% if (lineitem.child) { %>stay-hidden<% } %>">To add Answers to your question, drag and drop them here </div>
-		<div class="answers content hideable ui-corner-all <% if (lineitem.child) { %>hideBorder<% } %>">
-		    <% if (lineitem.child) {%>
-		        <% var childLineitem = Lineitem.findOne({id:lineitem.child}) %>
+    	</span>
+		<div class="empty-message hideable <% if (lineitem.childId) { %>stay-hidden<% } %>">To add Answers to your question, drag and drop them here </div>
+		 <div class="answers content hideable ui-corner-all <% if (lineitem.childId) { %>hideBorder<% } %>">
+		    <% if (lineitem.childId) {%>
+		        <% var childLineitem = Lineitem.findOne({id:lineitem.childId}) %>
 		        <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:childLineitem}) %>
 		    <% } %>
-		</div>
-    </div>
+		 </div>
+     </div>
 </div>

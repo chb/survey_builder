@@ -134,7 +134,7 @@ $.Model.extend('Survey',
 		Lineitem.findAll({},function(lineitems) {
 			steal.dev.log("resolving branch displayNames and lineIds")
 			for (var id in lineitems) {
-				if (lineitems[id].type === 'branch') {
+				if (lineitems[id].subtype === 'branch') {
 					var branchTarget = Line.findOne({about:lineitems[id].about});
 					if (branchTarget) {
 						lineitems[id].attr('displayName', branchTarget.title);
@@ -153,4 +153,8 @@ $.Model.extend('Survey',
 	}
 },
 /* @Prototype */
-{})
+{
+	setChild: function(child) {
+		this.attr("childId", ((child) ? child.id : null));
+	}
+})
