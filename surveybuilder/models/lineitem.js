@@ -13,8 +13,16 @@ $.Model.extend('Lineitem',
 	attributes : { 
 		branchTarget : 'string'
 	},
+	
+	/**
+	 * Check to see if a Model is an instance of this Class
+	 * @param {Object} model Model to check
+	 */
+	isInstance: function(model) {
+		return model instanceof this;
+	},
 
-	/* Retrieves lineitems data from your backend services.
+	/* Retrieve Lineitems.
 	* @param {Object} params params that might refine your results.
 	* @param {Function} success a callback function that returns wrapped lineitem objects.
 	* @param {Function} error a callback function for an error in the ajax request.
@@ -22,7 +30,8 @@ $.Model.extend('Lineitem',
 	findAll : function(params, success, error){
 		var resultsArray = [];
 
-		resultsArray = this.list;
+		resultsArray =  this.list.grep(this.callback("isInstance"));
+		
 		if (success) {
 			success(resultsArray);
 		}

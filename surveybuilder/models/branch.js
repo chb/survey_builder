@@ -10,20 +10,6 @@ LogicComponent.extend("Branch",
 			this.defaults = $.extend({}, baseClass.defaults, this.defaults)
 		},
 		
-		findAll : function(params, success, error){
-			var resultsArray = [];
-		
-			resultsArray =  this.list.grep(function(el, index){
-								return el.subType === "Branch";
-							});
-	
-			if (success) {
-				success(resultsArray);
-			}
-	
-			return resultsArray;
-		},
-		
 		findByLine: function(line) {
 			return this.findAll().grep(function(el, index){
 				return el.lineId === line.about;
