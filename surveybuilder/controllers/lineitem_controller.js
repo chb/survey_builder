@@ -420,6 +420,8 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     	this.Class.lineitemMovedInDom(copyElement, false );
     	
     	tempParent.destroy();
+    	
+    	return false;
     },
     
     toggleDropdown: function(el){
