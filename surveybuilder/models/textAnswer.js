@@ -17,10 +17,10 @@ Answer.extend("TextAnswer",
 	    * @param {Object} xml XML node to parse
 	    */
 		loadFromXML: function(xml) {
+			this._super(xml, parent);
 			if (xml) {
 				this.attr('answerLabel', SURVEY_UTILS.getElementText(xml, "answerLabel"));
 			}
-			this._super(xml, parent);
 		}
 	}
 );

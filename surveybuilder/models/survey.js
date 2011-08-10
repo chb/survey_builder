@@ -127,7 +127,7 @@ $.Model.extend('Survey',
 		//only grab the top level Lines
 		var mainLine;
 		RDF.children().filter('[nodeName="Line"]').each(function(index) { 
-			Line.loadFromXML($(this));
+			Line.createFromXML($(this));
 		});
 		
 		//resolve branch displayNames and lineIds

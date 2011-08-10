@@ -147,7 +147,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         if(!isDelete) {
             if (!el.attr("id")) {
                 moveType = 'new';
-                params["id"] = new Date().getTime();
+                params["id"] = SURVEY_UTILS.generateUUID();
                 if (el.attr("data-subtype") === "gridSelectOne") {
                 	// 
                 	params["about"] = params.id;
@@ -176,21 +176,26 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 				el.replaceWith($.View('//surveybuilder/views/' + el.attr("data-type") + '/show_' + el.attr("data-subType"), {lineitem: lineitem}));
 				// grab new element in dom
 				el = $('#' + lineitem.id);  
-				// attach controllers as needed
-				el.surveybuilder_lineitem();
-                if (el.hasClass('logicComponent')) {
-                	el.surveybuilder_logic_component();
-                }
-                if (el.hasClass('branch')) {
-                	line = Line.findOne({id: el.attr("data-line")});
-                	el.surveybuilder_branch({model: line});
-                }
             }
             else{
                 moveType = 'existing';
                 //lineitem = el.model();
                 lineitem = Lineitem.findOne({id:el.attr('id')}); 
             }
+            
+            // attach controllers as needed
+            if (!el.controller(this)) {
+            	// no lineitem controller attached
+				el.surveybuilder_lineitem();
+	            if (el.hasClass('logicComponent')) {
+	            	el.surveybuilder_logic_component();
+	            }
+	            if (el.hasClass('branch')) {
+	            	line = Line.findOne({id: el.attr("data-line")});
+	            	el.surveybuilder_branch({model: line});
+	            }
+            }
+            
 			// hide the empty-Message and content border if content no longer empty
 		    if (el.closest('.content').children().length === 1) {
 				// this is the only item
@@ -400,11 +405,21 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     },
     
     ".copy click": function(el, ev) {
-    	var lineitemElement = el.closest('.lineitem');
-    	var copy = lineitemElement.clone();
-    	copy.attr("id", null);
-    	copy.insertAfter(lineitemElement);
-    	this.Class.lineitemMovedInDom(copy, false );
+    	// get original Lineitem and create RDF/XML representation
+    	var originalElement = el.closest('.lineitem');
+    	var originalLineitem = Lineitem.findOne({id:originalElement.attr("id")});
+    	var originalXMLString = '<rdf:li>' + $.View('//surveybuilder/views/' + $.String.camelize(originalLineitem.type) + '/show_' + originalLineitem.subType + '_rdf', {lineitem: originalLineitem}) + '</rdf:li>';
+    	var originalXMLDoc = SURVEY_UTILS.parseAsSurveyXML(originalXMLString);
+    	
+    	// load in a Lineitem created from original's RDF/XML and insert after original
+    	var tempParent = new Lineitem();
+    	Lineitem.createFromXML(originalXMLDoc, tempParent);
+    	var copyLineitem = Lineitem.findOne({id:tempParent.childId});
+    	var copyElement = $($.View('//surveybuilder/views/' + $.String.camelize(copyLineitem.type) + '/show_' + copyLineitem.subType, {lineitem: copyLineitem}));
+    	copyElement.insertAfter(originalElement);
+    	this.Class.lineitemMovedInDom(copyElement, false );
+    	
+    	tempParent.destroy();
     },
     
     toggleDropdown: function(el){

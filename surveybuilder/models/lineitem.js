@@ -202,8 +202,8 @@ $.Model.extend('Lineitem',
      * @param {Object} lineitemsXML array of Lineitems in xml form 
      * @param {Object} parent the parent of these Lineitems
      */
-    loadFromXML: function(lineitemsXML, parent) {
-    	steal.dev.log("loading lineitems from xml");
+    createFromXML: function(lineitemsXML, parent) {
+    	steal.dev.log("creating lineitems from xml");
     	if (!lineitemsXML) {
     		return;
     	}
@@ -214,7 +214,6 @@ $.Model.extend('Lineitem',
 	    	var currentLineitem = null;
     		var lineitemXML = jQuery(this).children().first();
     		var tagName = lineitemXML.get(0).nodeName;
-    		
     		try {
     			currentLineitem = new window[tagName]; //TODO:
     		} 
@@ -251,7 +250,7 @@ $.Model.extend('Lineitem',
 {
 	setup : function(attributes) {
 		// we add in the id here since we are not tied into a remote service that would generate it for us
-		this.attr("id", new Date().getTime());
+		this.attr("id", SURVEY_UTILS.generateUUID());
 		this._super(attributes);
 	},
 	

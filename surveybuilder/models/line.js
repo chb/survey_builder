@@ -73,7 +73,7 @@ $.Model.extend('Line',
 		// calling model with the new id, which will in turn add it to our
 		// $.Model.list store.  Because of this, we do not create a new instance
 		// of Line here, since it would end up being duplicated in our store.
-		attrs.id = new Date().getTime();
+		attrs.id = SURVEY_UTILS.generateUUID();
 		if (success) {
 			success(attrs);
 		}
@@ -139,7 +139,7 @@ $.Model.extend('Line',
     * Load in Line information from an XML representation
     * @param {Object} node XML node to parse
     */
-    loadFromXML: function(node) {
+    createFromXML: function(node) {
     	steal.dev.log("loading line from xmlDoc");
 		line = new Line({type:'line'});
 		line.attr('about', node.attr('rdf:about'));
@@ -148,7 +148,7 @@ $.Model.extend('Line',
 		line.save();
 		
 		//only grab the top level Lineitems
-		Lineitem.loadFromXML(node.children().filter('[nodeName="rdf:li"]'), line);
+		Lineitem.createFromXML(node.children().filter('[nodeName="rdf:li"]'), line);
     }    
     
 },

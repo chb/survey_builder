@@ -17,11 +17,11 @@ Answer.extend("LabelAnswer",
 	    * @param {Object} xml XML node to parse
 	    */
 		loadFromXML: function(xml) {
+			this._super(xml);
 			if (xml) {
 				this.attr('answerText', SURVEY_UTILS.getElementText(xml, "answerText"));
 				this.attr('answerObject', SURVEY_UTILS.getElementAttribute(xml, 'answerObject', 'rdf:resource'));
 			}
-			this._super(xml);
 		}
 	}
 );

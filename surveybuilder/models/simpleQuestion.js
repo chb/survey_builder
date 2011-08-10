@@ -24,6 +24,6 @@ Question.extend("SimpleQuestion",
 				this.attr('answerNote', SURVEY_UTILS.getElementText(xml, "answerNote"));
 			}
 			this._super(xml);
-		},
+		}
 	}
 );

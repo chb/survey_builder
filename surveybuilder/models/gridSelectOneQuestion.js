@@ -17,11 +17,12 @@ Question.extend("GridSelectOneQuestion",
 	    * @param {Object} xml XML node to parse
 	    */
 		loadFromXML: function(xml) {
+			steal.dev.log("loading SelectOneQuestion from XML");
 			if (xml) {
 				//grab answers
-				Lineitem.loadFromXML(SURVEY_UTILS.getElements(SURVEY_UTILS.getElement(xml, 'GridAnswers'), 'rdf:li'), this);
+				Lineitem.createFromXML(SURVEY_UTILS.getElements(SURVEY_UTILS.getElement(xml, 'GridAnswers'), 'rdf:li'), this);
 				//grab questions
-				Lineitem.loadFromXML(SURVEY_UTILS.getElements(SURVEY_UTILS.getElement(xml, 'GridQuestions'), 'rdf:li'), this);
+				Lineitem.createFromXML(SURVEY_UTILS.getElements(SURVEY_UTILS.getElement(xml, 'GridQuestions'), 'rdf:li'), this);
 			}
 			this._super(xml);
 		},

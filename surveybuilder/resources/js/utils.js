@@ -73,6 +73,35 @@ $(function(){
 	
 		htmlEncode: function(text) {
 			return jQuery('<div/>').text(text).html();
-		}
+		},
+		
+		/**
+		 * Parse a given string to an XML document in the context of a Survey 
+		 * definition.
+		 * @param {String} xmlString string to parse
+		 */
+		parseAsSurveyXML: function(xmlString) {
+			var openRDF = '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" \
+               xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" \
+               xmlns:survey="http://indivo.org/survey/vocab#" \
+               xmlns:indivo="http://indivo.org/vocab/#" \
+               xmlns:dc="http://purl.org/dc/elements/1.1/" \
+               xmlns="http://indivo.org/survey/vocab#">';
+            var closeRDF = '</rdf:RDF>';
+            xmlString = openRDF + xmlString + closeRDF;
+            
+            return $($.parseXML(xmlString)).children().children();
+		},
+		
+		/**
+		 * Generate an rfc4122 version 4 compliant UUID
+		 */
+		generateUUID: function() {
+			//TODO: based purely on browser's implementation of Math.random with no timestamp component, so look into better option if collisions appear 
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+																				var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8); 
+																				return v.toString(16);
+																			});
+		} 
 	};
 });

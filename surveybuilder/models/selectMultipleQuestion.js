@@ -24,7 +24,7 @@ Question.extend("SelectMultipleQuestion",
 				
 				//grab answers if needed
 				if (!this.answersId) {
-					Lineitem.loadFromXML(SURVEY_UTILS.getElements(xml, 'rdf:li'), this);
+					Lineitem.createFromXML(SURVEY_UTILS.getElements(xml, 'rdf:li'), this);
 				}
 			}
 			this._super(xml);
