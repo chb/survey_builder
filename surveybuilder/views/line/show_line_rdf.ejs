@@ -1,4 +1,8 @@
 <Line rdf:about="<%= line.about %>">
+	<% if (line.internalName) { %>
+        <internalName><%= line.internalName %></internalName>
+    <% } %>
+
     <% if (line.title) { %>
         <dc:title><%= line.title %></dc:title>
     <% } %>

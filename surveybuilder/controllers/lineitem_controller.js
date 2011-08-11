@@ -115,7 +115,6 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     */
     lineitemMovedInDom: function(el, isDelete){
 
-        var params = el.children("form").formParams();
         var prev = el.prev();
         var prevId = prev ? prev.attr('id') : null;
         var next = el.next();
@@ -147,20 +146,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         if(!isDelete) {
             if (!el.attr("id")) {
                 moveType = 'new';
-                params["id"] = SURVEY_UTILS.generateUUID();
-                if (el.attr("data-subtype") === "gridSelectOne") {
-                	// 
-                	params["about"] = params.id;
-                }
-                if (parent.hasClass("grid") && params["type"] === "question") {
-                	params["answersId"] = "#" + Lineitem.findOne({id:parent.attr("id")}).about + "Answers";
-                }
-                if (el.hasClass("branch")) {
-                	params["lineId"] = el.attr("data-line");
-                }
-				
 				subType = el.formParams().subType;
-				
 				var lineitem;
 				
 				try {
@@ -172,8 +158,19 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 	    			return false;
 	    		}
 				
+				if (lineitem instanceof GridSelectOneQuestion) {
+                	// 
+                	lineitem.attr("about", lineitem.id);
+                }
+                if (parent.hasClass("grid") && lineitem instanceof Question) {
+                	lineitem.attr("answersId", "#" + Lineitem.findOne({id:parent.attr("id")}).about + "Answers");
+                }
+                if (lineitem instanceof Branch) {
+                	lineitem.attr("lineId", el.attr("data-line"));
+                }
+				
                 lineitem.save();
-				el.replaceWith($.View('//surveybuilder/views/' + el.attr("data-type") + '/show_' + el.attr("data-subType"), {lineitem: lineitem}));
+				el.replaceWith($.View('//surveybuilder/views/' + $.String.camelize(lineitem.type) + '/show_' + lineitem.subType, {lineitem: lineitem}));
 				// grab new element in dom
 				el = $('#' + lineitem.id);  
             }
@@ -191,8 +188,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 	            	el.surveybuilder_logic_component();
 	            }
 	            if (el.hasClass('branch')) {
-	            	line = Line.findOne({id: el.attr("data-line")});
-	            	el.surveybuilder_branch({model: line});
+	            	el.surveybuilder_branch({model: Line.findOne({id: el.attr("data-line")})});
 	            }
             }
             
@@ -459,10 +455,12 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     },
     
     ".quick-add-subquestion click": function(el, ev) {
-        var content = el.closest('.lineitem').find('.sub-questions');
+    	var parent = el.closest('.lineitem');
+        var content = parent.find('.sub-questions');
         
         // for now we only add SelectOneQuestions
         var lineitem = new SelectOneQuestion();
+        lineitem.attr("answersId", "#" + Lineitem.findOne({id:parent.attr("id")}).about + "Answers");
         var lineitemHTML = $.View('//surveybuilder/views/question/show_' + lineitem.subType, {lineitem: lineitem});
         this.Class.lineitemMovedInDom($(lineitemHTML).appendTo(content), false );
     },

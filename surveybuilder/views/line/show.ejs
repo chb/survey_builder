@@ -20,10 +20,14 @@
 		    <table>
 		    	<% if (Survey.findOne({id:1}).surveyLine !== line.about) { %>
 				    <tr>
-				        <td class="td-label" title="The title for this Section.  This will show up as a header above each question in this Section.">Title:</td>
-				        <td class="td-input"><input type="text" name="title" value="<%= line.title %>" class="ui-corner-all"/></td>
+				        <td class="td-label" title="The internal name for this Section.  Not shown to a survey taker.">Name:</td>
+				        <td class="td-input"><input type="text" name="internalName" value="<%= line.internalName %>" class="ui-corner-all"/></td>
 				    </tr>
 		        <% } %>
+		        <tr>
+			        <td class="td-label" title="The title for this Section.  This will show up as a header above each question in this Section.">Title:</td>
+			        <td class="td-input"><input type="text" name="title" value="<%= line.title %>" class="ui-corner-all"/></td>
+			    </tr>
 		        <tr>
 		            <td class="td-label" title="The preferred number of questions you want to render per page.">Questions Per Page:</td>
 		            <td class="td-input"><input type="text" name="questionsPerPage" value="<%= line.questionsPerPage %>" class="ui-corner-all"/></td>

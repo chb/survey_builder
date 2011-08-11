@@ -28,10 +28,6 @@
 			    <td class="td-input"><input type="text" name="completedMessage" value="<%= survey.completedMessage %>" class="ui-corner-all"/></td>
 			</tr>
 			<tr>
-			    <td class="td-label" title="The header to display above each question in this Survey that does not have a different header specified.">Top Level Header:</td>
-			    <td class="td-input"><input type="text" name="mainLineTitle" value="<%= survey.mainLineTitle %>" class="ui-corner-all"/></td>
-			</tr>
-			<tr>
 			    <td class="td-label" title="The creator of this Survey.">Creator:<span class="marker" title="required">*</span></td>
 			    <td class="td-input"><input type="text" name="creator" value="<%= survey.creator %>" class="required ui-corner-all"/></td>
 			</tr>
@@ -67,13 +63,3 @@
 	
 	</form>
 </div>
-
-<!-- 
-<div class="content-label">Contents:</div>
-<div class="empty-message <% if (survey.childId) { %>stay-hidden<% } %>">To add Sections and Questions to your survey, drag and drop them here </div>
-<div class="content line-items ui-corner-all <% if (survey.childId) { %>hideBorder<% } %>">
-    <% if (survey.childId) { %>
-        <%= $.View("//surveybuilder/views/lineitem/show.ejs", {lineitem:Lineitem.findOne({id:survey.childId}), line:null})%>
-    <% } %>
-</div>
--->

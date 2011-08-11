@@ -1,5 +1,5 @@
 <%for(var i = 0; i < lines.length; i++){%>
 	<% if (currentLine && currentLine.id !== lines[i].id) { %>
-    	<span class="button" data-line="<%= lines[i].id %>"><%= lines[i].title %></span>
+    	<span class="button" data-line="<%= lines[i].id %>"><%= lines[i].internalName %></span>
     <% } %>
 <%}%>

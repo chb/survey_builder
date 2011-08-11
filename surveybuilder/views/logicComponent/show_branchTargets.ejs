@@ -1,6 +1,6 @@
 <option value=null <% if (lineitem && !lineitem.branchTarget) { %> selected="selected" <% } %>></option>
 <% for(var i = 0; i < lines.length; i++) { %>
 		<% if (Survey.findOne({id:1}).surveyLine !== lines[i].about && (parentLine == null || lines[i].id != parentLine.id)) { %>
-			<option value="<%= lines[i].about %>" <% if (lineitem && lineitem.branchTarget && lineitem.branchTarget === lines[i].about) { %> selected="selected" <% } %>><%= lines[i].title %></option>
+			<option value="<%= lines[i].about %>" <% if (lineitem && lineitem.branchTarget && lineitem.branchTarget === lines[i].about) { %> selected="selected" <% } %>><%= lines[i].internalName %></option>
 		<% } %>
 <% } %>

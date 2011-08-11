@@ -5,14 +5,14 @@
     		<div><a href="#" class="edit-line button" data-line="<%= line.id %>">edit</a></div>
     		<div><a href="#" class="delete-line button" data-line="<%= line.id %>">delete</a></div>
     	</div>
-		<span class="handle display-name button hide-in-tabs" href="#" title="<%= line.title %>"><%= line.title %></span>
+		<span class="handle display-name button hide-in-tabs" href="#" title="<%= line.name %>"><%= line.internalName %></span>
     </span>
     <span class="ui-icon handle ui-icon-grip-dotted-vertical show-in-tabs"></span>
     <span class="ui-icon ui-icon-trash show-in-tabs"></span>
     <div class="header show-in-tabs">Branch to: <span class="display-name"><%= line.title %></span></div>
     <form>
-        <input type="hidden" name="type" value="branch" />
-        <input type="hidden" name="subType" value="branch" />
+        <input type="hidden" name="type" value="LogicComponent" />
+        <input type="hidden" name="subType" value="Branch" />
         <input type="hidden" name="about" value="<%= line.about %>" />
         <input type="hidden" name="displayName" value="<%= line.title %>" />
     </form>

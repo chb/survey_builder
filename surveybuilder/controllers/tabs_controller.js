@@ -8,8 +8,8 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
 },
 /* @Prototype */
 {
-	updateTitle: function(line) {
-    	$('#surveyBuilderTabs a[href="#' + line.id + '"]').children().text(line.title);
+	updateName: function(line) {
+    	$('#surveyBuilderTabs a[href="#' + line.id + '"]').children().text(line.internalName);
     },
        
     init: function(){
@@ -63,7 +63,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
         }
         var tabsDiv = $('#surveyBuilderTabs');
         tabsDiv.append($.View('//surveybuilder/views/line/show', {line:currentLine}));
-        tabsDiv.tabs('add' , "#"+id , currentLine.title);
+        tabsDiv.tabs('add' , "#"+id , currentLine.internalName);
         // add line-controller to newly opened line
         $('#'+id).surveybuilder_line();
         // add controllers to each newly rendered lineitem
@@ -140,7 +140,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
     
     'line.updated subscribe': function(event, line) {
     	steal.dev.log("Tabs: line.updated");
-		this.updateTitle(line); 
+		this.updateName(line); 
     	this.markTabAsChanged(line.id);
     	OpenAjax.hub.publish('buttons.enableSaveButton', {});
     },

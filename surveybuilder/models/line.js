@@ -143,6 +143,7 @@ $.Model.extend('Line',
     	steal.dev.log("loading line from xmlDoc");
 		line = new Line({type:'line'});
 		line.attr('about', node.attr('rdf:about'));
+		line.attr('internalName', SURVEY_UTILS.getElementText(node, "internalName"));
 		line.attr('title', SURVEY_UTILS.getElementText(node, "dc:title"));
 		line.attr('questionsPerPage', SURVEY_UTILS.getElementText(node, "questionsPerPage"));
 		line.save();

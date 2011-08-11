@@ -120,12 +120,10 @@ $.Model.extend('Survey',
 		survey.attr('deident', SURVEY_UTILS.getElementText(surveyRDF, "showDeIdentifiedMessage"));
 		survey.attr('reviewAnswers', SURVEY_UTILS.getElementText(surveyRDF, "reviewAnswers"));
 		survey.attr('questionsPerPage', SURVEY_UTILS.getElementText(surveyRDF, "questionsPerPage"));
-		survey.attr('mainLineTitle', SURVEY_UTILS.getElementText(surveyRDF, "mainLineTitle"));
 		survey.attr('surveyLine', SURVEY_UTILS.getElementAttribute(surveyRDF, 'surveyLine', 'rdf:resource'));
 		survey.save();
 		
 		//only grab the top level Lines
-		var mainLine;
 		RDF.children().filter('[nodeName="Line"]').each(function(index) { 
 			Line.createFromXML($(this));
 		});

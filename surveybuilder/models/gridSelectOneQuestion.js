@@ -28,6 +28,7 @@ Question.extend("GridSelectOneQuestion",
 		},
 		
 		setChild: function(child) {
+			//TODO: what about if setting a null child?
 			if (child.type === 'question') {
 				this.attr("childQuestionId", child.id);
 			}

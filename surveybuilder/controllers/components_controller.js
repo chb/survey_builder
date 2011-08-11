@@ -11,7 +11,7 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
     init: function(){
 		steal.dev.log('new components controller instance created');
 		// attach component_list controllers
-		$('#line-list').surveybuilder_component_list({model: Line, template: '//surveybuilder/views/line/list', draggableClass: 'branch', nameAttribute: 'title'});
+		$('#line-list').surveybuilder_component_list({model: Line, template: '//surveybuilder/views/line/list', draggableClass: 'branch', nameAttribute: 'internalName'});
 		$('#question-list').surveybuilder_component_list({model: QuestionType, template: '//surveybuilder/views/questionType/list', draggableClass: 'questionType'});
 		$('#answer-list').surveybuilder_component_list({model: AnswerType, template: '//surveybuilder/views/answerType/list', draggableClass: 'answerType', connectTo: '.answers'});
 		$('#logic-list').surveybuilder_component_list({model: LogicComponentType , template: '//surveybuilder/views/logicComponentType/list', draggableClass: 'logicComponentType'});
@@ -25,9 +25,9 @@ $.Controller.extend('Surveybuilder.Controllers.Components',
         var params = [];
         line = new Line();
         line.save();  // save to generate id
-    	line.attr('title', 'new-section');
+    	line.attr('internalName', 'new-section');
         // set 'about' to default to the title + generated id
-        line.attr('about', line.title + line.id);
+        line.attr('about', line.internalName + line.id);
         line.save();
         OpenAjax.hub.publish('tabs.openLine', {id:line.id});
         $('#saveAll').removeClass('disabled').attr("disabled", false);
