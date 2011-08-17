@@ -1,24 +1,18 @@
+<% var options = options || [] %>
 <% if (operandDatatype === "survey:predicate"){ %>
-	<% var options = surveyBuilder.PREDICATES %>
 	<select name="<%= name %>" class="td-input ui-corner-all predicate-list <%= name %>">
 		<option value=null <% if (!operand) { %> selected="selected" <% } %>></option>
 		<% for(var i=0; i < options.length; i += 1) { %>
-			<option value="<%= options[i] %>" <% if (operand && operand === options[i]) { %> selected="selected" <% } %>><%= options[i] %></option>
+			<option value="<%= options[i].value %>" data-predicate-id="<%= options[i].id %>" <% if (operand && operand.id === options[i].id) { %> selected="selected" <% } %>><%= options[i].value %></option>
 		<% } %>
 	</select>
 <% } else if (operandDatatype === "survey:object") { %>
-	<% var options = surveyBuilder.OBJECTS %>
 	<select name="<%= name %>" class="td-input ui-corner-all object-list <%= name %>">
 		<option value=null <% if (!operand) { %> selected="selected" <% } %>></option>
 		<% for(var i=0; i < options.length; i += 1) { %>
-			<option value="<%= options[i] %>" <% if (operand && operand === options[i]) { %> selected="selected" <% } %>><%= options[i] %></option>
+			<option value="<%= options[i].value %>" data-object-id="<%= options[i].id %>" <% if (operand && operand.id === options[i].id) { %> selected="selected" <% } %>><%= options[i].value %></option>
 		<% } %>
 	</select>
 <% } else { %>
-	<input class="td-input ui-corner-all <%= name %>" name="<%= name %>" type="text" value="<%= operand %>" />
+	<input class="td-input ui-corner-all <%= name %>" name="<%= name %>" type="text" value="<%= operand.value || "" %>" />
 <% } %>
-
-
-
-
-

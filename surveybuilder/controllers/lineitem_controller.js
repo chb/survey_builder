@@ -166,7 +166,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                 	lineitem.attr("answersId", "#" + Lineitem.findOne({id:parent.attr("id")}).about + "Answers");
                 }
                 if (lineitem instanceof Branch) {
-                	lineitem.attr("lineId", el.attr("data-line"));
+                	lineitem.attr("lineAbout", Line.findOne({id:el.attr("data-line")}).about);
                 }
 				
                 lineitem.save();
@@ -188,7 +188,8 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 	            	el.surveybuilder_logic_component();
 	            }
 	            if (el.hasClass('branch')) {
-	            	el.surveybuilder_branch({model: Line.findOne({id: el.attr("data-line")})});
+	            	var targetLine = Line.findOne({about:el.attr("data-lineAbout")});
+	            	el.surveybuilder_branch({model:targetLine});
 	            }
             }
             

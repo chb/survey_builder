@@ -9,6 +9,41 @@ LogicComponent.extend("ConditionalBranch",
 		
 		setup: function(baseClass){
 			this.defaults = $.extend({}, baseClass.defaults, this.defaults)
+		},
+		
+		getPredicateID: function(value) {
+			if (!value) {
+				return null;
+			}
+			return $.grep(Question.findAll(), function(el){return (el.attr("answerProperty") === value);})[0].id;
+		},
+		
+		getObjectID: function(predicateID, value) {
+			if (!value) {
+				return null;
+			}
+			var objects = $.grep(surveyBuilder.OBJECTS, function(val, i) {
+				// filter out objects that aren't under the selected predicate
+				return val.parent === predicateID;
+			});
+			return $.grep(objects, function(el){return (el.value === value);})[0].id;
+		},
+		
+		getOperandID: function(dataType, value, predicateID) {
+			var id;
+			if (value) {
+				switch (dataType) {
+					case 'survey:object':
+						id = this.getObjectID(predicateID, value);
+						break;
+					case 'survey:predicate':
+						id = this.getPredicateID(value);
+						break;
+					default:
+						break;
+				}
+			}
+			return id;
 		}
 	},
 	/* @Prototype */
@@ -42,6 +77,39 @@ LogicComponent.extend("ConditionalBranch",
 				}
 			}
 			this._super(xml);
+		},
+		
+		getLeftOperandID: function() {
+			// TODO: breaks down if you have non-unique values
+			if (!this.leftOperandID) {
+				this.leftOperandID = this.Class.getOperandID(this.attr("leftOperandDataType"), this.attr("leftOperand"));
+			}
+			
+			return this.leftOperandID
+		},
+		
+		getRightOperandID: function() {
+			if(!this.rightOperandID) {
+				this.rightOperandID = this.Class.getOperandID(this.attr("rightOperandDataType"), this.attr("rightOperand"), this.getLeftOperandID());
+			}
+			
+			return this.rightOperandID;
+		},
+		
+		setLeftOperand: function(value) {
+			if (this.leftOperand !== value) {
+				this.leftOperandID = null;
+				this.leftOperand = value;
+			}
+		},
+		
+		setRightOperand: function(value) {
+			if (this.rightOperand !== value) {
+				this.rightOperandID = null;
+				this.rightOperand = value;
+			}
 		}
+		
+		
 	}
 );

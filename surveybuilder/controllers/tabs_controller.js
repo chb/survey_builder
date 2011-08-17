@@ -70,7 +70,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
         $('#'+id + ' .lineitem').surveybuilder_lineitem();
         $('#'+id + ' .logicComponent').surveybuilder_logic_component();
         $('#'+id + ' .branch').each(function() {
-        	line = Line.findOne({about:$(this).attr('data-line')});
+        	line = Line.findOne({about:$(this).attr('data-lineAbout')});
         	$(this).surveybuilder_branch({model:line});
         });
         

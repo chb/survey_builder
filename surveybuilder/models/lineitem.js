@@ -62,7 +62,7 @@ $.Model.extend('Lineitem',
      */
     update : function(id, attrs, success, error){
        //Since we are using $.Model.list to store Lineitems, just return the model from the list
-		model = this.findOne({id:id});
+		var model = this.findOne({id:id});
 		if (success) {
 			success(model);
 		}
@@ -84,7 +84,7 @@ $.Model.extend('Lineitem',
     			// rebuild the array
     			surveyBuilder.PREDICATES = [];
     			for (var key in surveyBuilder.PREDICATE_MAP) {
-    				surveyBuilder.PREDICATES.push(surveyBuilder.PREDICATE_MAP[key]);
+    				surveyBuilder.PREDICATES.push({value:surveyBuilder.PREDICATE_MAP[key], id:key});
     			}
     		}
     	}
@@ -92,24 +92,26 @@ $.Model.extend('Lineitem',
     		// new entry
     		if (value) {
 				surveyBuilder.PREDICATE_MAP[id] = value;
-				surveyBuilder.PREDICATES.push(value);
+				surveyBuilder.PREDICATES.push({value:value, id:id});
     		}
     	}
     	
-		OpenAjax.hub.publish('predicates.update', {});
+		OpenAjax.hub.publish('predicates.update', {id:id, value:value});
     },
     
-    updateObjects: function(id, value) {
+    updateObjects: function(parentID, id, value) {
     	if (surveyBuilder.OBJECT_MAP[id]) {
     		// already an entry for this id
-    		if (surveyBuilder.OBJECT_MAP[id] !== value) {
+    		if (surveyBuilder.OBJECT_MAP[id].value !== value || surveyBuilder.OBJECT_MAP[id].parent !== parentID) {
     			// value has changed
     			if (!value) {
     				// null value causes delete
     				delete surveyBuilder.OBJECT_MAP[id];			
     			}
     			else {
-	    			surveyBuilder.OBJECT_MAP[id] = value;
+    				// update value and parent
+	    			surveyBuilder.OBJECT_MAP[id].value = value;
+	    			surveyBuilder.OBJECT_MAP[id].parent = parentID;
     			}
     			// rebuild the array
     			surveyBuilder.OBJECTS = [];
@@ -121,12 +123,12 @@ $.Model.extend('Lineitem',
     	else {
     		// new entry
     		if (value) {
-				surveyBuilder.OBJECT_MAP[id] = value;
-				surveyBuilder.OBJECTS.push(value);
+				surveyBuilder.OBJECT_MAP[id] = {value:value, parent:parentID, id:id};
+				surveyBuilder.OBJECTS.push(surveyBuilder.OBJECT_MAP[id]);
     		}
     	}
     	
-		OpenAjax.hub.publish('objects.update', {});
+		OpenAjax.hub.publish('objects.update', {id:id, value:value, parentID:parentID});
     },
     
     /**
@@ -272,14 +274,22 @@ $.Model.extend('Lineitem',
 		this.attr("nextLineitem", ((next) ? next.id : null));
 	},
 	
-	setAnswerProperty : function(newAnswerProperty) {
-		// initial autocomplete hack
-		Lineitem.updatePredicates(this.id, newAnswerProperty);
-		return newAnswerProperty;
-	},
 	setAnswerObject : function(newAnswerObject) {
 		// initial autocomplete hack
-		Lineitem.updateObjects(this.id, newAnswerObject);
+		Lineitem.updateObjects(this.findParentID(), this.id, newAnswerObject);
 		return newAnswerObject;
+	},
+	findParentID: function() {
+		//TODO inefficient, cache parent ID on all children?
+		var parent = null;
+		var current = this;
+		var prevID = this.prevLineitem;
+		
+		while (prevID) {
+			current = Lineitem.findOne({id:prevID});
+			prevID = current.prevLineitem;
+		}
+
+		return current.parentId;
 	}
 })

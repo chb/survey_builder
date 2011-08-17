@@ -107,5 +107,26 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     
     'line.discardChanges subscribe': function(event, params) {
     	Surveybuilder.Controllers.Line.discardChanges(params.id);
-    }   
+    },
+    
+    "predicates.update subscribe": function(event, params) {
+    	this.updateOperands(params.id, params.value);
+    },
+    
+    "objects.update subscribe": function(event, params) {
+    	this.updateOperands(params.id, params.value);
+    },
+    
+    updateOperands: function(id, value) {
+    	var conditionalBranches = ConditionalBranch.findAll();
+    	for (var i = 0; i < conditionalBranches.length; i++) {
+			// update operands if they referenced the updated object
+    		if (conditionalBranches[i].getLeftOperandID() == id) {
+    			conditionalBranches[i].attr("leftOperand", value);
+    		}
+    		if (conditionalBranches[i].getRightOperandID() == id) {
+    			conditionalBranches[i].attr("rightOperand", value);
+    		}
+    	}
+    }
 });

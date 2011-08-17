@@ -12,7 +12,7 @@ LogicComponent.extend("Branch",
 		
 		findByLine: function(line) {
 			return this.findAll().grep(function(el, index){
-				return el.lineId === line.about;
+				return el.lineAbout === line.about;
 			});
 		}
 	},
@@ -24,9 +24,23 @@ LogicComponent.extend("Branch",
 	    */
 		loadFromXML: function(xml) {
 			if (xml) {
-				this.attr('lineId', SURVEY_UTILS.getElementAttribute(xml, 'line', 'rdf:resource'));
+				this.attr('lineAbout', SURVEY_UTILS.getElementAttribute(xml, 'line', 'rdf:resource'));
 			}
 			this._super(xml);
+		},
+		
+		getLineName: function() {
+			// TODO: make sure this does not affect performance too much
+			var name = "";
+			if (this.lineAbout) {
+				var line = Line.findOne({about:this.lineAbout});
+				if (line) {
+					name = line.attr("internalName");
+				}
+			}
+			
+			this.lineName = name;
+			return name; 	
 		}
 	}
 );

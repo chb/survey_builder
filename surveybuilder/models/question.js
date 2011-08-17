@@ -20,6 +20,12 @@ Lineitem.extend("Question",
 				this.attr('questionText', SURVEY_UTILS.getElementText(xml, "questionText"));
 				this.attr('defaultAnswerForEstimation', SURVEY_UTILS.getElementText(xml, "defaultAnswerForEstimation"));
 			}
+		},
+		
+		setAnswerProperty : function(newAnswerProperty) {
+			// initial autocomplete hack
+			Lineitem.updatePredicates(this.id, newAnswerProperty);
+			return newAnswerProperty;
 		}
 	}
 );

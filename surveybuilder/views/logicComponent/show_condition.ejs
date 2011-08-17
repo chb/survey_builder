@@ -5,7 +5,7 @@
 			<input type="hidden" name="leftOperandDataType" value="survey:predicate" />
 		</td>
 		<td class="condition-td td-input">
-			<%= $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:lineitem.leftOperand, operandDatatype:"survey:predicate", name:"leftOperand"}) %>
+			<%= $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.leftOperand, id:lineitem.getLeftOperandID()}, operandDatatype:"survey:predicate", name:"leftOperand", options:surveyBuilder.PREDICATES}) %>
 		</td>
 	</tr>
 	<tr  class ="condition-row">
@@ -22,7 +22,7 @@
 			</select>:
 		</td>
 		<td class="condition-td td-input">
-			<%= $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:lineitem.rightOperand, operandDatatype:lineitem.rightOperandDataType, name:"rightOperand"}) %>
+			<%= $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.rightOperand, id:lineitem.getRightOperandID()}, operandDatatype:lineitem.rightOperandDataType, name:"rightOperand", options:surveyBuilder.OBJECTS}) %>
 		</td>
 	</tr>
 </table>

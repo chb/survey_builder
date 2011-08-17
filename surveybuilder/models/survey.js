@@ -129,7 +129,7 @@ $.Model.extend('Survey',
 		});
 		
 		//resolve branch displayNames and lineIds
-		Lineitem.findAll({},function(lineitems) {
+		/*Lineitem.findAll({},function(lineitems) {
 			steal.dev.log("resolving branch displayNames and lineIds")
 			for (var id in lineitems) {
 				if (lineitems[id].subtype === 'branch') {
@@ -142,7 +142,7 @@ $.Model.extend('Survey',
 				}
 			}
 			
-		});
+		});*/
 		
 		// populate cache
 		Survey.saveToCache();
