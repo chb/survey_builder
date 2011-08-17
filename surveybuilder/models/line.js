@@ -146,6 +146,12 @@ $.Model.extend('Line',
 		line.attr('internalName', SURVEY_UTILS.getElementText(node, "internalName"));
 		line.attr('title', SURVEY_UTILS.getElementText(node, "dc:title"));
 		line.attr('questionsPerPage', SURVEY_UTILS.getElementText(node, "questionsPerPage"));
+		
+		if (!line.attr("internalName") && line.attr("title")) {
+			// if there is a title, but no InternalName, copy it over
+			line.attr("internalName", line.attr("title")); 
+		}
+		
 		line.save();
 		
 		//only grab the top level Lineitems
