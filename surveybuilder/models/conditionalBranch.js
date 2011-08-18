@@ -15,7 +15,15 @@ LogicComponent.extend("ConditionalBranch",
 			if (!value) {
 				return null;
 			}
-			return $.grep(Question.findAll(), function(el){return (el.attr("answerProperty") === value);})[0].id;
+			
+			var predicate = $.grep(Question.findAll(), function(el){return (el.attr("answerProperty") === value);})[0];
+			
+			if (predicate) {
+				return predicate.id;
+			}
+			else {
+				return null;
+			}
 		},
 		
 		getObjectID: function(predicateID, value) {
@@ -26,7 +34,17 @@ LogicComponent.extend("ConditionalBranch",
 				// filter out objects that aren't under the selected predicate
 				return val.parent === predicateID;
 			});
-			return $.grep(objects, function(el){return (el.value === value);})[0].id;
+			
+			var object = $.grep(objects, function(el){return (el.value === value);})[0];
+			
+			if (object) {
+				return object.id;
+			}
+			else {
+				return null;
+			}
+			
+			
 		},
 		
 		getOperandID: function(dataType, value, predicateID) {
