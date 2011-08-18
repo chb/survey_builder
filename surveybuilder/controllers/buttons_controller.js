@@ -110,7 +110,7 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
         $('#hideHowto').show();
     },
     '#collapseAll click': function(el, ev){
-        $('.hideable:visible').slideUp();
-        $('.ui-icon-triangle-1-s:visible').removeClass('ui-icon-triangle-1-s').addClass('ui-icon-triangle-1-e');
+        $('#tabs-container .hideable:visible').slideUp();
+        $('#tabs-container .ui-icon-triangle-1-s:visible').removeClass('ui-icon-triangle-1-s').addClass('ui-icon-triangle-1-e');
     }
 });

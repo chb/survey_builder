@@ -14,19 +14,19 @@ $(function(){
 		});
     });
 
-    // Hide details on lines/questions/answers/etc
-    $(".ui-icon-triangle-1-s").live("click", function(){
-        $(this).parent().children('.hideable').slideUp();
-        $(this).parent().children('.lineitem-form').find('.hideable').slideUp();
-        $(this).removeClass('ui-icon-triangle-1-s').addClass('ui-icon-triangle-1-e');
-    });
-
-    // Expand details on lines/questions/answers/etc
-    $('.ui-icon-triangle-1-e').live('click', function(){
-        $(this).parent().children('.hideable').slideDown();
-        $(this).parent().children('.lineitem-form').find('.hideable').slideDown();
-        $(this).removeClass('ui-icon-triangle-1-e').addClass('ui-icon-triangle-1-s');
-    });
+	// Hide/Show details on lines/questions/answers/etc
+	//TODO: move into controller
+	$(".toggle").live("click", function() {
+		$(this).siblings(".hideable").toggle("fast");
+		$(this).siblings(".lineitem-form").find(".hideable").toggle("fast");
+		var indicator = $(this).find(".toggle-indicator");
+		if (indicator.hasClass("ui-icon-triangle-1-s")) {
+			indicator.removeClass("ui-icon-triangle-1-s").addClass("ui-icon-triangle-1-e");
+		}
+		else {
+			indicator.removeClass("ui-icon-triangle-1-e").addClass("ui-icon-triangle-1-s");
+		}
+	});
 
 	// combobox widget from the jQueryUI site
 	(function( $ ) {

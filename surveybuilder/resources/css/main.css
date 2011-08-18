@@ -11,11 +11,14 @@ tr {display:block;}
 td.td-label {min-width: 150px;}
 td.td-input {width: 100%;}
 
+.quick-start-header {font-weight: bold;}
+
 .lineitem {border: 1px solid #919191;}
 .lineitem {margin: 5px 10px 8px 20px; position: relative}
 .ui-icon {cursor:pointer; } 
 .config {margin-left: 1em; position: relative;}
 .config .ui-icon { left:-1em; }
+.config-header {display:inline-block; font-weight: bold;}
 .line-title{margin: 2px 0 2px 2.5em;}
 input[type="text"], textarea {border:1px solid #919191; padding-left:5px; width:95%;}
 form textarea {line-height:1em; resize:none; vertical-align:middle;}
@@ -25,7 +28,7 @@ form{padding-left:1.5em;}
 .add-question{float:right; margin-top:0; position:static}
 .ui-icon-trash, .ui-icon-extlink, .ui-icon-copy {float:right; margin-top:0; position:static}
 .ui-draggable .handle, .ui-icon-grip-dotted-vertical{cursor:move; left:0px;}
-.content-label {margin-left:1em; margin-top:1em; }
+.content-label {display: inline-block; font-weight: bold; margin-left:1em; margin-top:1em; }
 .header{margin-left:2em; font-weight:bold; overflow:hidden;}
 
 
@@ -35,10 +38,10 @@ form{padding-left:1.5em;}
 .ui-draggable-dragging {height: 2em !important; overflow:hidden !important; z-index:9000 !important;}
 
 #surveyBuilderTabs .ui-tabs-nav {
-	left: 195px;
+	left: 203px;
     min-width: 490px;
     position: fixed;
-    right: 1em;
+    right: 2em;
     top: 41px;
     z-index: 1;
     border-top: 0;
@@ -60,7 +63,6 @@ form{padding-left:1.5em;}
 #tabs-container .quick-add-subquestion, #tabs-container .quick-add-gridanswer {display:inline-block; margin-top:0; position:static}
 .empty-message {bottom:-1.4em; font-style:italic; height:1em; margin-left:1em; margin-right:1em; position:relative; }
 .howto {font-style:italic; margin: 0.5em; margin-left:1em;}
-.howto .ui-icon {left:-1em; position:relative; top:1em;}
 .stay-hidden {display:none !important;}
 
 #buttons {
@@ -85,7 +87,7 @@ form{padding-left:1.5em;}
 
 #tabs-container {
 	bottom: 1em;
-	left: 195px;
+	left: 205px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	position: absolute;
@@ -94,7 +96,7 @@ form{padding-left:1.5em;}
 }
 #surveyBuilderTabs {min-width:500px;}
 
-#components {background-color: #FFFFFF; bottom:1em; overflow-x:hidden; overflow-y:auto; position:absolute; width:185px; margin-left:5px; min-height:100px; top:40px; z-index:1;}
+#components {background-color: #FFFFFF; bottom:1em; overflow-x:hidden; overflow-y:auto; position:absolute; width:200px; margin-left:5px; min-height:100px; top:40px; z-index:1;}
 #components .lineitem, #components .answerType, #components .questionType, #components .logicComponentType  {border: none; margin: 0px 0px 3px 20px; white-space: nowrap;}
 #components .handle {max-width:188px;}
 #components .ui-button-icon-only, #tabs-container .ui-button-icon-only {width: 16px;}
@@ -161,6 +163,7 @@ form{padding-left:1.5em;}
 .grid-answers .predicate {display:none !important;}
 
 .conditionalBranch .content-group {	margin-left: 0;}
+#tabs-container select { width: 95% }
 
 .condition-row {margin-left: 25px;}
 .condition .td-label {min-width: 175px;}
@@ -169,7 +172,7 @@ form{padding-left:1.5em;}
 .condition button .ui-button-text {display:inline;}
 #ajax-loader {
 	background-image: url('../ajax-loader-3B3B3B.gif');
-	display: none;
+	display: inline-block;
     height: 16px;
     position: relative;
     top: 5px;

@@ -1,11 +1,10 @@
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem parent <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
     <span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
     <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
-    <span class="ui-icon ui-icon-triangle-1-s show-in-tabs"></span>
     <span class="ui-icon ui-icon-trash show-in-tabs"></span>
     <span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
     <%= $.View("//surveybuilder/views/lineitem/_move") %>
-    <div class="header show-in-tabs"><%= lineitem.displayName %></div>
+    <div class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></div>
     <form class="lineitem-form show-in-tabs" onsubmit="return false;">
         <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
         <input type="hidden" name="type" value="<%= lineitem.type %>" />
@@ -33,8 +32,7 @@
         </table>
     </form>
     <div class="content-group hideable show-in-tabs">
-		<span class="ui-icon ui-icon-triangle-1-s collapse"></span>
-		<span class="content-label">answers:</span>
+		<div class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Answers:</div>
 		<span class="quick-add">
 	        <span class="ui-icon ui-icon-circle-plus drop-down"></span>
 	        <div class="drop-down-list">
