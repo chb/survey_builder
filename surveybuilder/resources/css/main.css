@@ -172,7 +172,7 @@ form{padding-left:1.5em;}
 .condition button .ui-button-text {display:inline;}
 #ajax-loader {
 	background-image: url('../ajax-loader-3B3B3B.gif');
-	display: inline-block;
+	display: none;
     height: 16px;
     position: relative;
     top: 5px;
