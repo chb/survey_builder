@@ -3,6 +3,7 @@ $(function(){
    $('.info-icon').live('click', function(){
       var infoDiv = $($(this).attr("data-infoId"));
       jQuery.facebox(infoDiv.html());
+      return false;
    });
 
   	// Hide drop-down menus when user clicks elsewhere  
