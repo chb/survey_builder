@@ -7,9 +7,18 @@ body {
 .cb {clear:both;}
 
 table {width: 100%;}
-tr {display:block;}
+tr {display:block; margin-bottom: 5px;}
 td.td-label {min-width: 150px;}
 td.td-input {width: 100%;}
+
+ul {
+	margin: 10px;
+}
+
+li {
+	list-style-type: disc;
+	list-style-position: inside;
+}
 
 .quick-start-header {font-weight: bold;}
 
@@ -38,7 +47,7 @@ form{padding-left:1.5em;}
 .ui-draggable-dragging {height: 2em !important; overflow:hidden !important; z-index:9000 !important;}
 
 #surveyBuilderTabs .ui-tabs-nav {
-	left: 203px;
+	left: 208px;
     min-width: 490px;
     position: fixed;
     right: 2em;
@@ -87,7 +96,7 @@ form{padding-left:1.5em;}
 
 #tabs-container {
 	bottom: 1em;
-	left: 205px;
+	left: 210px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	position: absolute;

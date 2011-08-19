@@ -6,7 +6,8 @@ steal.plugins(
 	'jquery/model/list',
 	'jquery/dom/form_params')		// form data helper
 	
-	.css('resources/facebox/facebox', 
+	.css('resources/css/reset-min',
+		'resources/facebox/facebox', 
 		'resources/css/button-container/jquery-ui-1.8.14.custom', // jQuery UI theme for buttons 
 		'resources/css/tabs-container/jquery-ui-1.8.14.custom', // jQuery UI theme for tabs
 		'resources/css/survey-container/jquery-ui-1.8.14.custom', // jQuery UI theme for everything else
