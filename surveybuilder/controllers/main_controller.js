@@ -22,9 +22,7 @@ $.Controller.extend('Surveybuilder.Controllers.Main',
     	$('#survey-container').html($.View('//surveybuilder/views/main/show', {}));
     	
     	//attach controllers
-		$('#components').surveybuilder_components();
 		$('#survey').surveybuilder_survey();
-		$('.ui-tabs-nav').surveybuilder_tabs();
 		$('#buttons').surveybuilder_buttons();
 		
 		//init survey load

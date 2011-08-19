@@ -22,7 +22,9 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
             $('#showHowto').hide();
         }
     },
+    
     'survey.loadFinished subscribe': function(event, params) {
+    	$('#static-message').slideUp();
     	this.disableSaveButton();
     },
     

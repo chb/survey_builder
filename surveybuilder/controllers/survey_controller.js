@@ -13,6 +13,10 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     	this.loadSurvey(params['id'], 
     	    //success
     		function(){
+    			// attach components and tabs controller after everything has loaded
+    			$('#components').surveybuilder_components();
+    			$('.ui-tabs-nav').surveybuilder_tabs();
+    			
     			OpenAjax.hub.publish('survey.render', {});
     			var mainLine = Line.findOne({about:Survey.findOne({id:1}).surveyLine});
     			OpenAjax.hub.publish('tabs.openLine', {id:mainLine.id});
@@ -21,6 +25,7 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     		//error
     		function(){
     			alert('ERROR: failed to load survey');
+    			OpenAjax.hub.publish('survey.loadFailed', {});
     		});
     },
 
