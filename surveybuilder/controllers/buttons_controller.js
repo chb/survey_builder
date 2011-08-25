@@ -9,16 +9,13 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
 /* @Prototype */
 {
     init: function(){
-        $('#buttons .button').button();
-        $('#buttons').buttonset();
-        
         // TODO: switch to toggle for same button
         if ($.jStorage.get('hideHowto')){
-            $('#showHowto').show();
+            $('#showHowto').show().css("display", "block");
             $('#hideHowto').hide();
         }
         else{
-            $('#hideHowto').show();
+            $('#hideHowto').show().css("display", "block");
             $('#showHowto').hide();
         }
     },
@@ -102,14 +99,14 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
         HIDEHOWTO = true;
         $.jStorage.set('hideHowto', true);
         $(el).hide();
-        $('#showHowto').show();
+        $('#showHowto').show().css("display", "block");;
     },
     '#showHowto click': function(el, ev){
         $('.howto').removeClass('stay-hidden');
         HIDEHOWTO = false;
         $.jStorage.set('hideHowto', false);
         $(el).hide();
-        $('#hideHowto').show();
+        $('#hideHowto').show().css("display", "block");;
     },
     '#collapseAll click': function(el, ev){
         $('#tabs-container .hideable:visible').slideUp();

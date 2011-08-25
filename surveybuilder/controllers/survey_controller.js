@@ -66,7 +66,7 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
 
 		//add in an export tab and populate with exported survey
         $('.ui-tabs-nav').after('<div id="export"><textarea >' + $.View('//surveybuilder/views/survey/show_rdf', {survey:Survey.findOne({id:1}), lines:Line.findAll(), date:new Date()}).replace(/^\s*[\n\f\r]/gm, '') + '</textarea></div>');
-        $('#surveyBuilderTabs').tabs('add' , "#export" , 'export');
+        $('#surveyBuilderTabs').tabs('add' , "#export" , 'RDF/XML');
     },
     ".survey-form input change": function(el, ev){
         this.surveyFormChange(el, ev);
@@ -79,9 +79,10 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
      */
     surveyFormChange: function(el, ev){
         var survey = Survey.findOne({id:"1"});
+        var name = el.attr("name");
         if (el.attr('type') == 'checkbox' && !el.attr('checked')) {
 			// unset the attribute if a checkbox was unchecked
-        	survey.attr(el.attr("name"), null);
+        	survey.attr(name, null);
         }
         else {
 	        survey.attr(el.attr("name"), el.val());

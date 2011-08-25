@@ -1,44 +1,50 @@
+<% var errors = lineitem.errors() %>
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class ="lineitem parent question ui-corner-all" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
-    <span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
-    <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
-    <span class="ui-icon ui-icon-trash show-in-tabs" title="delete"></span>
-    <span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
-    <%= $.View("//surveybuilder/views/lineitem/_move") %>
-    <div class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></div>
-    <form class="lineitem-form show-in-tabs" onsubmit="return false;">
-        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
-        <input type="hidden" name="type" value="<%= lineitem.type %>" />
-        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
-        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
-        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
-        <table>
-            <tr>
-                <td class="td-label" title="The text to display for this question">Question Text:<span class="marker" title="required">*</span></td>
-                <td class="td-input"><textarea name="questionText" class="ui-corner-all"><%= lineitem.questionText %></textarea></td>
-            </tr>
-            <tr class="hideable">
-                <td class="td-label" title="Optional text that is shown to the left of the answer input box">Answer Label:</td>
-                <td class="td-input"><input type="text" name="answerLabel" value="<%= lineitem.answerLabel %>" class="ui-corner-all"/></td>
-            </tr>
-            <tr class="hideable">
-                <td class="td-label" title="Optional text that is shown to the right of the answer input box">Answer Note:</td>
-                <td class="td-input"><input type="text" name="answerNote" value="<%= lineitem.answerNote %>" class="ui-corner-all"/></td>
-            </tr>
-            <tr class="hideable">
-                <td class="td-label" title="The RDF predicate for this answer">RDF Answer Property:<span class="marker" title="required">*</span></td>
-                <td class="td-input"><input type="text" name="answerProperty" value="<%= lineitem.answerProperty %>" class="required ui-corner-all"/></td>
-            </tr>
-            <tr class="hideable">
-                <td class="td-label" title="Optional data type for this question.  If present, will be used for validation of user input.">Data Type:</td>
-                <td class="td-input">
-                    <select name="dataType">
-                        <option value="" <% if (lineitem.dataType === '') { %> selected="selected" <% } %>>none</option>
+	<span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
+	<span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
+	<span class="ui-icon ui-icon-trash show-in-tabs" title="delete"></span>
+	<span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
+	<%= $.View("//surveybuilder/views/lineitem/_move") %>
+	<h5 class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></h5>
+	<form class="lineitem-form show-in-tabs" onsubmit="return false;">
+		<fieldset>
+			<input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
+			<input type="hidden" name="type" value="<%= lineitem.type %>" />
+			<input type="hidden" name="subType" value="<%= lineitem.subType %>" />
+			<input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
+			<input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
+			<%= $.View('//surveybuilder/views/common/textarea', 
+						{name:'questionText',
+						value:lineitem.questionText, 
+						title:'The text to display for this question', 
+						label:'Question Text', 
+						errors:errors, 
+						hideable:false}) %>
+			<%= $.View('//surveybuilder/views/common/textInput', 
+						{name:'answerLabel',
+						value:lineitem.answerLabel, 
+						title:'Optional text that is shown to the left of the answer input box', 
+						label:'Answer Label', 
+						errors:errors, 
+						hideable:true}) %>
+			<%= $.View('//surveybuilder/views/common/textInput', 
+						{name:'answerProperty',
+						value:lineitem.answerProperty, 
+						title:'The RDF predicate for this answer', 
+						label:'RDF Answer Property', 
+						errors:errors, 
+						hideable:true}) %>
+			<div class="clearfix attribute hideable">
+				<label title="Optional data type for this question.  If present, will be used for validation of user input." for="">Data Type</label>
+				<div class="input">
+					<select name="dataType">
+						<option value="" <% if (lineitem.dataType === '') { %> selected="selected" <% } %>>none</option>
                         <option value="http://www.w3.org/2001/XMLSchema#date" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#date') { %> selected="selected" <% } %>>date</option>
                         <option value="http://www.w3.org/2001/XMLSchema#decimal" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#decimal') { %> selected="selected" <% } %>>decimal</option>
                         <option value="http://www.w3.org/2001/XMLSchema#integer" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#integer') { %> selected="selected" <% } %>>integer</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+					</select>
+				</div>
+			</div>
+	    </fieldset>
     </form>
 </div>

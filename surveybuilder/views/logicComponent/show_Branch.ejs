@@ -1,7 +1,7 @@
 <div <%= lineitem %> id="<%= lineitem.id %>" class="lineitem branch line lineitem ui-corner-all" data-lineAbout="<%= lineitem.lineAbout %>">
     <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
     <span class="ui-icon ui-icon-trash"></span>
-    <div class="header"><%= lineitem.displayName %>: <span class="line-name"><%= lineitem.attr("lineName") %></span></div>
+    <h5 class="header"><%= lineitem.displayName %>: <span class="line-name"><%= lineitem.attr("lineName") %></span></h5>
     <form>
         <input type="hidden" name="type" value="branch" />
         <input type="hidden" name="subType" value="branch" />

@@ -1,13 +1,18 @@
-<div id="button-container">
-	<div id="buttons">
-	    <button id="saveAll" class="button first" disabled="disabled">Save</button>
-	    <button id="exportSurvey" class="button">Export</button>
-	    <a id="previewSurvey" href="<%= PREVIEW_PATH %>" target="_blank" class="button">Preview</a>
-	    <button id="collapseAll" class="button">Collapse All</button>
-	    <button id="hideHowto" class="button">Hide Quick Start</button>
-	    <button id="showHowto" class="button">Show Quick Start</button>
-	    <% if (!!EXIT_PATH) { %> <a id="exit" href="<%= EXIT_PATH %>" class="button"><%= EXIT_TEXT %></a><% } %>
-	    <span id="ajax-loader"></span>
-	    <div id="static-message">Loading Survey...</div>
-    </div>
+<div id="button-container" class="topbar">
+	<div class="fill">
+		<div id="buttons" class="container">
+			<h3><a class="topbar-title" href="#">Survey Builder</a></h3>
+			<ul>
+				<li><a id="saveAll" href="#" class="first" disabled="disabled">Save</a></li>
+				<li><a id="previewSurvey" href="<%= PREVIEW_PATH %>" target="_blank" >Preview</a></li>
+				<li><a id="exportSurvey" href="#">RDF/XML</a></li>
+				<li><a id="collapseAll" href="#">Collapse All</a></li>
+				<li><a id="hideHowto" href="#">Hide Quick Start</a></li>
+				<li><a id="showHowto" href="#">Show Quick Start</a></li>
+				<% if (!!EXIT_PATH) { %> <li><a id="exit" href="<%= EXIT_PATH %>"><%= EXIT_TEXT %></a></li><% } %>
+				<li><span id="ajax-loader"></span></li>
+				<div id="static-message">Loading Survey...</div>
+			</ul>
+		</div>
+	</div> 
 </div>

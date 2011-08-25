@@ -1,6 +1,6 @@
 <div <%= line %> id="<%= line.id %>" class="line parent ui-corner-all">
     <div class="howto <% if (HIDEHOWTO) { %> stay-hidden <% } %>">
-        <div class="toggle quick-start-header"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Quick Start Guide:</div>
+        <h4 class="toggle quick-start-header"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Quick Start Guide:</h4>
         <ul class="hideable">
         	<% if (Survey.findOne({id:1}).surveyLine === line.about) { %>
         		<li>This is the Main Section of your Survey.  Build up your Survey by dragging and dropping Questions and other Sections from the menus on the left into the "Contents" area below.</li>
@@ -14,28 +14,34 @@
         </ul>
     </div>
     <div class="config">
-		<div class="toggle config-header"><span class="ui-icon ui-icon-triangle-1-s"></span>Section Configuration:</div>
+		<h4 class="toggle config-header"><span class="toggle-indicator ui-icon ui-icon-triangle-1-s"></span>Section Configuration:</h4>
 		<form class="line-form hideable" onsubmit="return false;">
-			<input type="hidden" name="about" value="<%= line.about %>" />
-		    <table>
-		    	<% if (Survey.findOne({id:1}).surveyLine !== line.about) { %>
-				    <tr>
-				        <td class="td-label" title="The internal name for this Section.  Not shown to a survey taker.">Name:</td>
-				        <td class="td-input"><input type="text" name="internalName" value="<%= line.internalName %>" class="ui-corner-all"/></td>
-				    </tr>
-		        <% } %>
-		        <tr>
-			        <td class="td-label" title="The title for this Section.  This will show up as a header above each question in this Section.">Title:</td>
-			        <td class="td-input"><input type="text" name="title" value="<%= line.title %>" class="ui-corner-all"/></td>
-			    </tr>
-		        <tr>
-		            <td class="td-label" title="The preferred number of questions you want to render per page.">Questions Per Page:</td>
-		            <td class="td-input"><input type="text" name="questionsPerPage" value="<%= line.questionsPerPage %>" class="ui-corner-all"/></td>
-		        </tr>
-		    </table>
+			<fieldset>
+				<input type="hidden" name="about" value="<%= line.about %>" />
+				<% if (Survey.findOne({id:1}).surveyLine !== line.about) { %>
+					<div class="clearfix attribute">
+						<label for="" title="The internal name for this Section.  Not shown to a survey taker.">Name</label>
+						<div class="input">
+							<input name="internalName" value="<%= line.internalName %>" class="xxlarge" size="60" type="text">
+						</div>
+					</div>
+				<% } %>
+				<div class="clearfix attribute">
+					<label for="" title="The title for this Section.  This will show up as a header above each question in this Section.">Title</label>
+					<div class="input">
+						<input name="title" value="<%= line.title %>" class="xxlarge" size="60" type="text">
+					</div>
+				</div>
+				<div class="clearfix attribute">
+					<label for="" title="The preferred number of questions you want to render per page.">Questions Per Page</label>
+					<div class="input">
+						<input name="questionsPerPage" value="<%= line.questionsPerPage %>" class="xxlarge" size="60" type="text">
+					</div>
+				</div>
+			</<fieldset>
 		</form>
 	</div>
-	<div class="content-label">Contents:</div>
+	<h4 class="content-label">Contents:</h4>
     <div class="empty-message <% if (line.childId) { %>stay-hidden<% } %>">To add Sections and Questions to this Section, drag and drop them here </div>
     <div class="content line-items ui-corner-all <% if (line.childId) { %>hideBorder<% } %>">
         <% if (line.childId) { %>

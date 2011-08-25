@@ -1,25 +1,29 @@
+<% var errors = lineitem.errors() %>
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem parent grid <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
     <span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
     <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
     <%= $.View("//surveybuilder/views/lineitem/_move") %>
     <span class="ui-icon ui-icon-trash show-in-tabs"></span>
     <span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
-    <div class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></div>
+    <h5 class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></h5>
     <form class="lineitem-form show-in-tabs" onsubmit="return false;">
-        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
-        <input type="hidden" name="type" value="<%= lineitem.type %>" />
-        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
-        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
-        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
-        <table>
-            <tr>
-                <td class="td-label" title="The text to display for this question">Question Text:<span class="marker" title="required">*</span></td>
-                <td class="td-input"><textarea name="questionText" class="ui-corner-all"><%= lineitem.questionText %></textarea></td>
-            </tr>
-        </table>
+    	<fieldset>
+	        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
+	        <input type="hidden" name="type" value="<%= lineitem.type %>" />
+	        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
+	        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
+	        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
+	        <%= $.View('//surveybuilder/views/common/textarea', 
+						{name:'questionText',
+						value:lineitem.questionText, 
+						title:'The text to display for this question', 
+						label:'Question Text', 
+						errors:errors, 
+						hideable:false}) %>
+        </fieldset>
     </form>
     <div class="content-group hideable show-in-tabs">
-		<div class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Sub Questions:</div>
+		<h5 class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Sub Questions:</h5>
 		<span class="ui-icon ui-icon-circle-plus quick-add-subquestion" title="Add a new Sub Question"></span>
 		<div class="sub-questions content hideable ui-corner-all <% if (lineitem.childQuestionId) { %>hideBorder<% } %>">
 			<% if (lineitem.childQuestionId) {%>
@@ -29,7 +33,7 @@
 		</div>
 	</div>
 	<div class="content-group hideable show-in-tabs">
-		<div class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Common Answers:</div>
+		<h5 class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Common Answers:</h5>
 		<span class="ui-icon ui-icon-circle-plus quick-add-gridanswer" title="Add a new Common Answer"></span>
 		<div class="grid-answers content hideable ui-corner-all <% if (lineitem.childAnswerId) { %>hideBorder<% } %>">
 		    <% if (lineitem.childAnswerId) {%>

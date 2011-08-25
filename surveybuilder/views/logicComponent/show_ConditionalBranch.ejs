@@ -2,30 +2,30 @@
 	<span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
 	<span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
 	<span class="ui-icon ui-icon-trash show-in-tabs"></span>
-	<div class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></div>
+	<h5 class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></h5>
 	<form class="lineitem-form show-in-tabs" onsubmit="return false;">
-		<input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
-		<input type="hidden" name="type" value="<%= lineitem.type %>" />
-		<input type="hidden" name="subType" value="<%= lineitem.subType %>" />
-		<input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
-		<input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
-		<table>
-			<tr>
-				<td class="td-label" title="The Section to branch to">Branch to Section:</span></td>
-				<td class="td-input">
+		<fieldset>
+			<input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
+			<input type="hidden" name="type" value="<%= lineitem.type %>" />
+			<input type="hidden" name="subType" value="<%= lineitem.subType %>" />
+			<input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
+			<input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
+			<div class="clearfix attribute">
+				<label title="The Section to branch to" for="">Branch to Section</label>
+				<div class="input">
 					<select name="branchTarget" class="branchTarget">
 						<%= $.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:Line.findAll(), lineitem:lineitem, parentLine:line}) %>
 					</select>
-				</td>
-			</tr>
-		</table>
-	
-	<div class="content-group hideable show-in-tabs">
-		<div class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>When:</div>
-		<div class="hideable ui-corner-all">
-			<%= $.View('//surveybuilder/views/logicComponent/show_condition', {lineitem:lineitem}) %>
-		</div>
-	</div>
+				</div>
+			</div>
+		
+			<div class="content-group hideable show-in-tabs">
+				<h5 class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>When:</h5>
+				<div class="hideable ui-corner-all">
+					<%= $.View('//surveybuilder/views/logicComponent/show_condition', {lineitem:lineitem}) %>
+				</div>
+			</div>
+		</fieldset>
 	</form>
 </div>
 

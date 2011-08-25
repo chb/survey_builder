@@ -1,65 +1,85 @@
+<% var errors = survey.errors() %>
 <div class="howto <% if (HIDEHOWTO) { %> stay-hidden <% } %>">
-	 <div class="toggle quick-start-header"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Quick Start Guide:</div>
-    <ul class="hideable">
-        <li>Configure your survey by filling in the form below.</li>
-        <li>To add contents to your survey, click on the "Main Section" Tab.</li>
-        
-    </ul>
+	<h4 class="toggle quick-start-header"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Quick Start Guide:</h4>
+	<ul class="hideable">
+		<li>Configure your survey by filling in the form below.</li>
+		<li>To add contents to your survey, click on the "Main Section" Tab.</li>
+	</ul>
 </div>
 <div class="config">
-	<div class="toggle config-header"><span class="ui-icon ui-icon-triangle-1-s"></span>Survey Configuration:</div>
+	<h4 class="toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator"></span><span>Survey Configuration</span></h4>
 	<form class="survey-form hideable" onsubmit="return false;">
-		<input type="hidden" name="id" value="<%= survey.id %>" /><br/>
-		<table>
-			<tr>
-			    <td class="td-label" title="The title for your Survey.">Survey Title:<span class="marker" title="required">*</span></td>
-			    <td class="td-input"><input type="text" name="title" value="<%= survey.title %>" class="required ui-corner-all"/></td>
-			</tr>
-			<tr>
-			    <td class="td-label" title="The description for your Survey.">Survey Description:<span class="marker" title="required">*</span></td>
-			    <td class="td-input"><input type="text" name="description" value="<%= survey.description %>" class="required ui-corner-all"/></td>
-			</tr>
-			<tr>
-			    <td class="td-label" title="Introductory message to show before the user starts the survey.">Introductory Message:</td>
-			    <td class="td-input"><input type="text" name="introText" value="<%= survey.introText %>" class="ui-corner-all"/></td>
-			</tr>
-			<tr>
-			    <td class="td-label" title="Message to show once the user has submitted answers to the survey.">Completion Message:</td>
-			    <td class="td-input"><input type="text" name="completedMessage" value="<%= survey.completedMessage %>" class="ui-corner-all"/></td>
-			</tr>
-			<tr>
-			    <td class="td-label" title="The creator of this Survey.">Creator:<span class="marker" title="required">*</span></td>
-			    <td class="td-input"><input type="text" name="creator" value="<%= survey.creator %>" class="required ui-corner-all"/></td>
-			</tr>
-			<tr>
-			    <td class="td-label" title="Support Email address for takers of this Survey.">Survey Support Email:<span class="marker" title="required">*</span></td>
-			    <td class="td-input"><input type="text" name="contactEmail" value="<%= survey.contactEmail %>" class="required email ui-corner-all"/></td>
-			</tr>
-	        <tr>
-	            <td class="td-label" title="Base namespace to use for this survey">Base XML namespace:</td>
-	            <td class="td-input"><input type="text" name="xmlBase" value="<%= survey.xmlBase %>" class="ui-corner-all"/></td>
-	        </tr>
-			<tr>
-			    <td class="td-label" title="The language this Survey is written in.">Language:</td>
-			    <td class="td-input">
-			        <select name="language">
-			            <option value="english" <% if (survey.language && survey.language === 'english') { %> selected="selected" <% } %>>English</option>
-			        </select>
-			    </td>
-			<tr/>
-			<tr>
-				<td class="td-label" title="Allow the user to see a summary page of their answers before submission">Answer Review:</td>
-				<td class="td-input">
-					<input type="checkbox" name="reviewAnswers" value="true" <% if (survey.reviewAnswers && survey.reviewAnswers == true) { %> checked="checked" <% } %>/>
-				</td>
-			</tr>
-			<tr>
-				<td class="td-label"title="Show a message at the start of the survey and on each page warning the user not to enter any identified information">De-identified Message:</td>
-				<td class="td-input">
-					<input type="checkbox" name="deident" value="true" <% if (survey.deident && survey.deident == true) { %> checked="checked" <% } %>/>
-				</td>
-			</tr>
-		</table>
-	
+		<fieldset>
+			<input type="hidden" name="id" value="<%= survey.id %>" /><br/>
+			<%= $.View('//surveybuilder/views/common/textInput', 
+						{name:'title',
+						value:survey.title, 
+						title:'The title for your Survey.', 
+						label:'Survey Title', 
+						errors:errors, 
+						hideable:true}) %>
+			<%= $.View('//surveybuilder/views/common/textarea', 
+						{name:'description',
+						value:survey.description, 
+						title:'The description for your Survey.', 
+						label:'Survey Description', 
+						errors:errors, 
+						hideable:true}) %>
+			<%= $.View('//surveybuilder/views/common/textarea', 
+						{name:'introText',
+						value:survey.introText, 
+						title:'Introductory message to show before the user starts the survey.', 
+						label:'Introductory Message', 
+						errors:errors, 
+						hideable:true}) %>
+			<%= $.View('//surveybuilder/views/common/textarea', 
+						{name:'completedMessage',
+						value:survey.completedMessage, 
+						title:'Message to show once the user has submitted answers to the survey.', 
+						label:'Completion Message', 
+						errors:errors, 
+						hideable:true}) %>
+			<%= $.View('//surveybuilder/views/common/textInput', 
+						{name:'creator',
+						value:survey.creator, 
+						title:'The creator of this Survey.', 
+						label:'Creator', 
+						errors:errors, hideable:true}) %>
+			<%= $.View('//surveybuilder/views/common/textInput', 
+						{name:'contactEmail',
+						value:survey.contactEmail, 
+						title:'Support Email address for takers of this Survey', 
+						label:'Survey Support Email', 
+						errors:errors, 
+						hideable:true}) %>
+			<%= $.View('//surveybuilder/views/common/textInput', 
+						{name:'xmlBase',
+						value:survey.xmlBase, 
+						title:'Base namespace to use for this survey.', 
+						label:'Base XML Namespace', 
+						errors:errors, 
+						hideable:true}) %>
+			
+			<div class="clearfix">
+				<label title="The language this Survey is written in." for="">Language</label>
+				<div class="input">
+					<select name="language">
+						<option value="english" <% if (survey.language && survey.language === 'english') { %> selected="selected" <% } %>>English</option>
+					</select>
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="" title="Allow the user to see a summary page of their answers before submission">Answer Review</label>
+				<div class="input">
+					<input name="reviewAnswers" value="true" type="checkbox" <% if (survey.reviewAnswers && survey.reviewAnswers == true) { %> checked="checked" <% } %>>
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="" title="Show a message at the start of the survey and on each page warning the user not to enter any identified information">De-identified Message</label>
+				<div class="input">
+					<input name="deident" value="true" type="checkbox" <% if (survey.deident && survey.deident == true) { %> checked="checked" <% } %>>
+				</div>
+			</div>
+		</fieldset>
 	</form>
 </div>

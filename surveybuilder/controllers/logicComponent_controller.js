@@ -23,7 +23,6 @@ $.Controller.extend('Surveybuilder.Controllers.LogicComponent',
 	configureCombobox: function(el, dataType, options) {
 		var operand = el.val();
 		var name = el.attr('name');
-		var parent = el.parent();
 		switch (dataType) {
 			case 'survey:object':
 				var operandID = el.find("option:selected").attr("data-object-id");
@@ -32,17 +31,14 @@ $.Controller.extend('Surveybuilder.Controllers.LogicComponent',
 					// filter out objects that aren't under the selected predicate
 					return (val.parent === selectedPredicateID) ? val : null;
 				});
-				parent.html($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:operand, id:operandID}, operandDatatype:dataType, name:name, options:options}));
-				parent.children().first().combobox();
+				$($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:operand, id:operandID}, operandDatatype:dataType, name:name, options:options})).replaceAll(el).combobox();
 				break;
 			case 'survey:predicate':
 				var operandID = el.find("option:selected").attr("data-predicate-id");
-				parent.html($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:operand, id:operandID}, operandDatatype:dataType, name:name, options:surveyBuilder.PREDICATES}));
-				parent.children().first().combobox();
+				$($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:operand, id:operandID}, operandDatatype:dataType, name:name, options:surveyBuilder.PREDICATES})).replaceAll(el).combobox();
 				break;
 			default:
-				parent.html($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:operand, operandDatatype:dataType, name:name}));
-				parent.children().first().combobox("destroy");
+				$($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:operand, operandDatatype:dataType, name:name})).replaceAll(el);
 				break;
 		}
 	},

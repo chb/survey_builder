@@ -6,11 +6,10 @@ steal.plugins(
 	'jquery/model/list',
 	'jquery/dom/form_params')		// form data helper
 	
-	.css('resources/css/reset-min',
-		'resources/facebox/facebox', 
-		'resources/css/button-container/jquery-ui-1.8.14.custom', // jQuery UI theme for buttons 
-		'resources/css/tabs-container/jquery-ui-1.8.14.custom', // jQuery UI theme for tabs
-		'resources/css/survey-container/jquery-ui-1.8.14.custom', // jQuery UI theme for everything else
+	
+	.css('resources/facebox/facebox',
+		'resources/css/bootstrap-1.0.0.min', // Twitter Bootstrap 
+		'resources/css/jqueryui-custom/jquery-ui-1.8.14.custom', // jQuery UI theme 
 		'resources/css/main')	// loads styles, overwrites styles from right to left
 
 	.resources('js/jquery-ui-1.8.10.custom.js')

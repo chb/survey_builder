@@ -2,33 +2,37 @@
     <span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
     <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
     <span class="ui-icon ui-icon-trash show-in-tabs"></span>
-    <div class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></div>
+    <h5 class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></h5>
     <form class="lineitem-form show-in-tabs" onsubmit="return false;">
-        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
-        <input type="hidden" name="type" value="<%= lineitem.type %>" />
-        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
-        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
-        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
-        <table>
-            <tr>
-                <td class="td-label" title="Optional text that is shown to the left of the answer input box">Answer Label:</td>
-                <td class="td-input"><input type="text" name="answerLabel" value="<%= lineitem.answerLabel %>" class="ui-corner-all"/></td>
-            </tr>
-            <tr>
-                <td class="td-label" title="Optional text that is shown to the right of the answer input box">Answer Note:</td>
-                <td class="td-input"><input type="text" name="answerNote" value="<%= lineitem.answerNote %>" class="ui-corner-all"/></td>
-            </tr>
-            <tr class="hideable">
-                <td class="td-label" title="Optional data type for this answer.  If present, will be used for validation of user input.">Data Type:</td>
-                <td class="td-input">
-                    <select name="dataType">
-                        <option value="" <% if (lineitem.dataType === '') { %> selected="selected" <% } %>>none</option>
-                        <option value="http://www.w3.org/2001/XMLSchema#date" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#date') { %> selected="selected" <% } %>>date</option>
-                        <option value="http://www.w3.org/2001/XMLSchema#decimal" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#decimal') { %> selected="selected" <% } %>>decimal</option>
-                        <option value="http://www.w3.org/2001/XMLSchema#integer" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#integer') { %> selected="selected" <% } %>>integer</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+    	<fieldset>
+	        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
+	        <input type="hidden" name="type" value="<%= lineitem.type %>" />
+	        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
+	        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
+	        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
+	        <div class="clearfix attribute hideable">
+				<label for="" title="Optional text that is shown to the left of the answer input box">Answer Label</label>
+				<div class="input">
+					<input name="answerLabel" value="<%= lineitem.answerLabel %>" class="xxlarge" size="60" type="text">
+				</div>
+			</div>
+			<div class="clearfix attribute hideable">
+				<label for="" title="Optional text that is shown to the right of the answer input box">Answer Note</label>
+				<div class="input">
+					<input name="answerNote" value="<%= lineitem.answerNote %>" class="xxlarge" size="60" type="text">
+				</div>
+			</div>
+			<div class="clearfix attribute hideable">
+				<label title="Optional data type for this answer.  If present, will be used for validation of user input." for="">Data Type</label>
+				<div class="input">
+					<select name="dataType">
+						<option value="" <% if (lineitem.dataType === '') { %> selected="selected" <% } %>>none</option>
+	                        <option value="http://www.w3.org/2001/XMLSchema#date" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#date') { %> selected="selected" <% } %>>date</option>
+	                        <option value="http://www.w3.org/2001/XMLSchema#decimal" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#decimal') { %> selected="selected" <% } %>>decimal</option>
+	                        <option value="http://www.w3.org/2001/XMLSchema#integer" <% if (lineitem.dataType && lineitem.dataType === 'http://www.w3.org/2001/XMLSchema#integer') { %> selected="selected" <% } %>>integer</option>
+					</select>
+				</div>
+			</div>
+        </fieldset>
     </form>
 </div>

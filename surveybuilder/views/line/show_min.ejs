@@ -1,14 +1,14 @@
 <% var isSurveyLine = Survey.findOne({id:1}).surveyLine === line.about %>
 <div <%= line %> class="lineitem <% if (!isSurveyLine) { %>branch<% } %> line ui-corner-all" data-line="<%= line.id %>" data-type="LogicComponent" data-subType="Branch">
-    <span class="split-button">
-	    <span class="drop-down hide-in-tabs">options</span>
+    <span class="btn small drop-down-btn">
+	    <span class="drop-down hide-in-tabs ui-icon ui-icon-triangle-1-s"></span>
 		<div class="drop-down-list">
-    		<div><a href="#" class="edit-line button" data-line="<%= line.id %>">edit</a></div>
+    		<a href="#" class="edit-line btn small primary" data-line="<%= line.id %>">edit</a>
     		<% if (!isSurveyLine) { %>
-    			<div><a href="#" class="delete-line button" data-line="<%= line.id %>">delete</a></div>
+    			<a href="#" class="delete-line btn small primary" data-line="<%= line.id %>">delete</a>
     		<% } %>
     	</div>
-		<span class="handle display-name button hide-in-tabs" href="#" title="<%= line.name %>"><%= line.internalName %></span>
+		<span class="handle display-name hide-in-tabs" title="<%= line.name %>"><%= line.internalName %></span>
     </span>
     <span class="ui-icon handle ui-icon-grip-dotted-vertical show-in-tabs"></span>
     <span class="ui-icon ui-icon-trash show-in-tabs"></span>

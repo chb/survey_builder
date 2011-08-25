@@ -1,34 +1,41 @@
+<% var errors = lineitem.errors() %>
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class ="lineitem parent <%= lineitem.type %> <%= lineitem.subType %> ui-corner-all" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
-    <span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
-    <span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
-    <%= $.View("//surveybuilder/views/lineitem/_move") %>
-    <span class="ui-icon ui-icon-trash show-in-tabs"></span>
-    <span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
-    <div class="header toggle show-in-tabs"><span class="ui-icon ui-icon-triangle-1-s show-in-tabs toggle-indicator"></span><%= lineitem.displayName %></div>
-    <form class="lineitem-form show-in-tabs" onsubmit="return false;">
-        <input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
-        <input type="hidden" name="type" value="<%= lineitem.type %>" />
-        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
-        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
-        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
-        <table>
-            <tr>
-                <td class="td-label" title="The text to display for this question">Question Text:<span class="marker" title="required">*</span></td>
-                <td class="td-input"><textarea name="questionText" class="ui-corner-all"><%= lineitem.questionText %></textarea></td>
-            </tr>
-            <tr class="hideable">
-                <td class="td-label" title="The RDF predicate for all Answers under this Question. If not specified at the Question level, it MUST be specified at the Answer level.">RDF Answer Property:</td>
-                <td class="td-input"><input type="text" name="answerProperty" value="<%= lineitem.answerProperty %>" class="ui-corner-all"/></td>
-            </tr>
-        </table>
+	<span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
+	<span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
+	<%= $.View("//surveybuilder/views/lineitem/_move") %>
+	<span class="ui-icon ui-icon-trash show-in-tabs"></span>
+	<span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
+	<h5 class="header toggle show-in-tabs"><span class="ui-icon ui-icon-triangle-1-s show-in-tabs toggle-indicator"></span><%= lineitem.displayName %></h5>
+	<form class="lineitem-form show-in-tabs" onsubmit="return false;">
+		<fieldset>
+			<input type="hidden" name="displayName" value="<%= lineitem.displayName %>" />
+			<input type="hidden" name="type" value="<%= lineitem.type %>" />
+			<input type="hidden" name="subType" value="<%= lineitem.subType %>" />
+			<input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
+			<input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
+			<%= $.View('//surveybuilder/views/common/textarea', 
+						{name:'questionText',
+						value:lineitem.questionText, 
+						title:'The text to display for this question', 
+						label:'Question Text', 
+						errors:errors, 
+						hideable:false}) %>
+			<%= $.View('//surveybuilder/views/common/textInput', 
+						{name:'answerProperty',
+						value:lineitem.answerProperty, 
+						title:'The RDF predicate for all Answers under this Question.', 
+						label:'RDF Answer Property', 
+						errors:errors, 
+						hideable:true}) %>
+		</fieldset>
     </form>
     <div class="content-group hideable show-in-tabs">
-		<div class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Answers:</div>
+		<h5 class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Answers:</h5>
 		<div class="quick-add">
 	        <span class="ui-icon ui-icon-circle-plus drop-down"></span>
 	        <div class="drop-down-list">
-	    		<div><a href="#" class="button" data-type="Answer" data-subType="LabelAnswer">Fixed Choice</a></div>
-	    		<div><a href="#" class="delete-line button" data-type="Answer" data-subType="TextAnswer">Free Text</a></div>
+	    		<a href="#" class="btn small" data-type="Answer" data-subType="LabelAnswer">Fixed Choice</a>
+	    		<a href="#" class="delete-line btn small" data-type="Answer" data-subType="TextAnswer">Free Text</a>
 	    	</div>
     	</div>
 		<div class="empty-message hideable <% if (lineitem.childId) { %>stay-hidden<% } %>">To add Answers to your question, drag and drop them here </div>

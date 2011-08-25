@@ -1,0 +1,9 @@
+<div class="clearfix attribute <% if (errors && errors[name]) { %>error<%}%> <% if (hideable) { %>hideable<%}%>">
+	<label for="" title="<%= title %>"><%= label %></label>
+	<div class="input">
+		<textarea name="<%= name %>" class="xxlarge"><%= value %></textarea>
+		<% if (errors && errors[name]) { %>
+			<%= $.View('//surveybuilder/views/error/validation', {message:errors[name][0]}) %>
+		<% } %>
+	</div>
+</div>

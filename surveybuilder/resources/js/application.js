@@ -36,9 +36,11 @@ $(function(){
 				var self = this,
 					select = this.element.hide(),
 					selected = select.children( ":selected" ),
-					value = selected.val() ? selected.text() : "";
-				var input = this.input = $( "<input>" )
-					.insertAfter( select )
+					value = selected.val() ? selected.text() : "",
+					inputDiv = $( '<div class="input-append"></div>');
+				inputDiv.insertAfter( select );	
+				var input = this.input = $( '<input type="text">' )
+					.appendTo( inputDiv )
 					.val( value )
 					.autocomplete({
 						appendTo: "#tabs-container",  //TODO: edited to append to tabs-container so it will pick up the same styles, but this limits this to a specific location
@@ -100,7 +102,7 @@ $(function(){
 						.appendTo( ul );
 				};
 
-				this.button = $( "<button type='button'>&nbsp;</button>" )
+				this.button = $( "<button type='button' class='add-on'>&nbsp;</button>" )
 					.attr( "tabIndex", -1 )
 					.attr( "title", "Show All Items" )
 					.insertAfter( input )
