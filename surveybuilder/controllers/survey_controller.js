@@ -106,7 +106,7 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
      * Handlers for static Lineitem events
 	 */ 
 	'lineitem.movedInDom subscribe': function(event, params) {
-    	Surveybuilder.Controllers.Lineitem.lineitemMovedInDom(params.el, params.isDelete);
+    	Surveybuilder.Controllers.Lineitem.lineitemMovedInDom(params.el, params.isDelete, params.showValidationErrors);
     },
     	
 	'lineitem.deleteRecursive subscribe': function(event, params) {

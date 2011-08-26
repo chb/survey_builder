@@ -21,7 +21,7 @@ $.Controller("Surveybuilder.lineitemContent", {
             update: function(event, ui){
                 // occurs when a lineitem is moved, or created
                 // register the move with the controller
-                OpenAjax.hub.publish('lineitem.movedInDom', {el:ui.item, isDelete:false});
+                OpenAjax.hub.publish('lineitem.movedInDom', {el:ui.item, isDelete:false, showValidationErrors:true});
                 OpenAjax.hub.publish('tabs.markTabAsChanged', {});
             },
             over: function(event, ui){

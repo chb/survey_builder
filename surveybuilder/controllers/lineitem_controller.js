@@ -112,8 +112,9 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     * Handle changes that need to happen when an element has been moved in the DOM
     * @param {Object} el the element that was moved
     * @param {Boolean} isDelete flag for whether this is a delete
+    * @param {Boolean} showErrors flag for whether or not to show validation errors
     */
-    lineitemMovedInDom: function(el, isDelete){
+    lineitemMovedInDom: function(el, isDelete, showValidationErrors){
 
         var prev = el.prev();
         var prevId = prev ? prev.attr('id') : null;
@@ -123,6 +124,9 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         var newParentType = null;
         var moveType;
         var lineitem;
+        
+        // default to showing validation errors
+        showValidationErrors = (typeof showValidationErrors === "undefined") ? true : showValidationErrors;
 
 		// get the parent
 		var parent = el.parent() && el.parent().closest('.parent');  // have to go up to parent before calling closest, since lineitem has that class
@@ -146,6 +150,8 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         if(!isDelete) {
             if (!el.attr("id")) {
                 moveType = 'new';
+                // don't show validation errors for new lineitems
+                showValidationErrors = false
 				subType = el.formParams().subType;
 				var lineitem;
 				
@@ -173,9 +179,6 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 				el.replaceWith($.View('//surveybuilder/views/' + $.String.camelize(lineitem.type) + '/show_' + lineitem.subType, {lineitem: lineitem}));
 				// grab new element in dom
 				el = $('#' + lineitem.id);
-				// don't show error messages on new lineitems
-				el.find('.error').removeClass("error");
-				el.find('.help-inline').remove();  
             }
             else{
                 moveType = 'existing';
@@ -195,6 +198,12 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 	            	el.surveybuilder_branch({model:targetLine});
 	            }
             }
+            
+            // if requested, don't show validation error messages
+			if (!showValidationErrors) {
+				el.find('.error').removeClass("error");
+				el.find('.help-inline').remove();
+			} 
             
 			// hide the empty-Message and content border if content no longer empty
 		    if (el.closest('.content').children().length === 1) {
@@ -452,7 +461,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         var lineitem = new window[subType];
         var lineitemHTML = $($.View('//surveybuilder/views/' + $.String.camelize(lineitem.type) + '/show_' + lineitem.subType, {lineitem: lineitem}));
         
-        this.Class.lineitemMovedInDom(lineitemHTML.appendTo(content), false );
+        this.Class.lineitemMovedInDom(lineitemHTML.appendTo(content), false, false );
     },
     
     ".quick-add-subquestion click": function(el, ev) {
@@ -464,7 +473,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         lineitem.attr("answersId", "#" + Lineitem.findOne({id:parent.attr("id")}).about + "Answers");
         var lineitemHTML = $($.View('//surveybuilder/views/question/show_' + lineitem.subType, {lineitem: lineitem}));
         
-        this.Class.lineitemMovedInDom(lineitemHTML.appendTo(content), false );
+        this.Class.lineitemMovedInDom(lineitemHTML.appendTo(content), false, false );
     },
     
     ".quick-add-gridanswer click": function(el, ev) {
@@ -473,7 +482,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         // for now we only add LabelAnswers
         var lineitem = new LabelAnswer();
         var lineitemHTML = $.View('//surveybuilder/views/answer/show_' + lineitem.subType, {lineitem: lineitem});
-        this.Class.lineitemMovedInDom($(lineitemHTML).appendTo(content), false );
+        this.Class.lineitemMovedInDom($(lineitemHTML).appendTo(content), false, false );
     },
     
     ".datatype click": function(el, ev) {
