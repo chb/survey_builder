@@ -8,6 +8,12 @@ Question.extend("SelectOneQuestion",
 		
 		setup: function(baseClass){
 			this.defaults = $.extend({}, baseClass.defaults, this.defaults);
+		},
+		
+		init : function(){
+			this._super();
+			this.validatePresenceOf("answerProperty", {message:"required"});
+			this.validate("answerProperty", {message:"Please provide a unique Answer Property"}, function(value){if (!Lineitem.isPredicateUnique(value)) {return "not unique"}});
 		}
 	},
 	/* @Prototype */

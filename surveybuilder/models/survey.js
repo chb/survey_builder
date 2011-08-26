@@ -6,6 +6,12 @@ $.Model.extend('Survey',
 /* @Static */
 {
 	listType:  $.Model.List,
+	
+	init : function(){
+		this.validatePresenceOf("title", {message:"required"});
+		this.validatePresenceOf("creator", {message:"required"});
+		this.validatePresenceOf("contactEmail", {message:"required"});
+	},
     /**
      * Retrieves a Survey 
      * @param {Object} params params that might refine your results.

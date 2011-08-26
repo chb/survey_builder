@@ -85,7 +85,18 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
         	survey.attr(name, null);
         }
         else {
-	        survey.attr(el.attr("name"), el.val());
+	        survey.attr(name, 
+	        			el.val(), 
+	        			function(){
+							//success
+							el.closest('.attribute').removeClass("error");
+							el.siblings(".help-inline").remove();
+			        	}, 
+			        	function(errors){
+			        		//error
+			        		el.closest('.attribute').addClass("error");
+			        		el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
+        	});
         }
         survey.save();
         ev.stopPropagation();

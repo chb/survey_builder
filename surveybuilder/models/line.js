@@ -10,6 +10,9 @@ $.Model.extend('Line',
 /* @Static */
 {
 	listType:  $.Model.List,
+	init : function(){
+		this.validatePresenceOf("internalName", {message:"required"});
+	},
 	/**
      * Retrieves Line data from your backend services.
      * @param {Object} params params that might refine your results.

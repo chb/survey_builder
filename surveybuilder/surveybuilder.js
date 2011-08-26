@@ -4,7 +4,8 @@ steal.plugins(
 	'jquery/view/ejs',				// client side templates
 	'jquery/model',					// Ajax wrappers
 	'jquery/model/list',
-	'jquery/dom/form_params')		// form data helper
+	'jquery/dom/form_params',		// form data helper
+	'jquery/model/validations')
 	
 	
 	.css('resources/facebox/facebox',

@@ -8,6 +8,11 @@ Answer.extend("LabelAnswer",
 		
 		setup: function(baseClass){
 			this.defaults = $.extend({}, baseClass.defaults, this.defaults)
+		},
+		
+		init : function(){
+			this.validatePresenceOf("answerText", {message:"required"});
+			this.validatePresenceOf("answerObject", {message:"required"});
 		}
 	},
 	/* @Prototype */

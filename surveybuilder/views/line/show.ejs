@@ -1,3 +1,4 @@
+<% var errors = line.errors() %>
 <div <%= line %> id="<%= line.id %>" class="line parent ui-corner-all">
     <div class="howto <% if (HIDEHOWTO) { %> stay-hidden <% } %>">
         <h4 class="toggle quick-start-header"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>Quick Start Guide:</h4>
@@ -19,12 +20,13 @@
 			<fieldset>
 				<input type="hidden" name="about" value="<%= line.about %>" />
 				<% if (Survey.findOne({id:1}).surveyLine !== line.about) { %>
-					<div class="clearfix attribute">
-						<label for="" title="The internal name for this Section.  Not shown to a survey taker.">Name</label>
-						<div class="input">
-							<input name="internalName" value="<%= line.internalName %>" class="xxlarge" size="60" type="text">
-						</div>
-					</div>
+					<%= $.View('//surveybuilder/views/common/textInput', 
+						{name:'internalName',
+						value:line.internalName, 
+						title:'The internal name for this Section.  Not shown to a survey taker.', 
+						label:'Name', 
+						errors:errors, 
+						hideable:true}) %>
 				<% } %>
 				<div class="clearfix attribute">
 					<label for="" title="The title for this Section.  This will show up as a header above each question in this Section.">Title</label>

@@ -6,6 +6,9 @@ Lineitem.extend("Question",
 		},
 		setup: function(baseClass){
 			this.defaults = $.extend({}, baseClass.defaults, this.defaults)
+		},
+		init : function(){
+			this.validatePresenceOf("questionText", {message:"required"});
 		}
 	},
 	/* @Prototype */

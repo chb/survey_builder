@@ -35,8 +35,22 @@ $.Controller.extend('Surveybuilder.Controllers.Line',
     },
     ".line-form input change": function(el, ev){
         var currentLine = Line.findOne({id:el.closest('.line').attr('id')});
-        currentLine.attr(el.attr("name"), el.val());
-        currentLine.save();
+        var name = el.attr("name");
+        currentLine.attr(name, 
+						SURVEY_UTILS.htmlEncode(el.val()), 
+						function(){
+							// success
+							el.closest('.attribute').removeClass("error");
+							el.siblings(".help-inline").remove();
+							this.save();
+						}, 
+						function(errors){
+							// error
+							el.closest('.attribute').addClass("error");
+							// remove any old errors and display new
+							el.siblings(".help-inline").remove();
+							el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
+		});
         
         // show "content changed" indicator
         $('.ui-tabs-selected .ui-icon-gear').show();

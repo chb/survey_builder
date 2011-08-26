@@ -16,7 +16,6 @@ Lineitem.extend("Answer",
 	    */
 		loadFromXML: function(xml) {
 			if (xml) {
-				this.attr('answerProperty', SURVEY_UTILS.getElementText(xml, "answerProperty"));
 				this.attr('answerNote', SURVEY_UTILS.getElementText(xml, "answerNote"));
 			}	
 		}

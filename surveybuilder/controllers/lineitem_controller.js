@@ -172,7 +172,10 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
                 lineitem.save();
 				el.replaceWith($.View('//surveybuilder/views/' + $.String.camelize(lineitem.type) + '/show_' + lineitem.subType, {lineitem: lineitem}));
 				// grab new element in dom
-				el = $('#' + lineitem.id);  
+				el = $('#' + lineitem.id);
+				// don't show error messages on new lineitems
+				el.find('.error').removeClass("error");
+				el.find('.help-inline').remove();  
             }
             else{
                 moveType = 'existing';
@@ -368,7 +371,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     		line = Line.findOne({id:el.closest(".line").attr("id")});
 	    	Line.findAll({}, function(lines){
 	    		var list = el.find('.drop-down-list');
-	    		list.html($.View('//surveybuilder/views/line/listAsButtons', {lines:lines, currentLine:line})).prepend('<a class="move-header btn disabled" href="#">Move To:</a>'); //TODO: move to view
+	    		list.html($.View('//surveybuilder/views/line/listAsButtons', {lines:lines, currentLine:line})).prepend('<a class="move-header btn primary disabled" href="#">Move To:</a>'); //TODO: move to view
 	    	});
     	}
     	this.toggleDropdown(el);
@@ -477,11 +480,24 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         var currentLineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')}); 
         //var currentLineitem = el.closest('.lineitem').model();
         var name = el.attr("name");
-         if (name) {
+        if (name) {
         	// autocomplete can cause submissions with empty names, so ignore those
-        	currentLineitem.attr(name, SURVEY_UTILS.htmlEncode(el.val()));
-        	currentLineitem.save();
-        }
+        	currentLineitem.attr(name, 
+        						SURVEY_UTILS.htmlEncode(el.val()), 
+        						function(){
+									// success
+									el.closest('.attribute').removeClass("error");
+									el.siblings(".help-inline").remove();
+									this.save();
+								}, 
+								function(errors){
+									// error
+									el.closest('.attribute').addClass("error");
+									// remove any old errors and display new
+									el.siblings(".help-inline").remove();
+									el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
+			});
+		}
 		ev.stopPropagation();
 	}
 });

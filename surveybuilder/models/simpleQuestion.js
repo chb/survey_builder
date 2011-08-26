@@ -8,6 +8,11 @@ Question.extend("SimpleQuestion",
 		
 		setup: function(baseClass){
 			this.defaults = $.extend({}, baseClass.defaults, this.defaults);
+		},
+		
+		init : function(){
+			this._super();
+			this.validatePresenceOf("answerProperty", {message:"required"});
 		}
 	},
 	/* @Prototype */

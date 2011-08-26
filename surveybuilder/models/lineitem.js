@@ -131,6 +131,18 @@ $.Model.extend('Lineitem',
 		OpenAjax.hub.publish('objects.update', {id:id, value:value, parentID:parentID});
     },
     
+    isPredicateUnique: function(value) {
+    	// return true if we haven't initiailized the list of predicates yet TODO: should be false?
+    	if (typeof surveyBuilder == "undefined") {
+    		return true;
+    	}
+    	var predicates = $.grep(surveyBuilder.PREDICATES, 
+    							function(el, i) {
+    								return el.value === value;
+    							});
+		return (predicates.length > 1) ? false : true;						
+    },
+    
     /**
      * Destroys a lineitem's data.
      * @param {String} id A unique id representing your lineitem.
