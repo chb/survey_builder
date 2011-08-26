@@ -1,0 +1,25 @@
+<% if (lineitem.datatype === SURVEY_UTILS.RDF) { %>
+    <%= $.View('//surveybuilder/views/common/textInput', 
+				{name:'answerObject',
+				value:lineitem.answerObject, 
+				title:'Underlying value for this answer', 
+				label:'Answer Object', 
+				errors:errors, 
+				hideable:true}) %>
+<% } else if (lineitem.datatype === SURVEY_UTILS.BOOLEAN) { %>
+	<div class="clearfix hideable">
+		<label title="Underlying boolean value for this answer" for="">Answer Object</label>
+		<div class="input">
+			<button class="btn small boolean <% if (lineitem.answerObject === "true") { %> primary disabled<% } %>" data-value="true">True</button>
+			<button class="btn small boolean <% if (lineitem.answerObject === "false") { %> primary disabled<% } %>" data-value="true">False</button>
+		</div>
+	</div>
+<% } else { %>
+	<%= $.View('//surveybuilder/views/common/textInput', 
+				{name:'answerObject',
+				value:lineitem.answerObject, 
+				title:'Underlying value for this answer', 
+				label:'Answer Object', 
+				errors:errors, 
+				hideable:true}) %>
+<% } %>

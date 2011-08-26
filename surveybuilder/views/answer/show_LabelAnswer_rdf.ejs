@@ -6,7 +6,11 @@
         <answerProperty rdf:resource="<%= lineitem.answerProperty %>" />
     <% } %>
     <% if (lineitem.answerObject) { %>
-        <answerObject rdf:resource="<%= lineitem.answerObject %>"></answerObject>
+    	<% if (lineitem.datatype === SURVEY_UTILS.RDF) { %>
+	        <answerObject rdf:resource="<%= lineitem.answerObject %>"></answerObject>
+        <% } else { %>
+        	<answerObject rdf:datatype="<%= lineitem.datatype %>"><%= lineitem.answerObject %></answerObject>
+        <% } %>
     <% } %>
     <% if (lineitem.answerNote) { %>
         <answerNote><%= lineitem.answerNote %></answerNote>

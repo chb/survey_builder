@@ -171,7 +171,6 @@ form {
 #add-line {display: inline-block !important}
 #add-line-description {display: inline-block;}
 
-#surveyBuilderTabs  button {margin: 1em 1em;}
 #surveyBuilderTabs  .hide-in-tabs {display: none;}
 
 #export {padding:0;}
@@ -199,6 +198,10 @@ form {
 
 
 .ui-icon-grip-dotted-vertical {float: left;}
+
+.input .btn {
+	margin: 0;
+}
 
 .ui-sortable-helper {background-color:#FFFFFF;}
 .ui-sortable-helper.ui-draggable-dragging {background-color:transparent;}

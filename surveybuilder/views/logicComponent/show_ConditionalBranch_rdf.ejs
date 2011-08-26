@@ -19,11 +19,19 @@
 			<rightOperand>
 				<Operand>
 					<% if (lineitem.rightOperandDataType === 'survey:predicate' || lineitem.rightOperandDataType === 'survey:object') { %>
-						<value rdf:resource="<%= lineitem.rightOperand %>" />
+						<% var rightOperandLineitem = Lineitem.findOne({id:lineitem.getRightOperandID()}) %>
+						<% var type = (rightOperandLineitem) ? rightOperandLineitem.datatype : "" %>
+						<% if (type === SURVEY_UTILS.RDF) { %>
+							<value rdf:resource="<%= lineitem.rightOperand %>"></value>
+							<datatype><%= lineitem.rightOperandDataType %></datatype>
+						<% } else { %>
+							<value><%= lineitem.rightOperand %></value>
+							<datatype><%= type %></datatype>
+						<% } %>
 					<% } else { %>
 						<value><%= lineitem.rightOperand %></value>
+						<datatype><%= lineitem.rightOperandDataType %></datatype>
 					<% } %>
-					<datatype><%= lineitem.rightOperandDataType %></datatype>
 				</Operand>
 			</rightOperand>
 		</Condition>

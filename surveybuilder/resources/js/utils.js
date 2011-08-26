@@ -1,6 +1,11 @@
 $(function(){
 
 	SURVEY_UTILS = {
+		BOOLEAN:"http://www.w3.org/2001/XMLSchema#boolean",
+		INTEGER:"http://www.w3.org/2001/XMLSchema#integer",
+		DECIMAL:"http://www.w3.org/2001/XMLSchema#decimal",
+		RDF:"RDF",
+		
 		/**
 		 * Return the first matching element
 		 * @param {Object} root the root element to search from

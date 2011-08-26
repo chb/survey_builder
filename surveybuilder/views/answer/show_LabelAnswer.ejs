@@ -19,13 +19,19 @@
 						label:'Answer Text', 
 						errors:errors, 
 						hideable:false}) %>
-	        <%= $.View('//surveybuilder/views/common/textInput', 
-						{name:'answerObject',
-						value:lineitem.answerObject, 
-						title:'RDF object for this answer', 
-						label:'RDF Answer Object', 
-						errors:errors, 
-						hideable:true}) %>
+			
+			<div class="clearfix attribute hideable">
+				<label title="Data Type" for="">Data Type</label>
+				<div class="input">
+					<button class="btn small datatype <% if (lineitem.datatype === SURVEY_UTILS.RDF) { %> primary disabled<% } %>" data-type="<%= SURVEY_UTILS.RDF %>">RDF Resource</button>
+					<button class="btn small datatype <% if (lineitem.datatype === SURVEY_UTILS.BOOLEAN) { %> primary disabled<% } %>" data-type="<%= SURVEY_UTILS.BOOLEAN %>">Boolean</button>
+					<button class="btn small datatype <% if (lineitem.datatype === SURVEY_UTILS.INTEGER) { %> primary disabled<% } %>" data-type="<%= SURVEY_UTILS.INTEGER %>">Integer</button>
+					<button class="btn small datatype <% if (lineitem.datatype === SURVEY_UTILS.DECIMAL) { %> primary disabled<% } %>" data-type="<%= SURVEY_UTILS.DECIMAL %>">Decimal</button>
+				</div>
+			</div>
+			
+			<%= $.View('//surveybuilder/views/answer/show_answerObject', {lineitem:lineitem, errors:errors}) %>
+			
         </fieldset>
     </form>
 </div>

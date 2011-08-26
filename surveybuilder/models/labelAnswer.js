@@ -3,7 +3,8 @@ Answer.extend("LabelAnswer",
 	{
 		defaults: {
 			subType: "LabelAnswer",
-			displayName: "Fixed Choice"
+			displayName: "Fixed Choice",
+			datatype: "RDF"
 		},
 		
 		setup: function(baseClass){
@@ -25,7 +26,31 @@ Answer.extend("LabelAnswer",
 			this._super(xml);
 			if (xml) {
 				this.attr('answerText', SURVEY_UTILS.getElementText(xml, "answerText"));
-				this.attr('answerObject', SURVEY_UTILS.getElementAttribute(xml, 'answerObject', 'rdf:resource'));
+				var rdfResource = SURVEY_UTILS.getElementAttribute(xml, 'answerObject', 'rdf:resource');
+				if (rdfResource) {
+					this.attr('answerObject', rdfResource);
+					this.attr('datatype', SURVEY_UTILS.RDF);
+				}
+				else {
+					var datatype = SURVEY_UTILS.getElementAttribute(xml, 'answerObject', 'rdf:datatype');
+					if (datatype) {
+						switch (datatype) {
+							case SURVEY_UTILS.BOOLEAN:
+							case SURVEY_UTILS.INTEGER:
+							case SURVEY_UTILS.DECIMAL:
+								this.attr('datatype', datatype);
+								break;
+							default:
+								alert("unsupported datatype for LabelAnswer: " + datatype);
+						}
+						this.attr('answerObject', SURVEY_UTILS.getElementText(xml, "answerObject"));
+					}
+					else {
+						// no datatype or resource, default to RDF
+						this.attr('answerObject', null);
+						this.attr('datatype', SURVEY_UTILS.RDF);
+					}
+				}
 			}
 		}
 	}

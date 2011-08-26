@@ -476,6 +476,35 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         this.Class.lineitemMovedInDom($(lineitemHTML).appendTo(content), false );
     },
     
+    ".datatype click": function(el, ev) {
+    	var type = el.attr("data-type");
+    	var lineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')});
+    	lineitem.attr("datatype", type);
+    	switch (type) {
+    		case SURVEY_UTILS.BOOLEAN:
+    			// default to true for newly selected boolean datatype
+    			lineitem.attr("answerObject", "true"); 
+    			break;
+    		default:
+    			// clear out value 
+    			lineitem.attr("answerObject", null);
+    			break;
+    	}
+    	var valueAttribute = el.closest('.attribute').next();
+    	// update the value input to reflect new datatype
+    	valueAttribute.replaceWith($.View('//surveybuilder/views/answer/show_answerObject', {lineitem:lineitem, errors:null}));
+    	el.closest('.input').find('.btn').removeClass("primary disabled");
+    	el.addClass("primary disabled");
+    },
+    
+    ".boolean click": function(el, ev) {
+    	var value = el.attr("data-value");
+    	var lineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')});
+    	lineitem.attr("answerProperty", value);
+    	el.closest('.input').find('.btn').removeClass("primary disabled");
+    	el.addClass("primary disabled");
+    },
+    
     lineitemFormChange: function(el, ev) {
         var currentLineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')}); 
         //var currentLineitem = el.closest('.lineitem').model();
