@@ -306,6 +306,17 @@ form label div.input {
 	text-decoration: none;
 }
 
+.topbar .disabled {
+	color: #595959;
+}
+
+.topbar .disabled:hover {
+	background-color: inherit;
+	cursor: default;
+	color: #595959;
+	text-decoration: none;
+}
+
 /* fancy effects */
 .lineitem {
     -moz-box-shadow: 0 2px 2px rgba(0,0,0,0.5);

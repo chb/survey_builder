@@ -33,7 +33,7 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
      * Disable the save button
      */
     disableSaveButton: function() {
-    	$('#saveAll').button('disable');
+    	$('#saveAll').addClass('disabled');
     },
     
     'buttons.enableSaveButton subscribe': function(event, params) {
@@ -44,8 +44,7 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
      * Enable the save button
      */
      enableSaveButton: function(){
-     	// Enable button and remove ui-states to prevent carryover styling from old selections/clicks. Using blur() wasn't enough.
-     	$('#saveAll').button('enable').removeClass("ui-state-focus ui-state-hover");  
+     	$('#saveAll').removeClass("disabled");  
      },
      
     'buttons.showAjaxLoader subscribe': function(event, params) {
@@ -71,6 +70,11 @@ $.Controller.extend('Surveybuilder.Controllers.Buttons',
     },
     
     "#saveAll click": function(el, ev){
+    	if (el.hasClass("disabled")) {
+    		// don't save when button is marked as disabled
+    		return false;
+    	}
+    	
 	    // disable save button and show loader
 		OpenAjax.hub.publish('buttons.disableSaveButton', {});
 	    OpenAjax.hub.publish('buttons.showAjaxLoader', {});

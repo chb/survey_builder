@@ -490,6 +490,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     			lineitem.attr("answerObject", null);
     			break;
     	}
+    	lineitem.save();
     	var valueAttribute = el.closest('.attribute').next();
     	// update the value input to reflect new datatype
     	valueAttribute.replaceWith($.View('//surveybuilder/views/answer/show_answerObject', {lineitem:lineitem, errors:null}));
@@ -501,6 +502,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     	var value = el.attr("data-value");
     	var lineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')});
     	lineitem.attr("answerProperty", value);
+    	lineitem.save();
     	el.closest('.input').find('.btn').removeClass("primary disabled");
     	el.addClass("primary disabled");
     },
