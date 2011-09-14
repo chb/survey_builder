@@ -6,6 +6,10 @@ body {
 
 .cb {clear:both;}
 
+input, textarea {
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+}
 
 #survey {
 	max-width: 800px;
