@@ -28,13 +28,13 @@
 						errors:errors, 
 						hideable:true}) %>
 				<% } %>
-				<div class="clearfix attribute">
+				<div class="clearfix attribute hideable">
 					<label for="" title="The title for this Section.  This will show up as a header above each question in this Section.">Title</label>
 					<div class="input">
 						<input name="title" value="<%= line.title %>" class="xxlarge" size="60" type="text">
 					</div>
 				</div>
-				<div class="clearfix attribute">
+				<div class="clearfix attribute hideable">
 					<label for="" title="The preferred number of questions you want to render per page.">Questions Per Page</label>
 					<div class="input">
 						<input name="questionsPerPage" value="<%= line.questionsPerPage %>" class="xxlarge" size="60" type="text">

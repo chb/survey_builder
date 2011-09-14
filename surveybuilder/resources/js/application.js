@@ -19,7 +19,7 @@ $(function(){
 	//TODO: move into controller
 	$(".toggle").live("click", function() {
 		$(this).siblings(".hideable").toggle("fast");
-		$(this).siblings(".lineitem-form").find(".hideable").toggle("fast");
+		$(this).siblings(".lineitem-form, .line-form, .survey-form").find(".hideable").toggle("fast");
 		var indicator = $(this).find(".toggle-indicator");
 		if (indicator.hasClass("ui-icon-triangle-1-s")) {
 			indicator.removeClass("ui-icon-triangle-1-s").addClass("ui-icon-triangle-1-e");
