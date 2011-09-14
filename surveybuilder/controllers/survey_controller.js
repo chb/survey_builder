@@ -68,7 +68,16 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
         $('.ui-tabs-nav').after('<div id="export"><textarea >' + $.View('//surveybuilder/views/survey/show_rdf', {survey:Survey.findOne({id:1}), lines:Line.findAll(), date:new Date()}).replace(/^\s*[\n\f\r]/gm, '') + '</textarea></div>');
         $('#surveyBuilderTabs').tabs('add' , "#export" , 'RDF/XML');
     },
-    ".survey-form input change": function(el, ev){
+    ".survey-form input keyup": function(el, ev){
+        this.surveyFormChange(el, ev);
+    },
+    ".survey-form input blur": function(el, ev){
+        this.surveyFormChange(el, ev);
+    },
+    ".survey-form textarea keyup": function(el, ev){
+        this.surveyFormChange(el, ev);
+    },
+    ".survey-form textarea blur": function(el, ev){
         this.surveyFormChange(el, ev);
     },
     ".survey-form select change": function(el, ev){
@@ -91,11 +100,13 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
 							//success
 							el.closest('.attribute').removeClass("error");
 							el.siblings(".help-inline").remove();
-			        	}, 
-			        	function(errors){
-			        		//error
-			        		el.closest('.attribute').addClass("error");
-			        		el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
+						}, 
+						function(errors){
+							//error
+							el.closest('.attribute').addClass("error");
+							// remove any old errors and display new
+							el.siblings(".help-inline").remove();
+							el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
         	});
         }
         survey.save();
