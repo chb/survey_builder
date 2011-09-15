@@ -74,6 +74,9 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     ".survey-form input blur": function(el, ev){
         this.surveyFormChange(el, ev);
     },
+    ".survey-form input change": function(el, ev){
+        this.surveyFormChange(el, ev);
+    },
     ".survey-form textarea keyup": function(el, ev){
         this.surveyFormChange(el, ev);
     },
@@ -89,28 +92,40 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     surveyFormChange: function(el, ev){
         var survey = Survey.findOne({id:"1"});
         var name = el.attr("name");
-        if (el.attr('type') == 'checkbox' && !el.attr('checked')) {
-			// unset the attribute if a checkbox was unchecked
-        	survey.attr(name, null);
+        if (el.attr('type') == 'checkbox') {
+        	// checkbox
+        	if (!el.attr('checked')) {
+				// unset the attribute if unchecked
+	        	survey.attr(name, null);
+        	}
+        	survey.save();
         }
         else {
-	        survey.attr(name, 
-	        			el.val(), 
-	        			function(){
-							//success
-							el.closest('.attribute').removeClass("error");
-							el.siblings(".help-inline").remove();
-						}, 
-						function(errors){
-							//error
-							el.closest('.attribute').addClass("error");
-							// remove any old errors and display new
-							el.siblings(".help-inline").remove();
-							el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
-        	});
+        	// other
+        	var newValue = SURVEY_UTILS.htmlEncode(el.val());
+        	var oldValue = survey.attr(name);
+        	if (name && oldValue !== newValue) {
+		        survey.attr(name, 
+		        			newValue, 
+		        			function(){
+								//success
+								el.closest('.attribute').removeClass("error");
+								el.siblings(".help-inline").remove();
+								if (!(!oldValue && newValue === "")) {
+										// don't save if trying to replace null/undefined with the empty string
+										this.save();
+									}
+							}, 
+							function(errors){
+								//error
+								el.closest('.attribute').addClass("error");
+								// remove any old errors and display new
+								el.siblings(".help-inline").remove();
+								el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
+	        	});
+        	}
         }
-        survey.save();
-        ev.stopPropagation();
+        return false;
     },
     
     /*

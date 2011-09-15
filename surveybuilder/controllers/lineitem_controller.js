@@ -354,10 +354,16 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         $(el).find('.answers').surveybuilder_lineitem_content({connectWith: '.answers'});
     },
    
-    ".lineitem-form input change": function(el, ev){
+    ".lineitem-form input keyup": function(el, ev){
         this.lineitemFormChange(el, ev);
     },
-    ".lineitem-form textarea change": function(el, ev){
+    ".lineitem-form input blur": function(el, ev){
+        this.lineitemFormChange(el, ev);
+    },
+    ".lineitem-form textarea keyup": function(el, ev){
+        this.lineitemFormChange(el, ev);
+    },
+    ".lineitem-form textarea blur": function(el, ev){
         this.lineitemFormChange(el, ev);
     },
     ".lineitem-form select change": function(el, ev){
@@ -486,6 +492,9 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     },
     
     ".datatype click": function(el, ev) {
+    	if (el.hasClass("disabled")) {
+    		return false;
+    	}
     	var type = el.attr("data-type");
     	var lineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')});
     	lineitem.attr("datatype", type);
@@ -505,6 +514,8 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     	valueAttribute.replaceWith($.View('//surveybuilder/views/answer/show_answerObject', {lineitem:lineitem, errors:null}));
     	el.closest('.input').find('.btn').removeClass("primary disabled");
     	el.addClass("primary disabled");
+    	
+    	return false;
     },
     
     ".boolean click": function(el, ev) {
@@ -517,18 +528,27 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     },
     
     lineitemFormChange: function(el, ev) {
+    	if (ev.which === $.ui.keyCode.TAB) {
+    		// ignore events triggered by tabbing into the input
+    		return false;
+    	}
         var currentLineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')}); 
         //var currentLineitem = el.closest('.lineitem').model();
         var name = el.attr("name");
-        if (name) {
-        	// autocomplete can cause submissions with empty names, so ignore those
+        var newValue = SURVEY_UTILS.htmlEncode(el.val());
+        var oldValue = currentLineitem.attr(name);
+        if (name && oldValue !== newValue) {
+        	// autocomplete can cause submissions with empty names, so ignore those.  Also ignore values that are not new.
         	currentLineitem.attr(name, 
-        						SURVEY_UTILS.htmlEncode(el.val()), 
+        						newValue, 
         						function(){
 									// success
 									el.closest('.attribute').removeClass("error");
 									el.siblings(".help-inline").remove();
-									this.save();
+									if (!(!oldValue && newValue === "")) {
+										// don't save if trying to replace null/undefined with the empty string
+										this.save();
+									}
 								}, 
 								function(errors){
 									// error
@@ -538,7 +558,8 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 									el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
 			});
 		}
-		ev.stopPropagation();
+		
+		return false;
 	}
 });
 
