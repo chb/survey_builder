@@ -536,9 +536,9 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         //var currentLineitem = el.closest('.lineitem').model();
         var name = el.attr("name");
         var newValue = SURVEY_UTILS.htmlEncode(el.val());
-        var oldValue = currentLineitem.attr(name);
         if (name && oldValue !== newValue) {
         	// autocomplete can cause submissions with empty names, so ignore those.  Also ignore values that are not new.
+        	var oldValue = currentLineitem.attr(name);
         	currentLineitem.attr(name, 
         						newValue, 
         						function(){

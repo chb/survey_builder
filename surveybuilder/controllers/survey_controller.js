@@ -103,8 +103,8 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
         else {
         	// other
         	var newValue = SURVEY_UTILS.htmlEncode(el.val());
-        	var oldValue = survey.attr(name);
         	if (name && oldValue !== newValue) {
+        		var oldValue = survey.attr(name);
 		        survey.attr(name, 
 		        			newValue, 
 		        			function(){
