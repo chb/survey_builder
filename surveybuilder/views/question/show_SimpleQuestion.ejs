@@ -28,6 +28,13 @@
 						errors:errors, 
 						hideable:true}) %>
 			<%== $.View('//surveybuilder/views/common/textInput', 
+						{name:'answerNote',
+						value:lineitem.answerNote, 
+						title:'Optional text that is shown to the right of the answer input box', 
+						label:'Answer Note', 
+						errors:errors, 
+						hideable:true}) %>
+			<%== $.View('//surveybuilder/views/common/textInput', 
 						{name:'answerProperty',
 						value:lineitem.answerProperty, 
 						title:'The RDF predicate for this answer', 
