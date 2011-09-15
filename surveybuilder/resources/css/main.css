@@ -106,10 +106,6 @@ form {
 #components .ui-button-icon-only, #tabs-container .ui-button-icon-only {width: 16px;}
 #components form {margin-bottom: 0;}
 
-.btn.drop-down-btn {
-	padding-left: 0;	
-}
-
 .drop-down.ui-icon {
 	display: inline-block;
 	vertical-align: bottom;
@@ -225,11 +221,9 @@ form {
 
 .conditionalBranch .content-group {	margin-left: 0;}
 .branchOperation {width:inherit;}
-/*#tabs-container select { width: 80%; } */ 
 
 .condition-row {margin-left: 25px;}
 .condition .td-label {min-width: 175px;}
-.condition input {margin:0; width:90%;}
 .condition button {margin:0 !important; width:25px;}
 .condition button .ui-button-text {display:inline;}
 
@@ -277,6 +271,18 @@ form fieldset {
 
 label select {
 	width: inherit;
+}
+
+form input[type="text"], form input[type="password"], form textarea, form select, form .uneditable-input {
+	padding: 2px;	
+}
+
+.btn.small {
+	padding: 4px 9px;
+}
+
+.btn.drop-down-btn {
+	padding-left: 0;	
 }
 
 form label div.input {

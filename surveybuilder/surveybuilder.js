@@ -9,7 +9,7 @@ steal('jquery/jquery.js',
 	
 	
 	.then('./resources/facebox/facebox.css') // Facebox for modals  TODO: replace with Bootstrap modals
-	.then('./resources/css/bootstrap-1.0.0.min.css') // Twitter Bootstrap 
+	.then('./resources/css/bootstrap-1.2.0.min.css') // Twitter Bootstrap 
 	.then('./resources/css/jqueryui-custom/jquery-ui-1.8.14.custom.css') // jQuery UI theme 
 	.then('./resources/css/main.css')	
 
