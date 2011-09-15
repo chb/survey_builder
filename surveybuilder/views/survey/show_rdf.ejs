@@ -23,7 +23,7 @@
         </Survey>
 
         <% for (var i=0; i<lines.length; i++) { %>
-            <%= $.View('//surveybuilder/views/line/show_line_rdf', {line:lines[i]}) %>
+            <%== $.View('//surveybuilder/views/line/show_line_rdf', {line:lines[i]}) %>
         <% } %>
     </rdf:RDF>
 </Survey>

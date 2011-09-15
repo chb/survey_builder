@@ -12,7 +12,7 @@
     <% } %>
 
     <% if (line.childId) { %>
-        <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:line.childId})}) %>
+        <%== $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:line.childId})}) %>
     <% } %>
 
 </Line>

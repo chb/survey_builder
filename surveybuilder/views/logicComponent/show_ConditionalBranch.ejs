@@ -14,7 +14,7 @@
 				<label title="The Section to branch to" for="">Branch to Section</label>
 				<div class="input">
 					<select name="branchTarget" class="branchTarget">
-						<%= $.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:Line.findAll(), lineitem:lineitem, parentLine:line}) %>
+						<%== $.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:Line.findAll(), lineitem:lineitem, parentLine:line}) %>
 					</select>
 				</div>
 			</div>
@@ -22,7 +22,7 @@
 			<div class="content-group hideable show-in-tabs">
 				<h5 class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>When:</h5>
 				<div class="hideable ui-corner-all">
-					<%= $.View('//surveybuilder/views/logicComponent/show_condition', {lineitem:lineitem}) %>
+					<%== $.View('//surveybuilder/views/logicComponent/show_condition', {lineitem:lineitem}) %>
 				</div>
 			</div>
 		</fieldset>

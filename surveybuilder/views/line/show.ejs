@@ -20,7 +20,7 @@
 			<fieldset>
 				<input type="hidden" name="about" value="<%= line.about %>" />
 				<% if (Survey.findOne({id:1}).surveyLine !== line.about) { %>
-					<%= $.View('//surveybuilder/views/common/textInput', 
+					<%== $.View('//surveybuilder/views/common/textInput', 
 						{name:'internalName',
 						value:line.internalName, 
 						title:'The internal name for this Section.  Not shown to a survey taker.', 
@@ -47,7 +47,7 @@
     <div class="empty-message <% if (line.childId) { %>stay-hidden<% } %>">To add Sections and Questions to this Section, drag and drop them here </div>
     <div class="content line-items ui-corner-all <% if (line.childId) { %>hideBorder<% } %>">
         <% if (line.childId) { %>
-            <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:Lineitem.findOne({id:line.childId}), line:line}) %>
+            <%== $.View('//surveybuilder/views/lineitem/show', {lineitem:Lineitem.findOne({id:line.childId}), line:line}) %>
         <% } %>
     </div>
 </div>

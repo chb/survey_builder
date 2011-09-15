@@ -3,7 +3,7 @@
 	<div class="clearfix attribute hideable">
 		<label for="">Answer To</label>
 		<div class="input">
-			<%= $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.leftOperand, id:lineitem.getLeftOperandID()}, operandDatatype:"survey:predicate", name:"leftOperand", options:surveyBuilder.PREDICATES}) %>
+			<%== $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.leftOperand, id:lineitem.getLeftOperandID()}, operandDatatype:"survey:predicate", name:"leftOperand", options:surveyBuilder.PREDICATES}) %>
 		</div>
 	</div>
 	<div class="clearfix attribute hideable">
@@ -11,12 +11,12 @@
 		<div class="input">
 			<div class="inline-inputs">
 				<select name="operator" class="xsmall branchOperation">
-					<%= $.View('//surveybuilder/views/logicComponent/show_branchOperations', {lineitem:lineitem}) %>
+					<%== $.View('//surveybuilder/views/logicComponent/show_branchOperations', {lineitem:lineitem}) %>
 				</select>
 				<select name="rightOperandDataType" class="right-operand-dataType">
-					<%= $.View('//surveybuilder/views/logicComponent/show_branchOperandTypes', {operandDatatype:lineitem.rightOperandDataType}) %>
+					<%== $.View('//surveybuilder/views/logicComponent/show_branchOperandTypes', {operandDatatype:lineitem.rightOperandDataType}) %>
 				</select>
-				<%= $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.rightOperand, id:lineitem.getRightOperandID()}, operandDatatype:lineitem.rightOperandDataType, name:"rightOperand", options:surveyBuilder.OBJECTS}) %>
+				<%== $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.rightOperand, id:lineitem.getRightOperandID()}, operandDatatype:lineitem.rightOperandDataType, name:"rightOperand", options:surveyBuilder.OBJECTS}) %>
 			</div>
 		</div>
 	</div>

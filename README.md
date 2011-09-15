@@ -3,7 +3,8 @@
 ### About
 * Implemented in JavaScript using:
  * [JavaScriptMVC (JMVC)](http://javascriptmvc.com/) 
-  * [jQuery](http://jquery.com/) & [jQuery UI](http://jqueryui.com/)
+ * [jQuery](http://jquery.com/) & [jQuery UI](http://jqueryui.com/)
+ * [Bootstrap](http://twitter.github.com/bootstrap/)
 * Creates RDF/XML survey definitions as described [here](http://wiki.chip.org/indivo/index.php/Survey_RDF_Model)
 
 ### Getting Started
@@ -39,6 +40,6 @@ By default, the builder will run in development mode, allowing for console loggi
 
 1. from <code>survey_builder/</code> run <code>./steal/js ./surveybuilder/scripts/build.js</code>
 2. edit <code>survey_builder/surveybuilder/index.html</code> and change the existing script tag to point to the new production bundle: 
- * old <code> src='../steal/steal.js?surveybuilder,development'></code>
- * new <code> src='../steal/steal.js?surveybuilder,production'></code>
+ * old <code> steal('surveybuilder').then(function($) { </code>
+ * new <code> steal('surveybuilder/production.js').then(function($) {</code>
 

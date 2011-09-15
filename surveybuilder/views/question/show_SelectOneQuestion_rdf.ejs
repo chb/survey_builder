@@ -19,7 +19,7 @@
 			<AnswerSequence>
 			    <% if (lineitem.childId) {%>
 			        <% var childLineitem = Lineitem.findOne({id:lineitem.childId}) %>
-			        <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:childLineitem}) %>
+			        <%== $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:childLineitem}) %>
 			    <% } %>
 			</AnswerSequence>
 	    </questionAnswers>

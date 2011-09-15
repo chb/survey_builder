@@ -1,9 +1,9 @@
 <rdf:li>
-    <%= $.View('//surveybuilder/views/' + lineitem.type + '/show_' + lineitem.subType + '_rdf', {lineitem:lineitem}) %>
+    <%== $.View('//surveybuilder/views/' + lineitem.type + '/show_' + lineitem.subType + '_rdf', {lineitem:lineitem}) %>
 </rdf:li>
 
 
 <% if (lineitem.nextLineitem) { %>
-    <%= $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:lineitem.nextLineitem})}) %>
+    <%== $.View('//surveybuilder/views/lineitem/show_rdf', {lineitem:Lineitem.findOne({id:lineitem.nextLineitem})}) %>
 <% } %>
 

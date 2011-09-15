@@ -1,5 +1,5 @@
 <% if (lineitem.datatype === SURVEY_UTILS.RDF) { %>
-    <%= $.View('//surveybuilder/views/common/textInput', 
+    <%== $.View('//surveybuilder/views/common/textInput', 
 				{name:'answerObject',
 				value:lineitem.answerObject, 
 				title:'Underlying value for this answer', 
@@ -15,7 +15,7 @@
 		</div>
 	</div>
 <% } else { %>
-	<%= $.View('//surveybuilder/views/common/textInput', 
+	<%== $.View('//surveybuilder/views/common/textInput', 
 				{name:'answerObject',
 				value:lineitem.answerObject, 
 				title:'Underlying value for this answer', 

@@ -2,7 +2,7 @@
 <div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class ="lineitem parent <%= lineitem.type %> <%= lineitem.subType %> ui-corner-all" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
 	<span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
 	<span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
-	<%= $.View("//surveybuilder/views/lineitem/_move") %>
+	<%== $.View("//surveybuilder/views/lineitem/_move") %>
 	<span class="ui-icon ui-icon-trash show-in-tabs"></span>
 	<span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
 	<h5 class="header toggle show-in-tabs"><span class="ui-icon ui-icon-triangle-1-s show-in-tabs toggle-indicator"></span><%= lineitem.displayName %></h5>
@@ -13,14 +13,14 @@
 			<input type="hidden" name="subType" value="<%= lineitem.subType %>" />
 			<input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
 			<input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
-			<%= $.View('//surveybuilder/views/common/textarea', 
+			<%== $.View('//surveybuilder/views/common/textarea', 
 						{name:'questionText',
 						value:lineitem.questionText, 
 						title:'The text to display for this question', 
 						label:'Question Text', 
 						errors:errors, 
 						hideable:false}) %>
-			<%= $.View('//surveybuilder/views/common/textInput', 
+			<%== $.View('//surveybuilder/views/common/textInput', 
 						{name:'answerProperty',
 						value:lineitem.answerProperty, 
 						title:'The RDF predicate for all Answers under this Question.', 
@@ -42,7 +42,7 @@
 		<div class="answers content hideable ui-corner-all <% if (lineitem.childId) { %>hideBorder<% } %>">
 		    <% if (lineitem.childId) {%>
 		        <% var childLineitem = Lineitem.findOne({id:lineitem.childId}) %>
-		        <%= $.View('//surveybuilder/views/lineitem/show', {lineitem:childLineitem}) %>
+		        <%== $.View('//surveybuilder/views/lineitem/show', {lineitem:childLineitem}) %>
 		    <% } %>
 		</div>
     </div>

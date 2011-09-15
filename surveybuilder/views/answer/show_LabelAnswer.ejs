@@ -12,7 +12,7 @@
 	        <input type="hidden" name="subType" value="<%= lineitem.subType %>" />
 	        <input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
 	        <input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
-	        <%= $.View('//surveybuilder/views/common/textarea', 
+	        <%== $.View('//surveybuilder/views/common/textarea', 
 						{name:'answerText',
 						value:lineitem.answerText, 
 						title:'Text to display for this answer', 
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			
-			<%= $.View('//surveybuilder/views/answer/show_answerObject', {lineitem:lineitem, errors:errors}) %>
+			<%== $.View('//surveybuilder/views/answer/show_answerObject', {lineitem:lineitem, errors:errors}) %>
 			
         </fieldset>
     </form>

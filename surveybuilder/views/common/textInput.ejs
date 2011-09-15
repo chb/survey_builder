@@ -3,7 +3,7 @@
 	<div class="input">
 		<input name="<%= name %>" value="<%= value %>" class="xxlarge" size="60" type="text">
 		<% if (errors && errors[name]) { %>
-			<%= $.View('//surveybuilder/views/error/validation', {message:errors[name][0]}) %>
+			<%== $.View('//surveybuilder/views/error/validation', {message:errors[name][0]}) %>
 		<% } %>
 	</div>
 </div>

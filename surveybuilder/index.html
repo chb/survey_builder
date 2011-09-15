@@ -6,7 +6,7 @@
     </head>
     <body>
 		<div id="survey-container"></div>
-        <script type='text/javascript' src='../steal/steal.js?surveybuilder,development'></script>
+        <script type='text/javascript' src='../steal/steal.js'></script>
 		<script language="javascript">
 
 			// Preview path
@@ -62,14 +62,17 @@
 				}
 		   };
 
-		   $(document).ready(function() {
-			   OpenAjax.hub.publish('survey.open', {'data_connector' : connector, 'id':1 });
-			   
-			   // show basic error message on ajax fails
-			   $('#survey').ajaxError(function(e, xhr, settings, exception) {
-					alert("Error while making call to " + settings.url + ": " + exception);
-				});
-		   });
+			steal('surveybuilder').then(function($) {
+				$(document).ready(function() {
+					$("body").surveybuilder_main();
+					OpenAjax.hub.publish('survey.open', {'data_connector' : connector, 'id':1 });
+				   
+				   // show basic error message on ajax fails
+				   $('#survey').ajaxError(function(e, xhr, settings, exception) {
+						alert("Error while making call to " + settings.url + ": " + exception);
+					});
+	 			});
+			});
 
 		</script>
     </body>

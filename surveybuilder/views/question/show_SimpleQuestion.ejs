@@ -4,7 +4,7 @@
 	<span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
 	<span class="ui-icon ui-icon-trash show-in-tabs" title="delete"></span>
 	<span class="ui-icon ui-icon-copy copy show-in-tabs" title="copy"></span>
-	<%= $.View("//surveybuilder/views/lineitem/_move") %>
+	<%== $.View("//surveybuilder/views/lineitem/_move") %>
 	<h5 class="header show-in-tabs toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span><%= lineitem.displayName %></h5>
 	<form class="lineitem-form show-in-tabs" onsubmit="return false;">
 		<fieldset>
@@ -13,21 +13,21 @@
 			<input type="hidden" name="subType" value="<%= lineitem.subType %>" />
 			<input type="hidden" name="parentId" value="<%= lineitem.parentId %>" />
 			<input type="hidden" name="parentType" value="<%= lineitem.parentType %>" />
-			<%= $.View('//surveybuilder/views/common/textarea', 
+			<%== $.View('//surveybuilder/views/common/textarea', 
 						{name:'questionText',
 						value:lineitem.questionText, 
 						title:'The text to display for this question', 
 						label:'Question Text', 
 						errors:errors, 
 						hideable:false}) %>
-			<%= $.View('//surveybuilder/views/common/textInput', 
+			<%== $.View('//surveybuilder/views/common/textInput', 
 						{name:'answerLabel',
 						value:lineitem.answerLabel, 
 						title:'Optional text that is shown to the left of the answer input box', 
 						label:'Answer Label', 
 						errors:errors, 
 						hideable:true}) %>
-			<%= $.View('//surveybuilder/views/common/textInput', 
+			<%== $.View('//surveybuilder/views/common/textInput', 
 						{name:'answerProperty',
 						value:lineitem.answerProperty, 
 						title:'The RDF predicate for this answer', 
