@@ -521,10 +521,12 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     ".boolean click": function(el, ev) {
     	var value = el.attr("data-value");
     	var lineitem = Lineitem.findOne({id:el.closest('.lineitem').attr('id')});
-    	lineitem.attr("answerProperty", value);
+    	lineitem.attr("answerObject", value);
     	lineitem.save();
     	el.closest('.input').find('.btn').removeClass("primary disabled");
     	el.addClass("primary disabled");
+    	
+    	return false;
     },
     
     lineitemFormChange: function(el, ev) {
