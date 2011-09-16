@@ -114,17 +114,23 @@ LogicComponent.extend("ConditionalBranch",
 			return this.rightOperandID;
 		},
 		
-		setLeftOperand: function(value) {
+		setLeftOperand: function(value, success, error) {
 			if (this.leftOperand !== value) {
 				this.leftOperandID = null;
 				this.leftOperand = value;
 			}
+			if (success) {
+				success();
+			}
 		},
 		
-		setRightOperand: function(value) {
+		setRightOperand: function(value, success, error) {
 			if (this.rightOperand !== value) {
 				this.rightOperandID = null;
 				this.rightOperand = value;
+			}
+			if (success) {
+				success();
 			}
 		}
 		
