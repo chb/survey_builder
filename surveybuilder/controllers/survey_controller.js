@@ -106,26 +106,28 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
         else {
         	// other
         	var newValue = SURVEY_UTILS.htmlEncode(el.val());
-        	if (name && oldValue !== newValue) {
+        	if (name) {
         		var oldValue = survey.attr(name);
-		        survey.attr(name, 
-		        			newValue, 
-		        			function(){
-								//success
-								el.closest('.attribute').removeClass("error");
-								el.siblings(".help-inline").remove();
-								if (!(!oldValue && newValue === "")) {
-										// don't save if trying to replace null/undefined with the empty string
-										this.save();
-									}
-							}, 
-							function(errors){
-								//error
-								el.closest('.attribute').addClass("error");
-								// remove any old errors and display new
-								el.siblings(".help-inline").remove();
-								el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
+        		if (oldValue !== newValue) {
+			        survey.attr(name, 
+			        			newValue, 
+			        			function(){
+									//success
+									el.closest('.attribute').removeClass("error");
+									el.siblings(".help-inline").remove();
+									if (!(!oldValue && newValue === "")) {
+											// don't save if trying to replace null/undefined with the empty string
+											this.save();
+										}
+								}, 
+								function(errors){
+									//error
+									el.closest('.attribute').addClass("error");
+									// remove any old errors and display new
+									el.siblings(".help-inline").remove();
+									el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
 	        	});
+	        	}
         	}
         }
         return false;

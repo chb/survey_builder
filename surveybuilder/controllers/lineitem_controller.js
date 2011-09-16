@@ -538,27 +538,29 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         //var currentLineitem = el.closest('.lineitem').model();
         var name = el.attr("name");
         var newValue = SURVEY_UTILS.htmlEncode(el.val());
-        if (name && oldValue !== newValue) {
+        if (name) {
         	// autocomplete can cause submissions with empty names, so ignore those.  Also ignore values that are not new.
         	var oldValue = currentLineitem.attr(name);
-        	currentLineitem.attr(name, 
-        						newValue, 
-        						function(){
-									// success
-									el.closest('.attribute').removeClass("error");
-									el.siblings(".help-inline").remove();
-									if (!(!oldValue && newValue === "")) {
-										// don't save if trying to replace null/undefined with the empty string
-										this.save();
-									}
-								}, 
-								function(errors){
-									// error
-									el.closest('.attribute').addClass("error");
-									// remove any old errors and display new
-									el.siblings(".help-inline").remove();
-									el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
-			});
+        	if (oldValue !== newValue) {
+	        	currentLineitem.attr(name, 
+	        						newValue, 
+	        						function(){
+										// success
+										el.closest('.attribute').removeClass("error");
+										el.siblings(".help-inline").remove();
+										if (!(!oldValue && newValue === "")) {
+											// don't save if trying to replace null/undefined with the empty string
+											this.save();
+										}
+									}, 
+									function(errors){
+										// error
+										el.closest('.attribute').addClass("error");
+										// remove any old errors and display new
+										el.siblings(".help-inline").remove();
+										el.after($.View('//surveybuilder/views/error/validation', {message:errors[name][0]}));
+				});
+			}
 		}
 		
 		return false;
