@@ -38,7 +38,7 @@ $.Controller.extend('Surveybuilder.Controllers.LogicComponent',
 				$($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:operand, id:operandID}, operandDatatype:dataType, name:name, options:surveyBuilder.PREDICATES})).replaceAll(el).combobox();
 				break;
 			default:
-				$($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:operand, operandDatatype:dataType, name:name})).replaceAll(el);
+				$($.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:operand, id:null}, operandDatatype:dataType, name:name})).replaceAll(el);
 				break;
 		}
 	},
