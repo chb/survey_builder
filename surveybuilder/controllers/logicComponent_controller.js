@@ -81,6 +81,12 @@ $.Controller.extend('Surveybuilder.Controllers.LogicComponent',
 	},
 
 	".leftOperand change": function(el, ev) {
+		var currentLineitem = Lineitem.findOne({id:el.closest(".lineitem").attr('id')});
+		var leftOperandClassName = Lineitem.findOne({id:el.closest('.lineitem').find('.leftOperand option:selected').attr("data-predicate-id")}).Class.fullName;
+		// update operators based on selected operand
+		var operandElement = el.siblings(".branchOperation");
+		operandElement.html($.View('//surveybuilder/views/logicComponent/show_branchOperations', {lineitem:currentLineitem, leftOperandClassName:leftOperandClassName}));
+		
 		var condition = el.closest('.condition');
 		var dataType = condition.find('.right-operand-dataType').val();
 		var operandEl = el.closest('.condition').find('.rightOperand');

@@ -1,18 +1,23 @@
+<% 	var leftOperandID = lineitem.getLeftOperandID();
+	var leftOperandClassName; 
+ 	if (leftOperandID) { leftOperandClassName = Lineitem.findOne({id:leftOperandID}).Class.fullName; } %>
 <fieldset class="condition">
 	<input type="hidden" name="leftOperandDataType" value="survey:predicate" />
 	<div class="clearfix attribute hideable">
 		<label for="">Answer To</label>
 		<div class="input">
-			<%== $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.leftOperand, id:lineitem.getLeftOperandID()}, operandDatatype:"survey:predicate", name:"leftOperand", options:surveyBuilder.PREDICATES}) %>
+			<div class="inline-inputs">
+				<%== $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.leftOperand, id:leftOperandID}, operandDatatype:"survey:predicate", name:"leftOperand", options:surveyBuilder.PREDICATES}) %>
+				<select name="operator" class="xsmall branchOperation">
+					<%== $.View('//surveybuilder/views/logicComponent/show_branchOperations', {lineitem:lineitem, leftOperandClassName:leftOperandClassName}) %>
+				</select>
+			</div>
 		</div>
 	</div>
 	<div class="clearfix attribute hideable">
-		<label for="">Is</label>
+		<label for="">the</label>
 		<div class="input">
 			<div class="inline-inputs">
-				<select name="operator" class="xsmall branchOperation">
-					<%== $.View('//surveybuilder/views/logicComponent/show_branchOperations', {lineitem:lineitem}) %>
-				</select>
 				<select name="rightOperandDataType" class="right-operand-dataType">
 					<%== $.View('//surveybuilder/views/logicComponent/show_branchOperandTypes', {operandDatatype:lineitem.rightOperandDataType}) %>
 				</select>

@@ -1,6 +1,12 @@
-<option value=null <% if (lineitem && !lineitem.operator) { %> selected="selected" <% } %>></option>
-<option value="=" <% if (lineitem && lineitem.operator && lineitem.operator === "=") { %> selected="selected" <% } %>>=</option>
-<option value="&lt;" <% if (lineitem && lineitem.operator && lineitem.operator === "&lt;") { %> selected="selected" <% } %>>&lt;</option>
-<option value="&lt;=" <% if (lineitem && lineitem.operator && lineitem.operator === "&lt;=") { %> selected="selected" <% } %>>&lt;=</option>
-<option value="&gt;" <% if (lineitem && lineitem.operator && lineitem.operator === "&gt;") { %> selected="selected" <% } %>>&gt;</option>
-<option value="&gt;=" <% if (lineitem && lineitem.operator && lineitem.operator === "&gt;=") { %> selected="selected" <% } %>>&gt;=</option>
+<% if (leftOperandClassName && leftOperandClassName === "SelectMultipleQuestion") { %>
+	<option value="contains" <% if (lineitem && lineitem.operator && lineitem.operator === "contains") { %> selected="selected" <% } %>>contains</option>
+	<option value="!contains" <% if (lineitem && lineitem.operator && lineitem.operator === "!contains") { %> selected="selected" <% } %>>does not contain</option>
+<% } else { %>
+	<option value=null <% if (lineitem && !lineitem.operator) { %> selected="selected" <% } %>></option>
+	<option value="=" <% if (lineitem && lineitem.operator && lineitem.operator === "=") { %> selected="selected" <% } %>>=</option>
+	<option value="!=" <% if (lineitem && lineitem.operator && lineitem.operator === "!=") { %> selected="selected" <% } %>>!=</option>
+	<option value="&lt;" <% if (lineitem && lineitem.operator && lineitem.operator === "&lt;") { %> selected="selected" <% } %>>&lt;</option>
+	<option value="&lt;=" <% if (lineitem && lineitem.operator && lineitem.operator === "&lt;=") { %> selected="selected" <% } %>>&lt;=</option>
+	<option value="&gt;" <% if (lineitem && lineitem.operator && lineitem.operator === "&gt;") { %> selected="selected" <% } %>>&gt;</option>
+	<option value="&gt;=" <% if (lineitem && lineitem.operator && lineitem.operator === "&gt;=") { %> selected="selected" <% } %>>&gt;=</option>
+<% } %>
