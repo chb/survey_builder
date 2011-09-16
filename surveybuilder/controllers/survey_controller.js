@@ -98,6 +98,9 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
 				// unset the attribute if unchecked
 	        	survey.attr(name, null);
         	}
+        	else {
+        		survey.attr(name, el.val());
+        	}
         	survey.save();
         }
         else {

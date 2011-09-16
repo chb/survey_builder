@@ -71,13 +71,13 @@
 			<div class="clearfix">
 				<label for="" title="Allow the user to see a summary page of their answers before submission">Answer Review</label>
 				<div class="input">
-					<input name="reviewAnswers" value="true" type="checkbox" <% if (survey.reviewAnswers && survey.reviewAnswers == true) { %> checked="checked" <% } %>>
+					<input name="reviewAnswers" value="true" type="checkbox" <% if (survey.reviewAnswers && survey.reviewAnswers === "true") { %> checked="checked" <% } %>>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="" title="Show a message at the start of the survey and on each page warning the user not to enter any identified information">De-identified Message</label>
 				<div class="input">
-					<input name="deident" value="true" type="checkbox" <% if (survey.deident && survey.deident == true) { %> checked="checked" <% } %>>
+					<input name="deident" value="true" type="checkbox" <% if (survey.deident && survey.deident === "true") { %> checked="checked" <% } %>>
 				</div>
 			</div>
 		</fieldset>
