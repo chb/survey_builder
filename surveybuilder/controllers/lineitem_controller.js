@@ -427,6 +427,19 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
     	var tempParent = new Lineitem();
     	Lineitem.createFromXML(originalXMLDoc, tempParent);
     	var copyLineitem = Lineitem.findOne({id:tempParent.childId});
+    	if (copyLineitem instanceof GridSelectOneQuestion) {
+    		// 
+    		copyLineitem.attr("about", copyLineitem.attr("id"));
+    		var childQuestionID = copyLineitem.attr("childQuestionId");
+    		var childQuestion;
+    		while (childQuestionID) {
+    			childQuestion = Lineitem.findOne({id:childQuestionID});
+    			childQuestion.attr("answersId", "#" + copyLineitem.attr("about") + "Answers");
+    			childQuestion.save();
+    			childQuestionID = childQuestion.attr("nextLineitem");
+    		}
+    		copyLineitem.save();
+    	}
     	var copyElement = $($.View('//surveybuilder/views/' + $.String.camelize(copyLineitem.type) + '/show_' + copyLineitem.subType, {lineitem: copyLineitem}));
     	copyElement.insertAfter(originalElement);
     	this.Class.lineitemMovedInDom(copyElement, false );
