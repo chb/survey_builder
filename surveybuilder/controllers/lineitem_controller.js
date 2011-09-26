@@ -354,17 +354,35 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         $(el).find('.answers').surveybuilder_lineitem_content({connectWith: '.answers'});
     },
    
+   /**
+    * Calls lineitemFormChange after a timeout, which can be reset by receiving
+    * another request on the same element before the timeout is reached.
+    * @param el {Object} el the form element that changed
+    * @param ev {} ev the form event
+    */
+   	delayedFormChange: function(el, ev) {
+   		var timeoutLength = 300;
+    	var onTimeout = function() {
+    		el.closest('.lineitem').controller('lineitem').lineitemFormChange(el, ev);
+    	}
+    	var formChangeTimeout = el.data("formChangeTimeout");
+    	
+    	clearTimeout( formChangeTimeout );
+		formChangeTimeout = setTimeout(onTimeout, timeoutLength );
+		el.data("formChangeTimeout", formChangeTimeout);
+   	},
+   
     ".lineitem-form input keyup": function(el, ev){
-        this.lineitemFormChange(el, ev);
+    	this.delayedFormChange(el, ev);
     },
     ".lineitem-form input blur": function(el, ev){
-        this.lineitemFormChange(el, ev);
+        this.delayedFormChange(el, ev);
     },
     ".lineitem-form textarea keyup": function(el, ev){
-        this.lineitemFormChange(el, ev);
+        this.delayedFormChange(el, ev);
     },
     ".lineitem-form textarea blur": function(el, ev){
-        this.lineitemFormChange(el, ev);
+       this.delayedFormChange(el, ev);
     },
     ".lineitem-form select change": function(el, ev){
         this.lineitemFormChange(el, ev);
