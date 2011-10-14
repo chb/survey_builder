@@ -73,6 +73,7 @@ $.Controller.extend('Surveybuilder.Controllers.Tabs',
         	line = Line.findOne({about:$(this).attr('data-lineAbout')});
         	$(this).surveybuilder_branch({model:line});
         });
+        $('#'+id + ' .Condition').surveybuilder_condition();
         
         this.repositionTabContent();
     },

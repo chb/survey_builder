@@ -1,0 +1,41 @@
+<% 	var leftOperandID = lineitem.getLeftOperandID();
+	var leftOperandClassName; 
+ 	if (leftOperandID) { leftOperandClassName = Lineitem.findOne({id:leftOperandID}).Class.fullName; } %>
+
+<div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
+	<span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
+	<span class="ui-icon ui-icon-trash show-in-tabs"></span>
+	<form class="lineitem-form show-in-tabs" onsubmit="return false;">
+		<fieldset class="condition">
+			<a href="#" class="btn small primary logical-operator"><%= lineitem.logicOperator %></a>
+			<input type="hidden" name="leftOperandDataType" value="survey:predicate" />
+			<div class="clearfix attribute hideable">
+				<label for="">Answer To</label>
+				<div class="input">
+					<div class="inline-inputs">
+						<%== $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.leftOperand, id:leftOperandID}, operandDatatype:"survey:predicate", name:"leftOperand", options:surveyBuilder.PREDICATES}) %>
+						<select name="operator" class="xsmall branchOperation">
+							<%== $.View('//surveybuilder/views/logicComponent/show_branchOperations', {lineitem:lineitem, leftOperandClassName:leftOperandClassName}) %>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix attribute hideable">
+				<label for="">the</label>
+				<div class="input">
+					<div class="inline-inputs">
+						<select name="rightOperandDataType" class="right-operand-dataType">
+							<%== $.View('//surveybuilder/views/logicComponent/show_branchOperandTypes', {operandDatatype:lineitem.rightOperandDataType}) %>
+						</select>
+						<%== $.View('//surveybuilder/views/logicComponent/show_branchOperand', {operand:{value:lineitem.rightOperand, id:lineitem.getRightOperandID()}, operandDatatype:lineitem.rightOperandDataType, name:"rightOperand", options:surveyBuilder.OBJECTS}) %>
+					</div>
+				</div>
+			</div>
+			
+		</fieldset>
+	</form>
+</div>
+
+
+
+

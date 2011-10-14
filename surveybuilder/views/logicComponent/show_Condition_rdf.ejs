@@ -1,0 +1,81 @@
+<Condition>
+	<leftOperand>
+		<% if (condition.prevLineitem) { %>
+			<%== $.View('//surveybuilder/views/logicComponent/show_Condition_rdf', {condition:Lineitem.findOne({id:condition.prevLineitem})}) %> 
+		<% } else { %>
+			<Operand>
+				<% if (condition.leftOperandDataType === 'survey:predicate' || condition.leftOperandDataType === 'survey:object') { %>
+					<value rdf:resource="<%= condition.leftOperand %>" />
+				<% } else { %>
+					<value><%= condition.leftOperand %></value>
+				<% } %>
+				<datatype><%= condition.leftOperandDataType %></datatype>
+			</Operand>
+		<% } %>
+	</leftOperand>
+	<operator>
+		<Operator>
+			<% if (condition.prevLineitem) { %>
+				<value><%== condition.logicOperator %></value>
+			<% } else { %>
+				<value><%== condition.operator %></value>
+			<% } %>
+		</Operator>
+	</operator>
+	<rightOperand>
+		<% if (condition.prevLineitem) { %>
+			<Condition>
+				<leftOperand>
+					<Operand>
+						<% if (condition.leftOperandDataType === 'survey:predicate' || condition.leftOperandDataType === 'survey:object') { %>
+							<value rdf:resource="<%= condition.leftOperand %>" />
+						<% } else { %>
+							<value><%= condition.leftOperand %></value>
+						<% } %>
+						<datatype><%= condition.leftOperandDataType %></datatype>
+					</Operand>
+				</leftOperand>
+				<operator>
+					<Operator>
+						<value><%== condition.operator %></value>
+					</Operator>
+				</operator>
+				<rightOperand>
+					<Operand>
+						<% if (condition.rightOperandDataType === 'survey:predicate' || condition.rightOperandDataType === 'survey:object') { %>
+							<% var rightOperandLineitem = Lineitem.findOne({id:condition.getRightOperandID()}) %>
+							<% var type = (rightOperandLineitem) ? rightOperandLineitem.datatype : "" %>
+							<% if (type === SURVEY_UTILS.RDF) { %>
+								<value rdf:resource="<%= condition.rightOperand %>"></value>
+								<datatype><%= condition.rightOperandDataType %></datatype>
+							<% } else { %>
+								<value><%= condition.rightOperand %></value>
+								<datatype><%= type %></datatype>
+							<% } %>
+						<% } else { %>
+							<value><%= condition.rightOperand %></value>
+							<datatype><%= condition.rightOperandDataType %></datatype>
+						<% } %>
+					</Operand>
+				</rightOperand>
+			</Condition>
+		<% } else { %>
+			<Operand>
+				<% if (condition.rightOperandDataType === 'survey:predicate' || condition.rightOperandDataType === 'survey:object') { %>
+					<% var rightOperandLineitem = Lineitem.findOne({id:condition.getRightOperandID()}) %>
+					<% var type = (rightOperandLineitem) ? rightOperandLineitem.datatype : "" %>
+					<% if (type === SURVEY_UTILS.RDF) { %>
+						<value rdf:resource="<%= condition.rightOperand %>"></value>
+						<datatype><%= condition.rightOperandDataType %></datatype>
+					<% } else { %>
+						<value><%= condition.rightOperand %></value>
+						<datatype><%= type %></datatype>
+					<% } %>
+				<% } else { %>
+					<value><%= condition.rightOperand %></value>
+					<datatype><%= condition.rightOperandDataType %></datatype>
+				<% } %>
+			</Operand>
+		<% } %>
+	</rightOperand>
+</Condition>

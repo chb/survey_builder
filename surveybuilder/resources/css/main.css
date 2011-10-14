@@ -63,7 +63,7 @@ form {
 	white-space: nowrap;
 }
 .quick-add {display: inline-block;}
-#tabs-container .quick-add-subquestion, #tabs-container .quick-add-gridanswer {display:inline-block; margin-top:0; position:static}
+#tabs-container .quick-add-subquestion, #tabs-container .quick-add-gridanswer, #tabs-container .quick-add-condition  {display:inline-block; margin-top:0; position:static}
 .empty-message {bottom:-1.4em; font-style:italic; height:1em; margin-left:1em; margin-right:1em; position:relative; }
 .stay-hidden {display:none !important;}
 
@@ -226,6 +226,15 @@ form {
 .condition .td-label {min-width: 175px;}
 .condition button {margin:0 !important; width:25px;}
 .condition button .ui-button-text {display:inline;}
+.condition .logical-operator {
+	position: absolute;
+	top: 40%;
+	left: 20px;
+}
+
+.ConditionalBranch .content .lineitem:first-child .logical-operator {
+	display: none;
+}
 
 .input-append button {
 	height: 21px !important;

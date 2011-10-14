@@ -1,4 +1,4 @@
-<div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
+<div <%= lineitem %> <% if (lineitem.id) { %> id="<%= lineitem.id %>" <% } %> class="lineitem parent <%= lineitem.type %> ui-corner-all <%= lineitem.subType %>" data-type="<%= lineitem.type %>" data-subType="<%= lineitem.subType %>">
 	<span class="handle button hide-in-tabs"><%= lineitem.displayName %></span>
 	<span class="ui-icon ui-icon-grip-dotted-vertical show-in-tabs"></span>
 	<span class="ui-icon ui-icon-trash show-in-tabs"></span>
@@ -21,8 +21,11 @@
 		
 			<div class="content-group hideable show-in-tabs">
 				<h5 class="content-label toggle"><span class="ui-icon ui-icon-triangle-1-s toggle-indicator show-in-tabs"></span>When:</h5>
-				<div class="hideable ui-corner-all">
-					<%== $.View('//surveybuilder/views/logicComponent/show_condition', {lineitem:lineitem}) %>
+				<span class="ui-icon ui-icon-circle-plus quick-add-condition" title="Add a new Condition"></span>
+				<div class="conditions content hideable ui-corner-all <% if (lineitem.childId) { %>hideBorder<% } %>">
+					<% if (lineitem.childId) {%>
+				        <%== $.View('//surveybuilder/views/lineitem/show', {lineitem:lineitem.getChild()}) %>
+				    <% } %>
 				</div>
 			</div>
 		</fieldset>

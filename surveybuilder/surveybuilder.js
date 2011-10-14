@@ -36,7 +36,8 @@ steal('jquery/jquery.js',
 		  './models/selectMultipleQuestion', 
 		  './models/gridSelectOneQuestion',
 		  './models/branch', 
-		  './models/conditionalBranch')	
+		  './models/conditionalBranch',
+		  './models/condition')	
 
 	.then('./controllers/main_controller.js', 
 		  './controllers/component_list_controller.js', 
@@ -48,7 +49,8 @@ steal('jquery/jquery.js',
 		  './controllers/buttons_controller.js', 
 		  './controllers/logicComponent_controller.js', 
 		  './controllers/branch_controller.js', 
-		  './controllers/lineitem_content_controller.js')	// loads files in controllers folder
+		  './controllers/lineitem_content_controller.js',
+		  './controllers/condition_controller.js')
 
 	.then('./views/lineitem/_move.ejs',
 		  './views/lineitem/show_rdf.ejs',
@@ -69,7 +71,7 @@ steal('jquery/jquery.js',
 		  './views/logicComponent/show_branchProperties.ejs',
 		  './views/logicComponent/show_Branch_rdf.ejs',
 		  './views/logicComponent/show_ConditionalBranch_rdf.ejs',
-		  './views/logicComponent/show_condition.ejs',
+		  './views/logicComponent/show_Condition.ejs',
 		  './views/logicComponent/show_Branch.ejs',
 		  './views/logicComponent/show_branchOperandTypes.ejs',
 		  './views/logicComponent/show_branchTargets.ejs',

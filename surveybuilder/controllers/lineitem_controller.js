@@ -193,6 +193,9 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
 	            if (el.hasClass('logicComponent')) {
 	            	el.surveybuilder_logic_component();
 	            }
+	            if (el.hasClass('Condition')) {
+	            	el.surveybuilder_condition();
+	            }
 	            if (el.hasClass('branch')) {
 	            	var targetLine = Line.findOne({about:el.attr("data-lineAbout")});
 	            	el.surveybuilder_branch({model:targetLine});
@@ -352,6 +355,7 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         $(el).find('.sub-questions').surveybuilder_lineitem_content({connectWith: '.sub-questions'});
         $(el).find('.grid-answers').surveybuilder_lineitem_content({connectWith: '.grid-answers'});
         $(el).find('.answers').surveybuilder_lineitem_content({connectWith: '.answers'});
+        $(el).find('.conditions').surveybuilder_lineitem_content({connectWith: '.conditions'});
     },
    
    /**
@@ -520,6 +524,14 @@ jQuery.Controller.extend('Surveybuilder.Controllers.Lineitem',
         var lineitem = new LabelAnswer();
         var lineitemHTML = $.View('//surveybuilder/views/answer/show_' + lineitem.subType, {lineitem: lineitem});
         this.Class.lineitemMovedInDom($(lineitemHTML).appendTo(content), false, false );
+    },
+    
+    ".quick-add-condition click": function(el, ev) {
+        var content = el.closest('.lineitem').find('.content');
+        var lineitem = new Condition;
+        var lineitemHTML = $($.View('//surveybuilder/views/' + $.String.camelize(lineitem.type) + '/show_' + lineitem.subType, {lineitem: lineitem}));
+        
+        this.Class.lineitemMovedInDom(lineitemHTML.appendTo(content), false, false );
     },
     
     ".datatype click": function(el, ev) {

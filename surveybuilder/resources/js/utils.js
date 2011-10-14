@@ -20,6 +20,20 @@ $(function(){
 			return elements.first();
 		},
 	
+	   /**
+		 * Return the first matching child element
+		 * @param {Object} root the root element to search the children of
+		 * @param {String} elementName the name of the element to get
+		 */
+		getChildElement: function(root, elementName) {
+			elements = root.children().filter('[nodeName="'+ elementName + '"]');
+			if (elements.length == 0) {
+				//no matching elements
+				return null;
+			}
+			return elements.first();
+		},
+	
 		/**
 		 * Return all matching elements
 		 * @param {Object} root the root element to search from

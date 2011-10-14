@@ -45,10 +45,11 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     render: function(){
         var surveyDiv = $('#survey').html($.View('//surveybuilder/views/survey/show', {survey:Survey.findOne({id:1})}));
         
-        // add controller(s) to all the rendered lineitems
-        $('#survey .lineitem').surveybuilder_lineitem();
+        // add controller(s) to all the rendered models
+        /*$('#survey .lineitem').surveybuilder_lineitem();
         $('#survey .logicComponent').surveybuilder_logic_component();
-        $('#survey .branch').surveybuilder_branch();
+        $('#survey .Condition').surveybuilder_condition();
+        $('#survey .branch').surveybuilder_branch();*/
     },
     
     'survey.export subscribe': function(event, params) {
@@ -166,14 +167,14 @@ $.Controller.extend('Surveybuilder.Controllers.Survey',
     },
     
     updateOperands: function(id, value) {
-    	var conditionalBranches = ConditionalBranch.findAll();
-    	for (var i = 0; i < conditionalBranches.length; i++) {
+    	var conditions = Condition.findAll();
+    	for (var i = 0; i < conditions.length; i++) {
 			// update operands if they referenced the updated object
-    		if (conditionalBranches[i].getLeftOperandID() == id) {
-    			conditionalBranches[i].attr("leftOperand", value);
+    		if (conditions[i].getLeftOperandID() == id) {
+    			conditions[i].attr("leftOperand", value);
     		}
-    		if (conditionalBranches[i].getRightOperandID() == id) {
-    			conditionalBranches[i].attr("rightOperand", value);
+    		if (conditions[i].getRightOperandID() == id) {
+    			conditions[i].attr("rightOperand", value);
     		}
     	}
     }

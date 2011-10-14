@@ -1,40 +1,6 @@
 <ConditionalBranch>
 	<condition>
-		<Condition>
-			<leftOperand>
-				<Operand>
-					<% if (lineitem.leftOperandDataType === 'survey:predicate' || lineitem.leftOperandDataType === 'survey:object') { %>
-						<value rdf:resource="<%= lineitem.leftOperand %>" />
-					<% } else { %>
-						<value><%= lineitem.leftOperand %></value>
-					<% } %>
-					<datatype><%= lineitem.leftOperandDataType %></datatype>
-				</Operand>
-			</leftOperand>
-			<operator>
-				<Operator>
-					<value><%== lineitem.operator %></value>
-				</Operator>
-			</operator>
-			<rightOperand>
-				<Operand>
-					<% if (lineitem.rightOperandDataType === 'survey:predicate' || lineitem.rightOperandDataType === 'survey:object') { %>
-						<% var rightOperandLineitem = Lineitem.findOne({id:lineitem.getRightOperandID()}) %>
-						<% var type = (rightOperandLineitem) ? rightOperandLineitem.datatype : "" %>
-						<% if (type === SURVEY_UTILS.RDF) { %>
-							<value rdf:resource="<%= lineitem.rightOperand %>"></value>
-							<datatype><%= lineitem.rightOperandDataType %></datatype>
-						<% } else { %>
-							<value><%= lineitem.rightOperand %></value>
-							<datatype><%= type %></datatype>
-						<% } %>
-					<% } else { %>
-						<value><%= lineitem.rightOperand %></value>
-						<datatype><%= lineitem.rightOperandDataType %></datatype>
-					<% } %>
-				</Operand>
-			</rightOperand>
-		</Condition>
-	</condition>    
+		<%== $.View('//surveybuilder/views/logicComponent/show_Condition_rdf', {condition:lineitem.getLastChild()}) %>
+	</condition>  
 	<line rdf:resource="<%= lineitem.branchTarget %>" />
 </ConditionalBranch>
