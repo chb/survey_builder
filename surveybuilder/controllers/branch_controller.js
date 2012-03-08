@@ -23,5 +23,10 @@ $.Controller.extend('Surveybuilder.Controllers.Branch',
 	updateName: function(newInternalName) {
 		this.element.find('.line-name').text(newInternalName);
 		this.element.find('input[name="lineName"]').val(newInternalName);
+	},
+	".line-name click": function(el, ev) {
+		var lineAbout = el.closest('.branch').model().attr("lineAbout");
+		var line = Line.findOne({about:lineAbout});
+		OpenAjax.hub.publish('tabs.openLine', {id:line.attr("id")});
 	}
 });

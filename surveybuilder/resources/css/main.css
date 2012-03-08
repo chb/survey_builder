@@ -219,7 +219,10 @@ form {
 
 .grid-answers .predicate {display:none !important;}
 
+.branch .line-name {cursor: pointer;}
+
 .conditionalBranch .content-group {	margin-left: 0;}
+.ConditionalBranch .open-line, .ConditionalBranch .branchTarget {vertical-align: bottom;}
 .branchOperation {width:inherit;}
 
 .condition-row {margin-left: 25px;}

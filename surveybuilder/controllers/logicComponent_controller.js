@@ -37,6 +37,20 @@ $.Controller.extend('Surveybuilder.Controllers.LogicComponent',
 		var parentLine = Line.findOne({id:this.element.closest('.parent').attr('id')});
 		var branchTargetEl = this.element.find(".branchTarget");
 		branchTargetEl.html($.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:Line.findAll(), lineitem:currentLineitem, parentLine:parentLine}));
-	}
+	},
 	
+	".branchTarget change": function(el, ev) {
+		if (!el.val() || el.val() === "null") {
+			el.siblings(".open-line").hide();
+		}
+		else {
+			el.siblings(".open-line").show();
+		}
+	},
+	
+	".open-line click": function(el, ev) {
+		var lineAbout = el.siblings('.branchTarget').first().val();
+		var line = Line.findOne({about:lineAbout});
+		OpenAjax.hub.publish('tabs.openLine', {id:line.attr("id")});
+	}
 });

@@ -16,6 +16,9 @@
 					<select name="branchTarget" class="branchTarget">
 						<%== $.View('//surveybuilder/views/logicComponent/show_branchTargets', {lines:Line.findAll(), lineitem:lineitem, parentLine:line}) %>
 					</select>
+					<% if (lineitem.branchTarget) {%>
+						<button class="btn small open-line">open Line</button>
+					<% } %>
 				</div>
 			</div>
 		
