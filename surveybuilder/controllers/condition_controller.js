@@ -84,5 +84,6 @@ $.Controller.extend('Surveybuilder.Controllers.Condition',
 		el.text(newValue);
 		currentLineitem.attr('logicOperator', newValue);
 		currentLineitem.save();
+		return false;
 	}
 });
